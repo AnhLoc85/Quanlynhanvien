@@ -1,0 +1,44 @@
+﻿@model QuanLyNhanVien.Models.DmheSoPhuCap
+@{
+
+}
+@if (TempData["ThongBao"] != null)
+{
+    <script type="text/javascript" charset="utf-8">
+                        window.onload = function () {
+                            alert("@Html.Raw(@TempData["ThongBao"])");
+                    };
+    </script>
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <form action="/HeSoPhuCap/insertHeSoPhuCap" method="post">
+                    <div class="forms-header text-center">
+                        <h4 class="forms-title">
+                            <b>Thêm hệ số phụ cấp</b>
+                        </h4>
+                    </div>
+                    <div class="forms-body">
+                        <div class="form-group">
+                            <label class="m-2">Mã CV</label>
+                            <input asp-for="@Model.MaHspc" type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="m-2">Hệ số phụ cấp</label>
+                            <input asp-for="@Model.HeSoPhuCap" type="text" class="form-control" required>
+                        </div>
+
+                    </div>
+                    <div class="forms-footer d-flex justify-content-between">
+                        <a href="/HeSoPhuCap/HeSoPhuCap" class="btn btn-secondary">Quay lại</a>
+                        <input type="submit"
+                               class="btn btn-primary"
+                               value="Thêm" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

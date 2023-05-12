@@ -1,0 +1,93 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    List<NhanSu> getListNhanSu()
+    {
+        return context.NhanSu.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+   
+}
+@if (TempData["ThongBao"] != null)
+{
+    <script type="text/javascript" charset="utf-8">
+                        window.onload = function () {
+                            alert("@Html.Raw(@TempData["ThongBao"])");
+                    };
+    </script>
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="position-absolute" style="margin-top: -10px">
+                    <div class="col-lg-2 col-sm-2" style="width: auto">
+                        <a href="/NhanSu/ThemNhanSu" class="btn btn-primary">
+                            <span>Thêm Mới</span>
+                        </a>
+                    </div>
+                </div>
+                <table id="example"
+                       class="display table table-bordered table-responsive"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Mã NS</th>
+                            <th class="text-center">Ảnh</th>
+                            <th class="text-center">Tên</th>
+                            <th class="text-center">Ngày sinh</th>
+                            <th class="text-center">Địa chỉ</th>
+                            <th class="text-center">giới tính</th>
+                            <th class="text-center">SĐT</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Quê quán</th>
+                            <th class="text-center">Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (NhanSu ns in getListNhanSu())
+                        {
+                            <tr class="text-nowrap">
+                                <td class="text-center">@ns.MaNs</td>
+                                <td class="text-center p-1">
+                                    <img height="45px"
+                                         width="45px"
+                                         src="@ns.HinhAnh"
+                                         alt="ảnh nhân sự" />
+                                </td>
+                                <td class="text-center">@ns.TenNs</td>
+                                <td class="text-center">@formatDay(@ns.NgaySinh)</td>
+                                <td class="text-center">@ns.DiaChi</td>
+                                <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                                <td class="text-center">@ns.Sdt</td>
+                                <td class="text-center">@ns.Email</td>
+                                <td class="text-center">@ns.QueQuan</td>
+                                <td class="text-center">
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu" style="">
+                                            <a class="dropdown-item" href="/NhanSu/SuaNhanSu/@ns.Id"><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a>
+                                            <a class="dropdown-item" href="/NhanSu/XoaNhanSu/@ns.Id"><i class="bx bx-trash me-1"></i>Xóa</a>
+                                            <a class="dropdown-item" href="/NhanSu/ChiTietNhanSu/@ns.Id"><i class="bx bx-low-vision me-1"></i>Xem</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

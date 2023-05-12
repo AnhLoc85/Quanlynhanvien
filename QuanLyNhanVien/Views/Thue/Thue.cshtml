@@ -1,0 +1,70 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    List<Thue> getListThue()
+    {
+        return context.Thue.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+@if (TempData["ThongBao"] != null)
+{
+    <script type="text/javascript" charset="utf-8">
+                        window.onload = function () {
+                            alert("@Html.Raw(@TempData["ThongBao"])");
+                    };
+    </script>
+}<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="position-absolute" style="margin-top: -10px">
+                    <div class="col-lg-2 col-sm-2" style="width: auto">
+                        <a href="/Thue/ThemThue" class="btn btn-primary">
+                            <span>Thêm Mới</span>
+                        </a>
+                    </div>
+                </div>
+                <table id="example"
+                       class="display table table-bordered"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Mã thuế</th>
+                            <th class="text-center">Thuế suất</th>
+                            <th class="text-center" width="30%">Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Thue thue in getListThue()) { 
+                        <tr>
+                            <td class="text-center">@thue.MaThue</td>
+                            <td class="text-center">@thue.ThueSuat</td>
+                            <td class="text-center d-flex justify-content-evenly">
+                                <a href="/Thue/SuaThue/@thue.Id">
+                                    Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                </a>
+
+                                <a href="/Thue/XoaThue/@thue.Id"
+                                   onclick="return confirm('Bạn có xoá mức thuế suất này?')">
+                                    Xóa
+                                    <i class="bx bx-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

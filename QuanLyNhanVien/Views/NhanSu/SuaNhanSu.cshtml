@@ -1,0 +1,225 @@
+﻿@model QuanLyNhanVien.Models.NhanSu
+@{
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Sửa thông tin nhân sự</h5>
+                <!-- Account -->
+                <div class="card-body">
+                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <img src="@Model.HinhAnh"
+                             alt="user-avatar"
+                             class="d-block rounded"
+                             height="100"
+                             width="100"
+                             id="uploadedAvatar" />
+                        <div class="button-wrapper">
+                            <label for="upload"
+                                   class="btn btn-primary me-2 mb-4"
+                                   tabindex="0">
+                                <span class="d-none d-sm-block">Tải ảnh mới</span>
+                                <i class="bx bx-upload d-block d-sm-none"></i>
+                                <input type="file"
+                                       id="upload"
+                                       class="account-file-input"
+                                       hidden
+                                       accept="image/png, image/jpeg" />
+                            </label>
+
+                            <p class="text-muted mb-0">Cho phép JPG or PNG.</p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-0" />
+                <div class="card-body">
+                    <form id="formAccountSettings"
+                          method="POST"
+                          onsubmit="return false">
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="firstName" class="form-label">Họ và tên</label>
+                                <input class="form-control"
+                                       type="text"
+                                       asp-for="@Model.TenNs"
+                                       autofocus required/>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="lastName" class="form-label">Ngày sinh</label>
+                                <input class="form-control"
+                                       type="text"
+                                       asp-for="@Model.NgaySinh"
+                                       value="@formatDay(Model.NgaySinh)"
+                                        required />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input class="form-control"
+                                       type="text"
+                                       asp-for="@Model.Email"
+                                       required />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="phoneNumber">Số điện thoại</label>
+                                <div class="input-group input-group-merge">
+                                    <input class="form-control"
+                                           type="text"
+                                           asp-for="@Model.Sdt"
+                                           required />
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3 col-md-6">
+                                <label for="currency" class="form-label">Tỉnh/TP</label>
+                                <select class="select2 form-select" id="city">
+                                    <option value="" selected>Tỉnh thành</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="currency" class="form-label">Quận/huyện</label>
+                                <select class="select2 form-select" id="district">
+                                    <option value="" selected></option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="currency" class="form-label">Phường/xã</label>
+                                <select class="select2 form-select" id="ward">
+                                    <option value="" selected>Phường xã</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="address" class="form-label">Địa chỉ</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="address"
+                                       name="address" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="quequan" class="form-label">Quê quán</label>
+                                <select id="quequan" class="select2 form-select">
+                                    <option value="@Model.QueQuan" selected>@Model.QueQuan</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="gioitinh" class="form-label">Giới tính</label>
+                                <select id="gioitinh" class="select2 form-select">
+                                    <option value="@Model.GioiTinh" selected>@(Model.GioiTinh ?? false ? "Nam" : "Nữ")</option>
+                                    <option value="1">Nam</option>
+                                    <option value="0">Nữ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-2 forms-footer d-flex justify-content-between">
+                            <button class="btn btn-secondary"
+                                    onclick="window.history.go(-1);">
+                                Quay lại
+                            </button>
+                            <input type="submit"
+                                   class="btn btn-primary"
+                                   value="Lưu thay đổi" />
+                        </div>
+                    </form>
+                </div>
+                <!-- /Account -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Lắng nghe sự kiện "change" của input type "file"
+        document.getElementById("upload").addEventListener("change", function () {
+            // Lấy thông tin ảnh được chọn
+            var file = this.files[0];
+
+            // Kiểm tra nếu file là hình ảnh
+            if (file && file.type.startsWith("image/")) {
+                // Tạo đối tượng FileReader để đọc nội dung của file
+                var reader = new FileReader();
+
+                // Xử lý sự kiện "load" của đối tượng FileReader
+                reader.addEventListener("load", function () {
+                    // Cập nhật ảnh hiển thị
+                    document.getElementById("uploadedAvatar").src = reader.result;
+                });
+
+                // Đọc nội dung của file
+                reader.readAsDataURL(file);
+            }
+        });
+
+        var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+        var Parameter = {
+            url: "/assets/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
+        });
+
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(x.Name, x.Id);
+            }
+            citis.onchange = function () {
+                district.length = 1;
+                ward.length = 1;
+                if (this.value != "") {
+                    const result = data.filter((n) => n.Id === this.value);
+
+                    for (const k of result[0].Districts) {
+                        district.options[district.options.length] = new Option(
+                            k.Name,
+                            k.Id
+                        );
+                    }
+                }
+            };
+            district.onchange = function () {
+                ward.length = 1;
+                const dataCity = data.filter((n) => n.Id === citis.value);
+                if (this.value != "") {
+                    const dataWards = dataCity[0].Districts.filter(
+                        (n) => n.Id === this.value
+                    )[0].Wards;
+
+                    for (const w of dataWards) {
+                        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                    }
+                }
+            };
+        }
+
+        var quequan = document.getElementById("quequan");
+
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderQueQuan(result.data);
+        });
+
+        function renderQueQuan(data) {
+            for (const x of data) {
+                quequan.options[quequan.options.length] = new Option(x.Name, x.Name);
+            }
+        }
+    });
+</script>

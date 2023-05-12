@@ -1,0 +1,176 @@
+﻿<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="nav-align-top mb-4">
+            <ul class="nav nav-tabs nav-fill" role="tablist">
+                <li class="nav-item">
+                    <button type="button"
+                            class="nav-link active"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-home"
+                            aria-controls="navs-justified-home"
+                            aria-selected="true">
+                        Các khoản thưởng và phụ cấp khác
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button"
+                            class="nav-link"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-profile"
+                            aria-controls="navs-justified-profile"
+                            aria-selected="false">
+                        Các khoản phạt và trừ lương
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active show"
+                     id="navs-justified-home"
+                     role="tabpanel">
+                    <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
+                        <form>
+                            <div class="row mb-2">
+                                <label class="col-sm-1 col-lg-1 col-form-label">Mã NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text"
+                                           class="form-control"
+                                           readonly />
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Tên NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text"
+                                           class="form-control"
+                                           readonly />
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-1 col-lg-1 col-form-label">Thời gian</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="date" class="form-control" />
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Khoản phụ cấp, thưởng</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <select class="form-select"
+                                            name=""
+                                            id=""></select>
+                                </div>
+                                <label class="col-sm-1 col-lg-1 col-form-label">Số tiền</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-sm-2 col-lg-2 d-flex justify-content-end">
+                                    <button class="btn btn-primary">Lưu</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="example"
+                           class="table table-responsive table-bordered"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Thời gian</th>
+                                <th class="text-center">Khoản phụ cấp</th>
+                                <th class="text-center">Số tiền</th>
+
+                                <th class="text-center" width="30%">Tùy chọn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-right"></td>
+                                <td class="text-right"></td>
+
+                                <td class="text-center"></td>
+                                <td class="text-center d-flex justify-content-evenly">
+                                    <a href="">
+                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                    </a>
+
+                                    <a href=""
+                                       onclick="return confirm('Bạn có mức thưởng, phụ cấp này?')">
+                                        Xóa
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade"
+                     id="navs-justified-profile"
+                     role="tabpanel">
+                    <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
+                        <form>
+                            <div class="row mb-2">
+                                <label class="col-sm-1 col-lg-1 col-form-label">Mã NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text"
+                                           class="form-control"
+                                           readonly />
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Tên NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text"
+                                           class="form-control"
+                                           readonly />
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-1 col-lg-1 col-form-label">Thời gian</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="date" class="form-control" />
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Khoản phạt, trừ lương</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <select class="form-select"
+                                            name=""
+                                            id=""></select>
+                                </div>
+                                <label class="col-sm-1 col-lg-1 col-form-label">Số tiền</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-sm-2 col-lg-2 d-flex justify-content-end">
+                                    <button class="btn btn-primary">Thêm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="example"
+                           class="table table-responsive table-bordered"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Từ ngày</th>
+                                <th class="text-center">Đến ngày</th>
+                                <th class="text-center">Phòng ban</th>
+                                <th class="text-center" width="30%">Tùy chọn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-right"></td>
+                                <td class="text-right"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center d-flex justify-content-evenly">
+                                    <a href="">
+                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                    </a>
+
+                                    <a href=""
+                                       onclick="return confirm('Bạn có xoá khoản phạt này?')">
+                                        Xóa
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

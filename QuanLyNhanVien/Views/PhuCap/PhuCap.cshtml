@@ -1,0 +1,71 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    List<DmmucPhuCap> getListDmmucPhuCap()
+    {
+        return context.DmmucPhuCap.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+@if (TempData["ThongBao"] != null)
+{
+    <script type="text/javascript" charset="utf-8">
+                        window.onload = function () {
+                            alert("@Html.Raw(@TempData["ThongBao"])");
+                    };
+    </script>
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="position-absolute" style="margin-top: -10px">
+                    <div class="col-lg-2 col-sm-2" style="width: auto">
+                        <a href="/PhuCap/ThemPhuCap" class="btn btn-primary">
+                            <span>Thêm Mới</span>
+                        </a>
+                    </div>
+                </div>
+                <table id="example"
+                       class="display table table-bordered"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Mã phụ cấp</th>
+                            <th class="text-center">Khoản phụ cấp</th>
+                            <th class="text-center" width="30%">Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DmmucPhuCap pc in getListDmmucPhuCap()) {
+                        <tr>
+                            <td class="text-center">@pc.MaPc</td>
+                            <td class="text-center">@pc.KhoanPhuCap</td>
+                            <td class="text-center d-flex justify-content-evenly">
+                                <a href="/PhuCap/SuaPhuCap/@pc.Id">
+                                    Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                </a>
+
+                                <a href="/PhuCap/XoaPhuCap/@pc.Id"
+                                   onclick="return confirm('Bạn có xoá khoản phụ cấp này?')">
+                                    Xóa
+                                    <i class="bx bx-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

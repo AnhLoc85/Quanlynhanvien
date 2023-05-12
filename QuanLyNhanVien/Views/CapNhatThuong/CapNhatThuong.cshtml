@@ -1,0 +1,92 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    List<PhongBan> getListPhongBan()
+    {
+        return context.PhongBan.ToList();
+    }
+    List<NhanSu> getListNhanSu()
+    {
+        return context.NhanSu.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="position-absolute" style="margin-top: -10px">
+                    <div class="col-lg-2 col-sm-2">
+                        <select class="form-select w-auto" id="nhomNS" onchange="loadNhomNhanSu()">
+                            <option value="0" selected>Tất cả</option>
+
+                            @foreach (PhongBan pb in getListPhongBan())
+                            {
+                            <option value="@pb.Id">@pb.TenPhongBan</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                    <table id="example"
+                           class="display table table-bordered table-responsive"
+                           style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Mã NS</th>
+                                <th class="text-center">Tên</th>
+                                <th class="text-center">Ngày sinh</th>
+                                <th class="text-center">giới tính</th>
+                                <th class="text-center">SĐT</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Xem</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyNS">
+                            @foreach (NhanSu ns in getListNhanSu())
+                            {
+                            <tr class="text-nowrap">
+                                <td class="text-center">@ns.MaNs</td>
+                                <td class="text-center">@ns.TenNs</td>
+                                <td class="text-center">@formatDay(@ns.NgaySinh)</td>
+                                <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                                <td class="text-center">@ns.Sdt</td>
+                                <td class="text-center">@ns.Email</td>
+                                <td class="text-center">
+                                   <a class="btn btn-primary" href="/CapNhatThuong/QuaTrinhThuong">Chọn</a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+</div>
+
+<script>
+    function loadNhomNhanSu() {
+        var idnns = $('#nhomNS').val();
+        $.ajax({
+            type: "post",
+            url: "/loadNhomNhanVien",
+            data: "&IDPB=" + idnns,
+            success: function (result) {
+
+                $('#tbodyNS').replaceWith(result);
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+    }
+</script>

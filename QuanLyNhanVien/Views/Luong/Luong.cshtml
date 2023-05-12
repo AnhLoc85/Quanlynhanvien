@@ -1,0 +1,77 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    List<Dmluong> getListDmluong()
+    {
+        return context.Dmluong.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+    string format(Decimal? a)
+    {
+        return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+}
+@if (TempData["ThongBao"] != null)
+{
+    <script type="text/javascript" charset="utf-8">
+                        window.onload = function () {
+                            alert("@Html.Raw(@TempData["ThongBao"])");
+                    };
+    </script>
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="position-absolute" style="margin-top: -10px">
+                    <div class="col-lg-2 col-sm-2" style="width: auto">
+                        <a href="/Luong/ThemLuong" class="btn btn-primary">
+                            <span>Thêm Mới</span>
+                        </a>
+                    </div>
+                </div>
+                <table id="example"
+                       class="display table table-bordered"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Mã ML</th>
+                            <th class="text-center">Tiền lương</th>
+                            <th class="text-center">Ngày áp dụng</th>
+                            <th class="text-center" width="30%">Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Dmluong luong in getListDmluong()) {
+                        <tr>
+                            <td class="text-center">@luong.MaMl</td>
+                            <td class="text-center">@format(@luong.TienLuong)</td>
+                            <td class="text-center">@formatDay(@luong.NgayAd)</td>
+                            <td class="text-center d-flex justify-content-evenly">
+                                <a href="/Luong/SuaLuong/@luong.Id">
+                                    Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                </a>
+
+                                <a href="/Luong/XoaLuong/@luong.Id"
+                                   onclick="return confirm('Bạn có xoá múc lương này ?')">
+                                    Xóa
+                                    <i class="bx bx-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

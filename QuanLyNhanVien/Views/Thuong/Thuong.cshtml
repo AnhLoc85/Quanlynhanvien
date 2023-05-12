@@ -1,0 +1,72 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    List<ThuongPckhac> getListThuongPckhac()
+    {
+        return context.ThuongPckhac.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+@if (TempData["ThongBao"] != null)
+{
+    <script type="text/javascript" charset="utf-8">
+                        window.onload = function () {
+                            alert("@Html.Raw(@TempData["ThongBao"])");
+                    };
+    </script>
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="position-absolute" style="margin-top: -10px">
+                    <div class="col-lg-2 col-sm-2" style="width: auto">
+                        <a href="/Thuong/ThemThuong" class="btn btn-primary">
+                            <span>Thêm Mới</span>
+                        </a>
+                    </div>
+                </div>
+                <table id="example"
+                       class="display table table-bordered"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Mã Thưởng</th>
+                            <th class="text-center">Nội dung</th>
+                            <th class="text-center" width="30%">Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (ThuongPckhac thuong in getListThuongPckhac())
+                        {
+                            <tr>
+                                <td class="text-center">@thuong.MaThuong</td>
+                                <td class="text-center">@thuong.NoiDung</td>
+                                <td class="text-center d-flex justify-content-evenly">
+                                    <a href="/Thuong/SuaThuong/@thuong.Id">
+                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                    </a>
+
+                                    <a href="/Thuong/XoaThuong/@thuong.Id"
+                                       onclick="return confirm('Bạn có xoá phần thưởng, phụ cấp này?')">
+                                        Xóa
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
