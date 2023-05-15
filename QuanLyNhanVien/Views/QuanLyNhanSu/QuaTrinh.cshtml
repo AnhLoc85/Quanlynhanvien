@@ -131,8 +131,8 @@
                                 </div>
 </form>
                     </div>
-                    <table id="example"
-                           class="table table-responsive table-bordered"
+                    <table id=""
+                           class="table table-responsive table-bordered tableCV tableCV1"
                            style="width: 100%">
                         <thead>
                             <tr>
@@ -143,19 +143,29 @@
                                 <th class="text-center" width="30%">Tùy chọn</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbodytableCV">
                             
                             @foreach (QtchucVu item in ViewBag.QTCV ) { 
 
                             <tr>
-                                <td class="text-center"> @formatDay(item.TgbatDau)</td>
-                                <td class="text-center">@formatDay(item.TgketThuc)</td>
+                                <td class="text-center TGBDCV"> @formatDay(item.TgbatDau)
+                                    <input type="hidden" value="@item.TgbatDau"/>
+                                </td>
+                                <td class="text-center TGKTCV">@formatDay(item.TgketThuc)
+                                <input type="hidden" value="@item.TgketThuc"/>
+                                </td>
 
-                                <td class="text-center">@item.MaCvNavigation.TenChucVu</td>
+                                <td class="text-center TenCV">@item.MaCvNavigation.TenChucVu
+                                <input type="hidden" value="@item.MaCvNavigation.TenChucVu"/>
+                                        <input type="hidden" id="MACV" value="@item.MaCvNavigation.Id" />
+                                     <input type="hidden" id="IDQT" value="@item.Id" />
+
+
+                               
 
 
                                 <td class="text-center d-flex justify-content-evenly">
-                                    <a href="">
+                                    <a class="btneditCV">
                                         Chỉnh sửa <i class="bx bx-edit-alt"></i>
                                     </a>
 
@@ -441,3 +451,76 @@
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+     
+        $(".tableCV").on("click", ".btneditCV", function () {
+                
+                var tungay = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+                var denngay = $(this).parents('tr').find("td:eq(1) input[type='hidden']").val();
+                var chucvu = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            var macv = $(this).closest('tr').find('#MACV').val();
+            var idqt = $(this).closest('tr').find('#IDQT').val();
+
+
+                
+
+                var thiss = $(this);
+           
+              
+                $.ajax({
+                    
+                    type: "post",
+                    url: "/addNewRowQTCV",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&chucvu=" + chucvu + "&macv=" + macv +"&IDQT=" + idqt,
+                    success: function (result) {
+                        
+                        thiss.parents('tr').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+        $(".tableCV").on("click", ".saveQTCV", function () {
+
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+            var chucvu = $(this).parents('tr').find("td:eq(2) select").val();
+            var idqt = $(this).closest('tr').find('#IDQT').val();
+
+
+         
+
+
+            var thiss = $(this);
+
+
+            $.ajax({
+                type: "post",
+                url: "/UpdateQTCV",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&chucvu=" + chucvu + "&IDQT="+ idqt,
+                success: function (result) {
+                    $("#tbodytableCV").load(location.href + " #tbodytableCV>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+       
+
+
+
+
+    });
+ // Sử dụng cách khác để tránh xung đột class
+    // Sử dụng ID để chỉ định thẻ cần tải lại
+    $(document).on('click', '.btnhuyQTCV', function () {
+        $("#tbodytableCV").load(location.href + " #tbodytableCV>*", function () {
+        });
+    });
+
+</script>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using QuanLyNhanVien.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace QuanLyNhanVien.Controllers
 {
@@ -45,7 +46,33 @@ namespace QuanLyNhanVien.Controllers
             ViewBag.IDPB = IDPB;
             return PartialView();
         }
+        [HttpPost("/addNewRowQTCV")]
+        public IActionResult addNewRowQTCV(DateTime tungay, DateTime denngay, string chucvu, int macv, int IDQT)
+        {
+            ViewBag.tungay = tungay;
+            ViewBag.denngay = denngay;
+            ViewBag.chucvu = chucvu;
+            ViewBag.macv = macv;
+            ViewBag.IDQT = IDQT;
+            return PartialView();
+        }
+        [HttpPost("/UpdateQTCV")]
+        public string UpdateQTCV(string tungay, string denngay, int chucvu, int IDQT)
+        {
+            DateTime FromDay = DateTime.ParseExact("01-" + tungay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime ToDay = DateTime.ParseExact("01-" + denngay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+            QtchucVu qtcv = context.QtchucVu.Find(IDQT);
+            qtcv.TgbatDau = FromDay;
+            qtcv.TgketThuc = ToDay;
+            qtcv.MaCv = chucvu;
+            context.QtchucVu.Update(qtcv);
+            context.SaveChanges();
+            return "Cập nhập thành công";
+        }
+
+
     }
 
-    
+
 }
