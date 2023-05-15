@@ -1,4 +1,28 @@
-﻿<div class="container-xxl flex-grow-1 container-p-y">
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+
+    List<Phat> getListPhat()
+    {
+        return context.Phat.ToList();
+    }
+    List<ThuongPckhac> getListThuongPckhacs()
+    {
+        return context.ThuongPckhac.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
         <div class="nav-align-top mb-4">
             <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -50,11 +74,18 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <input type="date" class="form-control" />
                                 </div>
-                                <label class="col-sm-2 col-lg-2 col-form-label">Khoản phụ cấp, thưởng</label>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Khoản thưởng phụ cấp</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id=""></select>
+                                            id="">
+                                        <option selected value="">Khoản thưởng, phụ cấp</option>
+                                        @foreach (ThuongPckhac tpc in getListThuongPckhacs())
+                                        {
+                                            <option value="@tpc.Id">@tpc.NoiDung</option>
+                                        }
+                                    </select>
+                                    </select>
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Số tiền</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -72,18 +103,20 @@
                         <thead>
                             <tr>
                                 <th class="text-center">Thời gian</th>
-                                <th class="text-center">Khoản phụ cấp</th>
+                                <th class="text-center">Khoản thưởng, phụ cấp</th>
                                 <th class="text-center">Số tiền</th>
 
                                 <th class="text-center" width="30%">Tùy chọn</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-right"></td>
-                                <td class="text-right"></td>
+                            @foreach(QuaTrinhThuongPc item in ViewBag.TPCK) {
 
-                                <td class="text-center"></td>
+                            <tr>
+                                <td class="text-right">@formatDay(item.Tgthuong)</td>
+                                <td class="text-right">@item.MaThuongNavigation?.NoiDung</td>
+
+                                <td class="text-center">@item.TienThuong</td>
                                 <td class="text-center d-flex justify-content-evenly">
                                     <a href="">
                                         Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -96,6 +129,7 @@
                                     </a>
                                 </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -127,7 +161,14 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id=""></select>
+                                            id="">
+                                        <option selected value="">Khoản phạt, trừ lương</option>
+                                        @foreach (Phat p in getListPhat())
+                                        {
+                                            <option value="@p.Id">@p.NoiDung</option>
+                                        }
+                                    </select>
+                                    </select>
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Số tiền</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -144,17 +185,18 @@
                            style="width: 100%">
                         <thead>
                             <tr>
-                                <th class="text-center">Từ ngày</th>
-                                <th class="text-center">Đến ngày</th>
-                                <th class="text-center">Phòng ban</th>
+                                <th class="text-center">Thời gian</th>
+                                <th class="text-center">Khoản phạt</th>
+                                <th class="text-center">Số tiền</th>
                                 <th class="text-center" width="30%">Tùy chọn</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach (QuaTrinhPhat item in ViewBag.P) {
                             <tr>
-                                <td class="text-right"></td>
-                                <td class="text-right"></td>
-                                <td class="text-center"></td>
+                                <td class="text-right">@formatDay(item.Tgphat)</td>
+                                <td class="text-right">@item.MaPhatNavigation?.NoiDung</td>
+                                <td class="text-center">@item.TienPhat</td>
                                 <td class="text-center d-flex justify-content-evenly">
                                     <a href="">
                                         Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -167,6 +209,7 @@
                                     </a>
                                 </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

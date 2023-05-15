@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuanLyNhanVien.Models;
 using System.Linq;
 
@@ -12,8 +13,10 @@ namespace QuanLyNhanVien.Controllers
         {
             return View();
         }
-        public IActionResult QuaTrinhThuong()
+        public IActionResult QuaTrinhThuong(int id)
         {
+            ViewBag.TPCK = context.QuaTrinhThuongPc.Include(x => x.MaNsNavigation).Include(x => x.MaThuongNavigation).Where(x => x.MaNs == id).ToList();
+            ViewBag.P = context.QuaTrinhPhat.Include(x => x.MaNsNavigation).Include(x => x.MaPhatNavigation).Where(x => x.MaNs == id).ToList();
             return View();
         }
         [HttpPost("/loadNhomNhanVien")]

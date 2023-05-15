@@ -1,4 +1,17 @@
-﻿<div class="container-xxl flex-grow-1 container-p-y">
+﻿@model QuanLyNhanVien.Models.NhanSu
+@{
+
+}
+@if (TempData["ThongBao"] != null)
+{
+    <script type="text/javascript" charset="utf-8">
+                        window.onload = function () {
+                            alert("@Html.Raw(@TempData["ThongBao"])");
+                    };
+    </script>
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
 
     <div class="row">
         <div class="col-md-12">
@@ -7,7 +20,7 @@
                 <!-- Account -->
                 <div class="card-body">
                     <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <img src="/assets/img/avatars/ava.jpg"
+                        <img src=""
                              alt="user-avatar"
                              class="d-block rounded"
                              height="100"
@@ -33,6 +46,7 @@
                 <hr class="my-0" />
                 <div class="card-body">
                     <form id="formAccountSettings"
+                          action="/NhanSu/insertNhanSu"
                           method="POST"
                           onsubmit="return false">
                         <div class="row">
@@ -40,8 +54,7 @@
                                 <label for="firstName" class="form-label">Họ và tên</label>
                                 <input class="form-control"
                                        type="text"
-                                       id="Name"
-                                       name="Name"
+                                       asp-for="@Model.TenNs"
                                        value=""
                                        autofocus />
                             </div>
@@ -49,16 +62,14 @@
                                 <label for="lastName" class="form-label">Ngày sinh</label>
                                 <input class="form-control"
                                        type="date"
-                                       name="dateofbirth"
-                                       id="dateofbirth"
+                                      asp-for="@Model.NgaySinh"
                                        value="" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">E-mail</label>
                                 <input class="form-control"
                                        type="text"
-                                       id="email"
-                                       name="email"
+                                      asp-for="@Model.Email"
                                        value=""
                                        placeholder="ten@gmail.com" />
                             </div>
@@ -66,8 +77,7 @@
                                 <label class="form-label" for="phoneNumber">Số điện thoại</label>
                                 <div class="input-group input-group-merge">
                                     <input type="text"
-                                           id="phoneNumber"
-                                           name="phoneNumber"
+                                           asp-for="@Model.Sdt"
                                            class="form-control"
                                            placeholder="202 555 0111" />
                                 </div>
@@ -102,15 +112,15 @@
                             <div class="mb-3 col-md-6">
                                 <label for="quequan" class="form-label">Quê quán</label>
                                 <select id="quequan" class="select2 form-select">
-                                    <option value="">Quê quán</option>
+                                    <option value="@Model.QueQuan" >Quê quán</option>
 
                                 </select>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="gioitinh" class="form-label">Giới tính</label>
                                 <select id="gioitinh" class="select2 form-select">
-                                    <option value="1">Nam</option>
-                                    <option value="0">Nữ</option>
+                                    <option value="@Model.GioiTinh">Nam</option>
+                                    <option value="@Model.GioiTinh">Nữ</option>
                                 </select>
                             </div>
                         </div>

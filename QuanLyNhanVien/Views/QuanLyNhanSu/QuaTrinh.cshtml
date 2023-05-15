@@ -1,4 +1,45 @@
-﻿<div class="container-xxl flex-grow-1 container-p-y">
+﻿
+
+@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+
+    List<ChucVu> getListChucVu()
+    {
+        return context.ChucVu.ToList();
+    }
+    List<PhongBan> getListPhongBan()
+    {
+        return context.PhongBan.ToList();
+    }
+    List<DmheSoPhuCap> getListDmheSoPhuCap()
+    {
+        return context.DmheSoPhuCap.ToList();
+    }
+    List<Dmhsluong> getListDmhsluong()
+    {
+        return context.Dmhsluong.ToList();
+    }
+    List<Dmluong> getListDmluong()
+    {
+        return context.Dmluong.ToList();
+    }
+    List<DmmucPhuCap> getListDmmucPhuCap()
+    {
+        return context.DmmucPhuCap.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+<div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
         <div class="nav-align-top mb-4">
             <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -54,25 +95,41 @@
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
                         <form>
                             <div class="row mb-2">
-                                <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
+                                <label class="col-sm-1 col-lg-1 col-form-label">Mã NS</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input type="date" class="form-control" />
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.MaNs"/>
                                 </div>
-                                <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
+                                <label class="col-sm-1 col-lg-1 col-form-label">Tên NS</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input type="date" class="form-control" />
-                                </div>
-                                <label class="col-sm-1 col-lg-1 col-form-label">Chức vụ</label>
-                                <div class="col-sm-2 col-lg-2">
-                                    <select class="form-select"
-                                            name=""
-                                            id=""></select>
-                                </div>
-                                <div class="col-sm-3 col-lg-3 d-flex justify-content-end">
-                                    <button class="btn btn-primary">Lưu</button>
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.TenNs" />
                                 </div>
                             </div>
-                        </form>
+                                <div class="row mb-2">
+                                    <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
+                                    <div class="col-sm-2 col-lg-2">
+                                        <input type="date" class="form-control" />
+                                    </div>
+                                    <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
+                                    <div class="col-sm-2 col-lg-2">
+                                        <input type="date" class="form-control" />
+                                    </div>
+                                    <label class="col-sm-1 col-lg-1 col-form-label">Chức vụ</label>
+                                    <div class="col-sm-2 col-lg-2">
+                                        <select class="form-select"
+                                                name=""
+                                                id="">
+                                            <option selected value="">Chức vụ</option>
+                                            @foreach (ChucVu cv in getListChucVu())
+                                            {
+                                                <option value="@cv.Id">@cv.TenChucVu</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3 d-flex justify-content-end">
+                                        <button class="btn btn-primary">Lưu</button>
+                                    </div>
+                                </div>
+</form>
                     </div>
                     <table id="example"
                            class="table table-responsive table-bordered"
@@ -87,11 +144,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-right"></td>
-                                <td class="text-right"></td>
+                            
+                            @foreach (QtchucVu item in ViewBag.QTCV ) { 
 
-                                <td class="text-center"></td>
+                            <tr>
+                                <td class="text-center"> @formatDay(item.TgbatDau)</td>
+                                <td class="text-center">@formatDay(item.TgketThuc)</td>
+
+                                <td class="text-center">@item.MaCvNavigation.TenChucVu</td>
+
+
                                 <td class="text-center d-flex justify-content-evenly">
                                     <a href="">
                                         Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -104,6 +166,7 @@
                                     </a>
                                 </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -112,6 +175,16 @@
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
                         <form>
+                            <div class="row mb-2">
+                                <label class="col-sm-1 col-lg-1 col-form-label">Mã NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.MaNs" />
+                                </div>
+                                <label class="col-sm-1 col-lg-1 col-form-label">Tên NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.TenNs" />
+                                </div>
+                            </div>
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -125,7 +198,13 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id=""></select>
+                                            id="">
+                                        <option selected value="">Phòng ban</option>
+                                        @foreach (PhongBan pb in getListPhongBan())
+                                        {
+                                            <option value="@pb.Id">@pb.TenPhongBan</option>
+                                        }
+                                    </select>
                                 </div>
                                 <div class="col-sm-3 col-lg-3 d-flex justify-content-end">
                                     <button class="btn btn-primary">Lưu</button>
@@ -137,6 +216,7 @@
                            class="table table-responsive table-bordered"
                            style="width: 100%">
                         <thead>
+                           
                             <tr>
                                 <th class="text-center">Từ ngày</th>
                                 <th class="text-center">Đến ngày</th>
@@ -145,23 +225,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-right"></td>
-                                <td class="text-right"></td>
-                                <td class="text-center"></td>
-                                <td class="text-center d-flex justify-content-evenly">
-                                    <a href="">
-                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                    </a>
+                            @foreach (QtcongTac item in ViewBag.QTCT)
+                            {
+                                <tr>
+                                    <td class="text-center">@formatDay(item.TgbatDau)</td>
+                                    <td class="text-center">@formatDay(item.TgketThuc)</td>
+                                    <td class="text-center">@item.MaPbNavigation.TenPhongBan</td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a href="">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
 
-                                    <a href=""
-                                       onclick="return confirm('Bạn có xoá quá trình công tác này?')">
-                                        Xóa
-                                        <i class="bx bx-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
+                                        <a href=""
+                                           onclick="return confirm('Bạn có xoá quá trình công tác này?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
                     </table>
                 </div>
                 <div class="tab-pane fade"
@@ -169,6 +252,16 @@
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
                         <form>
+                            <div class="row mb-2">
+                                <label class="col-sm-2 col-lg-2 col-form-label">Mã NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.MaNs" />
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Tên NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.TenNs" />
+                                </div>
+                            </div>
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-lg-2 col-form-label">Tháng</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -188,13 +281,25 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id=""></select>
+                                            id="">
+                                        <option selected value="">Hệ số lương</option>
+                                        @foreach (Dmhsluong hsl in getListDmhsluong())
+                                        {
+                                            <option value="@hsl.Id">@hsl.HeSoLuong</option>
+                                        }
+                                    </select>
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">Mức lương cơ sở</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id=""></select>
+                                            id="">
+                                        <option selected value="">Mức lương cơ bản</option>
+                                        @foreach (Dmluong dml in getListDmluong())
+                                        {
+                                            <option value="@dml.Id">@dml.TienLuong</option>
+                                        }
+                                    </select>
                                 </div>
                                 <div class="col-sm-4 col-lg-4 d-flex justify-content-end">
                                     <button class="btn btn-primary">Lưu</button>
@@ -215,11 +320,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach (QuaTrinhLuong item in ViewBag.QTL) {
                             <tr>
-                                <td class="text-right"></td>
-                                <td class="text-right"></td>
-                                <td class="text-center"></td>
-                                <td class="text-center"></td>
+                                <td class="text-center">@formatDay(item.TgbatDau)</td>
+                                <td class="text-center">@formatDay(item.TgketThuc)</td>
+                                <td class="text-center">@item.MaHslNavigation.HeSoLuong</td>
+                                <td class="text-right">@item.MaMlNavigation.TienLuong</td>
                                 <td class="text-center d-flex justify-content-evenly">
                                     <a href="">
                                         Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -232,6 +338,7 @@
                                     </a>
                                 </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -240,6 +347,16 @@
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
                         <form>
+                            <div class="row mb-2">
+                                <label class="col-sm-2 col-lg-2 col-form-label">Mã NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.MaNs" />
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Tên NS</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.TenNs" />
+                                </div>
+                            </div>
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-lg-2 col-form-label">Tháng</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -259,13 +376,25 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id=""></select>
+                                            id="">
+                                        <option selected value="">Hệ số phụ cấp</option>
+                                        @foreach (DmheSoPhuCap hspc in getListDmheSoPhuCap())
+                                        {
+                                            <option value="@hspc.Id">@hspc.HeSoPhuCap</option>
+                                        }
+                                    </select>
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">khoản phụ cấp</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id=""></select>
+                                            id="">
+                                        <option selected value="">Khoản phụ cấp</option>
+                                        @foreach (DmmucPhuCap mpc in getListDmmucPhuCap())
+                                        {
+                                            <option value="@mpc.Id">@mpc.KhoanPhuCap</option>
+                                        }
+                                    </select>
                                 </div>
                                 <div class="col-sm-4 col-lg-4 d-flex justify-content-end">
                                     <button class="btn btn-primary">Lưu</button>
@@ -286,11 +415,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach (QuaTrinhPhuCap item in ViewBag.QTPC) {
                             <tr>
-                                <td class="text-right"></td>
-                                <td class="text-right"></td>
-                                <td class="text-center"></td>
-                                <td class="text-center"></td>
+                                <td class="text-right">@formatDay(item.TgbatDau)</td>
+                                <td class="text-right">@formatDay(item.TgketThuc)</td>
+                                <td class="text-center">@item.MaHspcNavigation.HeSoPhuCap</td>
+                                <td class="text-center">@item.MaPcNavigation.KhoanPhuCap</td>
                                 <td class="text-center d-flex justify-content-evenly">
                                     <a href="">
                                         Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -303,6 +433,7 @@
                                     </a>
                                 </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
