@@ -391,8 +391,7 @@
     <!-- build:js assets/vendor/js/core.js -->
 
    
-    <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="~/assets/vendor/libs/popper/popper.js"></script>
+   
     <script src="~/assets/vendor/js/bootstrap.js"></script>
     <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
@@ -430,10 +429,10 @@
                 },
             });
         });
-        $('#tungay, #denngay').datetimepicker({
+        $('#tungay, #denngay,#NgayChotLuong,#NgayPhuCap').datetimepicker({
             locale: 'vi',
             useStrict: true,
-            format: "DD-MM-yyyy",
+            format: "MM-yyyy",
             icons: {
                 date: "bi bi-calendar2-date",
                 up: "bi bi-chevron-up",

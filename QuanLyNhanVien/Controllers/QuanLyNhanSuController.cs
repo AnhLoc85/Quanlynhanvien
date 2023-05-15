@@ -32,7 +32,7 @@ namespace QuanLyNhanVien.Controllers
         {
             return View();
         }
-        [HttpPost("/loadNhomNhanVien")]
+        [HttpPost("/loadNhomNhanVien23")]
         public IActionResult loadNhomNhanVien(int IDPB)
         {
             if(IDPB == 0)
