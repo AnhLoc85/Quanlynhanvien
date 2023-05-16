@@ -70,7 +70,40 @@ namespace QuanLyNhanVien.Controllers
             context.SaveChanges();
             return "Cập nhập thành công";
         }
+        [HttpPost("/addQTDCL")]
 
+        public string addQTDCL(string TuNgay, string DenNgay, int MAML)
+        {
+            QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+
+            DateTime tungay = DateTime.ParseExact("01-" + TuNgay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime denngay = DateTime.ParseExact("01-" + DenNgay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            List<NhanSu> ns = context.NhanSu.ToList();
+            foreach(var n in ns)
+            {
+                QuaTrinhLuong qtl = new QuaTrinhLuong();
+                var kt = context.QuaTrinhLuong.Where(x => x.MaNs == n.Id).OrderByDescending(x => x.TgketThuc).FirstOrDefault();
+                
+                    DateTime newTgketThuc = tungay.AddMonths(-1);
+
+                    QuaTrinhLuong qtl1 = context.QuaTrinhLuong.Find(kt.Id);
+                    qtl1.TgketThuc = newTgketThuc;
+                    context.QuaTrinhLuong.Update(qtl1);
+                    context.SaveChanges();
+                    qtl.MaNs = n.Id;
+                    qtl.MaHsl = kt.MaHsl;
+                    qtl.MaMl = MAML;
+                    qtl.TgbatDau = tungay;
+                    qtl.TgketThuc = denngay;
+                    context.QuaTrinhLuong.Add(qtl);
+                    context.SaveChanges();
+                
+            }
+
+            
+
+            return "thêm thành công";
+        }
 
     }
 

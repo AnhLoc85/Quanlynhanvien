@@ -1,0 +1,46 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    LuongCoBan getQTL(int? id, DateTime? ngay)
+    {
+        LuongCoBan nv = context.LuongCoBan.FirstOrDefault(x => x.MaNs == id && x.ThoiGian == ngay);
+        if (nv != null) return nv;
+        else return new LuongCoBan();
+    }
+    PhuCapNhanSu getPC(int? id, DateTime? ngay)
+    {
+        PhuCapNhanSu pc = context.PhuCapNhanSu.FirstOrDefault(x => x.MaNs == id && x.ThoiGian == ngay);
+        if (pc != null) return pc;
+        else return new PhuCapNhanSu();
+    }
+    double CalculateTotalLuongNS(int? id, DateTime? ngay)
+    {
+
+        double totalLuongNS = (double)context.PhuCapNhanSu
+            .Where(x => x.MaNs == id && x.ThoiGian == ngay)
+            .Sum(x => x.TienPc);
+
+        return totalLuongNS;
+    }
+
+}
+<tbody id="tbodyBangLuong">
+    @foreach (NhanSu item in ViewBag.NS)
+   {
+        double totalLuongNS = CalculateTotalLuongNS(item.Id, ViewBag.Ngay);
+
+
+    <tr>
+        <td class="text-center">@item.MaNs</td>
+        <td class="text-center"></td>
+        <td class="text-left"></td>
+        <td class="text-right">@getQTL(item.Id, ViewBag.Ngay).LuongNs</td>
+        <td class="text-right">@totalLuongNS</td>
+        <td class="text-right"></td>
+        <td class="text-right"></td>
+        <td class="text-right"></td>
+        <td class="text-right"></td>
+        <td class="text-right"></td>
+        <td class="text-right"></td>
+    </tr>
+   }
+</tbody>
