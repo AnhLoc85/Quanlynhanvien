@@ -19,6 +19,11 @@
         {
             return null;
         }
+
+    }
+    string format(Decimal? a)
+    {
+        return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
     }
 }
 
@@ -60,12 +65,14 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <input type="text"
                                            class="form-control"
+                                           value="@ViewBag.NS.MaNs"
                                            readonly />
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">Tên NS</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <input type="text"
                                            class="form-control"
+                                           value="@ViewBag.NS.TenNs"
                                            readonly />
                                 </div>
                             </div>
@@ -111,12 +118,10 @@
                         </thead>
                         <tbody>
                             @foreach(QuaTrinhThuongPc item in ViewBag.TPCK) {
-
                             <tr>
                                 <td class="text-right">@formatDay(item.Tgthuong)</td>
                                 <td class="text-right">@item.MaThuongNavigation?.NoiDung</td>
-
-                                <td class="text-center">@item.TienThuong</td>
+                                <td class="text-center">@format(item.TienThuong)</td>
                                 <td class="text-center d-flex justify-content-evenly">
                                     <a href="">
                                         Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -143,12 +148,14 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <input type="text"
                                            class="form-control"
+                                           value="@ViewBag.NS.MaNs"
                                            readonly />
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">Tên NS</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <input type="text"
                                            class="form-control"
+                                           value="@ViewBag.NS.TenNs"
                                            readonly />
                                 </div>
                             </div>
@@ -196,14 +203,14 @@
                             <tr>
                                 <td class="text-right">@formatDay(item.Tgphat)</td>
                                 <td class="text-right">@item.MaPhatNavigation?.NoiDung</td>
-                                <td class="text-center">@item.TienPhat</td>
+                                <td class="text-center">@format(item.TienPhat)</td>
                                 <td class="text-center d-flex justify-content-evenly">
                                     <a href="">
                                         Chỉnh sửa <i class="bx bx-edit-alt"></i>
                                     </a>
 
                                     <a href=""
-                                       onclick="return confirm('Bạn có xoá khoản phạt này?')">
+                                       onclick="return confirm('Bạn có khoản phạt này?')">
                                         Xóa
                                         <i class="bx bx-trash"></i>
                                     </a>

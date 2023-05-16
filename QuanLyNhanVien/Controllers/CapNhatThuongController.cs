@@ -15,6 +15,7 @@ namespace QuanLyNhanVien.Controllers
         }
         public IActionResult QuaTrinhThuong(int id)
         {
+            ViewBag.NS = context.NhanSu.FirstOrDefault(x => x.Id == id);
             ViewBag.TPCK = context.QuaTrinhThuongPc.Include(x => x.MaNsNavigation).Include(x => x.MaThuongNavigation).Where(x => x.MaNs == id).ToList();
             ViewBag.P = context.QuaTrinhPhat.Include(x => x.MaNsNavigation).Include(x => x.MaPhatNavigation).Where(x => x.MaNs == id).ToList();
             return View();

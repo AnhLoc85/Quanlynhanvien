@@ -19,57 +19,67 @@
                 <h5 class="card-header">Thêm nhân sự</h5>
                 <!-- Account -->
                 <div class="card-body">
-                    <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <img src=""
-                             alt="user-avatar"
-                             class="d-block rounded"
-                             height="100"
-                             width="100"
-                             id="uploadedAvatar" />
-                        <div class="button-wrapper">
-                            <label for="upload"
-                                   class="btn btn-primary me-2 mb-4"
-                                   tabindex="0">
-                                <span class="d-none d-sm-block">Tải ảnh mới</span>
-                                <i class="bx bx-upload d-block d-sm-none"></i>
-                                <input type="file"
-                                       id="upload"
-                                       class="account-file-input"
-                                       hidden
-                                       accept="image/png, image/jpeg" />
-                            </label>
-
-                            <p class="text-muted mb-0">Cho phép JPG or PNG.</p>
-                        </div>
-                    </div>
-                </div>
-                <hr class="my-0" />
-                <div class="card-body">
                     <form id="formAccountSettings"
                           action="/NhanSu/insertNhanSu"
                           method="POST"
-                          onsubmit="return false">
+                          enctype="multipart/form-data"
+                        >
+                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                            <img src="~/assets/img/avatars/ava.jpg"
+                                 alt="user-avatar"
+                                 class="d-block rounded"
+                                 height="100"
+                                 width="100"
+                                 id="uploadedAvatar" />
+                            <div class="button-wrapper">
+                                <label for="upload"
+                                       class="btn btn-primary me-2 mb-4"
+                                       tabindex="0">
+                                    <span class="d-none d-sm-block">Tải ảnh mới</span>
+                                    <i class="bx bx-upload d-block d-sm-none"></i>
+                                    <input type="file"
+                                           id="upload"
+                                           name="avt"
+                                           class="account-file-input"
+                                           hidden
+                                           accept="image/png, image/jpeg" />
+                                </label>
+
+                                <p class="text-muted mb-0">Cho phép JPG or PNG.</p>
+                            </div>
+                            
+                        </div>
+
+
                         <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="firstName" class="form-label">Mã nhân sự</label>
+                                <input class="form-control"
+                                       type="text"
+                                       asp-for="@Model.MaNs"
+                                       value=""
+                                       autofocus />
+                            </div>
                             <div class="mb-3 col-md-6">
                                 <label for="firstName" class="form-label">Họ và tên</label>
                                 <input class="form-control"
                                        type="text"
                                        asp-for="@Model.TenNs"
                                        value=""
-                                       autofocus />
+                                        />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="lastName" class="form-label">Ngày sinh</label>
                                 <input class="form-control"
                                        type="date"
-                                      asp-for="@Model.NgaySinh"
+                                       asp-for="@Model.NgaySinh"
                                        value="" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">E-mail</label>
                                 <input class="form-control"
                                        type="text"
-                                      asp-for="@Model.Email"
+                                       asp-for="@Model.Email"
                                        value=""
                                        placeholder="ten@gmail.com" />
                             </div>
@@ -86,41 +96,46 @@
 
                             <div class="mb-3 col-md-6">
                                 <label for="currency" class="form-label">Tỉnh/TP</label>
-                                <select class="select2 form-select" id="city">
+                                <select class="select2 form-select" id="city" name="city" required onchange="getSelectedOptionText()">
                                     <option value="" selected>Tỉnh thành</option>
                                 </select>
+                                <input type="hidden" id="selectedCityText" name="selectedCityText" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="currency" class="form-label">Quận/huyện</label>
-                                <select class="select2 form-select" id="district">
+                                <select class="select2 form-select" id="district" name="district" required onchange="getSelectedOptionText()">
                                     <option value="" selected>Quận huyện</option>
                                 </select>
+                                <input type="hidden" id="selectedDistrictText" name="selectedDistrictText" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="currency" class="form-label">Phường/xã</label>
-                                <select class="select2 form-select" id="ward">
+                                <select class="select2 form-select" id="ward" name="ward" required onchange="getSelectedOptionText()">
                                     <option value="" selected>Phường xã</option>
                                 </select>
+                                <input type="hidden" id="selectedWardText" name="selectedWardText" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="address" class="form-label">Địa chỉ</label>
                                 <input type="text"
                                        class="form-control"
                                        id="address"
-                                       name="address" />
+                                       name="address"
+                                       required />
                             </div>
+
                             <div class="mb-3 col-md-6">
                                 <label for="quequan" class="form-label">Quê quán</label>
-                                <select id="quequan" class="select2 form-select">
-                                    <option value="@Model.QueQuan" >Quê quán</option>
+                                <select id="quequan" class="select2 form-select" asp-for="QueQuan" required>
+                                    <option>Quê quán</option>
 
                                 </select>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="gioitinh" class="form-label">Giới tính</label>
-                                <select id="gioitinh" class="select2 form-select">
-                                    <option value="@Model.GioiTinh">Nam</option>
-                                    <option value="@Model.GioiTinh">Nữ</option>
+                                <select id="gioitinh" class="select2 form-select" asp-for="GioiTinh" resource="">
+                                    <option value="1">Nam</option>
+                                    <option value="0">Nữ</option>
                                 </select>
                             </div>
                         </div>
@@ -142,6 +157,25 @@
 </div>
 
 <script>
+   
+   
+    function getSelectedOptionText() {
+        var citySelect = document.getElementById("city");
+        var districtSelect = document.getElementById("district");
+        var wardSelect = document.getElementById("ward");
+
+        var selectedCityOption = citySelect.options[citySelect.selectedIndex];
+        var selectedDistrictOption = districtSelect.options[districtSelect.selectedIndex];
+        var selectedWardOption = wardSelect.options[wardSelect.selectedIndex];
+
+        var selectedCityText = selectedCityOption.text;
+        var selectedDistrictText = selectedDistrictOption.text;
+        var selectedWardText = selectedWardOption.text;
+
+        document.getElementById("selectedCityText").value = selectedCityText;
+        document.getElementById("selectedDistrictText").value = selectedDistrictText;
+        document.getElementById("selectedWardText").value = selectedWardText;
+    }
     document.addEventListener("DOMContentLoaded", () => {
         // Lắng nghe sự kiện "change" của input type "file"
         document.getElementById("upload").addEventListener("change", function () {
@@ -223,4 +257,6 @@
             }
         }
     });
+    
+
 </script>
