@@ -1,0 +1,78 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+
+    List<DmheSoPhuCap>
+    getListDmheSoPhuCap()
+    {
+        return context.DmheSoPhuCap.ToList();
+    }
+    List<DmmucPhuCap>
+   getListDmmucPhuCap()
+    {
+        return context.DmmucPhuCap.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+<tr>
+    <td class="text-center TGBDPC">
+        <input data-date-format="MM-yyyy" class="form-control" type="text" id="tungayQTPC" value="@ViewBag.tungay.ToString(" MM-yyyy")" />
+    </td>
+    <td class="text-center TGKTPC">
+        <input data-date-format="MM-yyyy" class="form-control" type="text" id="denngayQTPC" value="@ViewBag.denngay.ToString(" MM-yyyy")" />
+        <input type="hidden" id="IDQTPC" value="@ViewBag.IDQTPC" />
+    </td>
+
+    <td class="text-center MaHSPC">
+        <select class="form-select"
+                name=""
+                id="">
+            <option selected value="@ViewBag.mahspc">@ViewBag.Hesophucap</option>
+            @foreach (DmheSoPhuCap hspc in getListDmheSoPhuCap())
+            {
+                <option value="@hspc.Id">@hspc.HeSoPhuCap</option>
+            }
+        </select>
+    </td>
+    <td class="text-center KhoanPC">
+        <select class="form-select"
+                name=""
+                id="">
+            <option selected value="@ViewBag.mampc">@ViewBag.KhoanPC</option>
+            @foreach (DmmucPhuCap mpc in getListDmmucPhuCap())
+            {
+                <option value="@mpc.Id">@mpc.KhoanPhuCap</option>
+            }
+        </select>
+    </td>
+
+    <td class="text-center d-flex justify-content-evenly">
+        <button class="btn btn-primary saveQTPC">Lưu</button>
+        <button class="btn btn-danger btnhuyQTPC">Hủy</button>
+
+    </td>
+</tr>
+    <script>
+    $('#tungayQTPC,#denngayQTPC').datetimepicker({
+        locale: 'vi',
+        useStrict: true,
+        format: "MM-yyyy",
+        icons: {
+            date: "bi bi-calendar2-date",
+            up: "bi bi-chevron-up",
+            down: "bi bi-chevron-down",
+            previous: 'bi bi-chevron-left',
+            next: 'bi bi-chevron-right',
+            time: "bi bi-clock"
+        }
+    });
+    </script>

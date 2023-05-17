@@ -1,0 +1,63 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+
+    List<PhongBan>
+    getListPhongBan()
+    {
+    return context.PhongBan.ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+    if (date != null)
+    {
+    return date.Value.ToString("MM/yyyy");
+    }
+    else
+    {
+    return null;
+    }
+    }
+}
+    <tr>
+        <td class="text-center TGBDCT">
+            <input data-date-format="MM-yyyy" class="form-control" type="text" id="tungayQTCT" value="@ViewBag.tungay.ToString(" MM-yyyy")" />
+        </td>
+        <td class="text-center TGKTCT">
+            <input data-date-format="MM-yyyy" class="form-control" type="text" id="denngayQTCT" value="@ViewBag.denngay.ToString(" MM-yyyy")" />
+            <input type="hidden" id="IDQTCT" value="@ViewBag.IDQTCT" />
+        </td>
+
+        <td class="text-center TenPB">
+            <select class="form-select"
+                    name=""
+                    id="">
+                <option selected value="@ViewBag.mapb">@ViewBag.phongban</option>
+                @foreach (PhongBan pb in getListPhongBan())
+                {
+                <option value="@pb.Id">@pb.TenPhongBan</option>
+                }
+            </select>
+        </td>
+
+
+        <td class="text-center d-flex justify-content-evenly">
+            <button class="btn btn-primary saveQTCT">Lưu</button>
+            <button class="btn btn-danger btnhuyQTCT">Hủy</button>
+
+        </td>
+    </tr>
+    <script>
+    $('#tungayQTCT,#denngayQTCT').datetimepicker({
+        locale: 'vi',
+        useStrict: true,
+        format: "MM-yyyy",
+        icons: {
+            date: "bi bi-calendar2-date",
+            up: "bi bi-chevron-up",
+            down: "bi bi-chevron-down",
+            previous: 'bi bi-chevron-left',
+            next: 'bi bi-chevron-right',
+            time: "bi bi-clock"
+        }
+    });
+    </script>

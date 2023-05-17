@@ -125,3 +125,7 @@ F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\Cho
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\ChotPhuCap\ChotPhuCap.cshtml.g.cs
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\ChotPhuCap\loadNhomNhanVien.cshtml.g.cs
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\BangLuong\BangLuong.cshtml.g.cs
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\QuanLyNhanSu\addNewRowQTCV.cshtml.g.cs
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\QuanLyNhanSu\addNewRowQTCT.cshtml.g.cs
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\QuanLyNhanSu\addNewRowQTL.cshtml.g.cs
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\QuanLyNhanSu\addNewRowQTPC.cshtml.g.cs

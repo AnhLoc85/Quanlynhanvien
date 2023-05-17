@@ -63,10 +63,7 @@ namespace QuanLyNhanVien.Controllers
         [Route("/BHXH/XoaBHXH/{id}")]
         public IActionResult XoaBHXH(int id)
         {
-           
             BaoHiem bh = context.BaoHiem.Find(id);
-            
-
             context.BaoHiem.Remove(bh);
             context.SaveChanges();
             TempData["ThongBao"] = "Xóa thành công!";

@@ -128,12 +128,12 @@
                                 <label for="quequan" class="form-label">Quê quán</label>
                                 <select id="quequan" class="select2 form-select" asp-for="QueQuan" required>
                                     <option>Quê quán</option>
-
                                 </select>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="gioitinh" class="form-label">Giới tính</label>
-                                <select id="gioitinh" class="select2 form-select" asp-for="GioiTinh" resource="">
+                                <select id="gioitinh" class="select2 form-select" asp-for="GioiTinh" resource="" required>
+                                    <option selected value="1">giới tính</option>
                                     <option value="1">Nam</option>
                                     <option value="0">Nữ</option>
                                 </select>

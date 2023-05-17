@@ -7,14 +7,12 @@ using System.Collections.Generic;
 
 namespace QuanLyNhanVien.Models
 {
-    public partial class PhuCapNhanSu
+    public partial class DongBaoHiem
     {
         public int Id { get; set; }
         public int? MaNs { get; set; }
         public DateTime? ThoiGian { get; set; }
-        public double? Hspc { get; set; }
-        public double? TienPc { get; set; }
-        public string Maphucap { get; set; }
+        public decimal? TienBh { get; set; }
 
         public virtual NhanSu MaNsNavigation { get; set; }
     }

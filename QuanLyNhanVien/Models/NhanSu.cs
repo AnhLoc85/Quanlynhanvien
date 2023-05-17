@@ -11,7 +11,9 @@ namespace QuanLyNhanVien.Models
     {
         public NhanSu()
         {
+            DongBaoHiem = new HashSet<DongBaoHiem>();
             LuongCoBan = new HashSet<LuongCoBan>();
+            PhuCapNhanSu = new HashSet<PhuCapNhanSu>();
             QtchucVu = new HashSet<QtchucVu>();
             QtcongTac = new HashSet<QtcongTac>();
             QuaTrinhDongBh = new HashSet<QuaTrinhDongBh>();
@@ -21,6 +23,7 @@ namespace QuanLyNhanVien.Models
             QuaTrinhPhuCap = new HashSet<QuaTrinhPhuCap>();
             QuaTrinhThuongPc = new HashSet<QuaTrinhThuongPc>();
             TaiKhoan = new HashSet<TaiKhoan>();
+            ThueNhanSu = new HashSet<ThueNhanSu>();
         }
 
         public int Id { get; set; }
@@ -34,7 +37,9 @@ namespace QuanLyNhanVien.Models
         public string HinhAnh { get; set; }
         public string QueQuan { get; set; }
 
+        public virtual ICollection<DongBaoHiem> DongBaoHiem { get; set; }
         public virtual ICollection<LuongCoBan> LuongCoBan { get; set; }
+        public virtual ICollection<PhuCapNhanSu> PhuCapNhanSu { get; set; }
         public virtual ICollection<QtchucVu> QtchucVu { get; set; }
         public virtual ICollection<QtcongTac> QtcongTac { get; set; }
         public virtual ICollection<QuaTrinhDongBh> QuaTrinhDongBh { get; set; }
@@ -44,5 +49,6 @@ namespace QuanLyNhanVien.Models
         public virtual ICollection<QuaTrinhPhuCap> QuaTrinhPhuCap { get; set; }
         public virtual ICollection<QuaTrinhThuongPc> QuaTrinhThuongPc { get; set; }
         public virtual ICollection<TaiKhoan> TaiKhoan { get; set; }
+        public virtual ICollection<ThueNhanSu> ThueNhanSu { get; set; }
     }
 }

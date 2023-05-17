@@ -97,79 +97,91 @@
                      id="navs-justified-home"
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
-                        <form>
+                        <div>
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Mã NS</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.MaNs"/>
+                                    <input type="text" class="form-control" readonly value="@ViewBag.NS.MaNs" />
+                                    <input type="text" class="form-control" readonly id="IDNS" value="@ViewBag.NS.Id" hidden name="IdNS"/>
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Tên NS</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <input type="text" class="form-control" readonly value="@ViewBag.NS.TenNs" />
                                 </div>
                             </div>
-                                <div class="row mb-2">
-                                    <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
-                                    <div class="col-sm-2 col-lg-2">
-                                        <input id="tungay" type="text" placeholder="MM-yyyy" class="form-control" />
-                                    </div>
-                                    <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
-                                    <div class="col-sm-2 col-lg-2">
-                                        <input id="tungay" type="text" placeholder="MM-yyyy" class="form-control" />
-                                    </div>
-                                    <label class="col-sm-1 col-lg-1 col-form-label">Chức vụ</label>
-                                    <div class="col-sm-2 col-lg-2">
-                                        <select class="form-select"
-                                                name=""
-                                                id="">
-                                            <option selected value="">Chức vụ</option>
-                                            @foreach (ChucVu cv in getListChucVu())
-                                            {
-                                                <option value="@cv.Id">@cv.TenChucVu</option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3 col-lg-3 d-flex justify-content-end">
-                                        <button class="btn btn-primary">Lưu</button>
-                                    </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input id="tungay" type="text" placeholder="MM-yyyy" class="form-control" name="TuNgayCV"/>
                                 </div>
-</form>
+                                <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <input id="denngay" type="text" placeholder="MM-yyyy" class="form-control" name="DenNgayCV"/>
+                                </div>
+                                <label class="col-sm-1 col-lg-1 col-form-label">Chức vụ</label>
+                                <div class="col-sm-2 col-lg-2">
+                                    <select class="form-select"
+                                            name="ChucVu"
+                                            id="IDCV"
+                                            required>
+                                        <option selected value="">Chức vụ</option>
+                                        @foreach (ChucVu cv in getListChucVu())
+                                        {
+                                            <option value="@cv.Id">@cv.TenChucVu</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-sm-3 col-lg-3 d-flex justify-content-end">
+                                    <button  id="addQTCV" class="btn btn-primary">Lưu</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <table id="example"
-                           class="table table-responsive table-bordered"
+                    <table id=""
+                           class="table table-responsive table-bordered tableCV tableCV1"
                            style="width: 100%">
                         <thead>
                             <tr>
                                 <th class="text-center">Từ ngày</th>
                                 <th class="text-center">Đến ngày</th>
                                 <th class="text-center">Chức vụ</th>
-
                                 <th class="text-center" width="30%">Tùy chọn</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-                            @foreach (QtchucVu item in ViewBag.QTCV ) { 
+                        <tbody id="tbodytableCV">
 
-                            <tr>
-                                <td class="text-center"> @formatDay(item.TgbatDau)</td>
-                                <td class="text-center">@formatDay(item.TgketThuc)</td>
+                            @foreach (QtchucVu item in ViewBag.QTCV)
+                            {
 
-                                <td class="text-center">@item.MaCvNavigation.TenChucVu</td>
+                                <tr>
+                                    <td class="text-center TGBDCV">
+                                        @formatDay(item.TgbatDau)
+                                        <input type="hidden" value="@item.TgbatDau" />
+                                    </td>
+                                    <td class="text-center TGKTCV">
+                                        @formatDay(item.TgketThuc)
+                                        <input type="hidden" value="@item.TgketThuc" />
+                                    </td>
 
+                                    <td class="text-center TenCV">
+                                        @item.MaCvNavigation.TenChucVu
+                                        <input type="hidden" value="@item.MaCvNavigation.TenChucVu" />
+                                        <input type="hidden" id="MACV" value="@item.MaCvNavigation.Id" />
+                                        <input type="hidden" id="IDQT" value="@item.Id" />
 
-                                <td class="text-center d-flex justify-content-evenly">
-                                    <a href="">
-                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                    </a>
+                                    </td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a class="btneditCV">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
 
-                                    <a href=""
-                                       onclick="return confirm('Bạn có xoá quá trình chức vụ này?')">
-                                        Xóa
-                                        <i class="bx bx-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                        <a class="btnxoaCV"
+                                           onclick="return confirm('Bạn có xoá quá trình chức vụ này?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -178,7 +190,7 @@
                      id="navs-justified-profile"
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
-                        <form>
+                        <div>
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Mã NS</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -202,7 +214,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="">
+                                            id="IDPB">
                                         <option selected value="">Phòng ban</option>
                                         @foreach (PhongBan pb in getListPhongBan())
                                         {
@@ -211,16 +223,16 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-3 col-lg-3 d-flex justify-content-end">
-                                    <button class="btn btn-primary">Lưu</button>
+                                    <button id="addQTCT" class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                    <table id="example"
-                           class="table table-responsive table-bordered"
+                   <table id=""
+                           class="table table-responsive table-bordered tableCT tableCT1"
                            style="width: 100%">
                         <thead>
-                           
+
                             <tr>
                                 <th class="text-center">Từ ngày</th>
                                 <th class="text-center">Đến ngày</th>
@@ -228,34 +240,50 @@
                                 <th class="text-center" width="30%">Tùy chọn</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbodytableCT">
+
                             @foreach (QtcongTac item in ViewBag.QTCT)
                             {
+
                                 <tr>
-                                    <td class="text-center">@formatDay(item.TgbatDau)</td>
-                                    <td class="text-center">@formatDay(item.TgketThuc)</td>
-                                    <td class="text-center">@item.MaPbNavigation.TenPhongBan</td>
+                                    <td class="text-center TGBDCT">
+                                        @formatDay(item.TgbatDau)
+                                        <input type="hidden" value="@item.TgbatDau" />
+                                    </td>
+                                    <td class="text-center TGKTCT">
+                                        @formatDay(item.TgketThuc)
+                                        <input type="hidden" value="@item.TgketThuc" />
+                                    </td>
+
+                                    <td class="text-center TenPB">
+                                        @item.MaPbNavigation.TenPhongBan
+                                        <input type="hidden" value="@item.MaPbNavigation.TenPhongBan" />
+                                        <input type="hidden" id="MAPB" value="@item.MaPbNavigation.Id" />
+                                        <input type="hidden" id="IDQTCT" value="@item.Id" />
+
+                                    </td>
                                     <td class="text-center d-flex justify-content-evenly">
-                                        <a href="">
+                                        <a class="btneditPB">
                                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
                                         </a>
 
-                                        <a href=""
-                                           onclick="return confirm('Bạn có xoá quá trình công tác này?')">
+                                        <a class="btnxoaPB"
+                                           onclick="return confirm('Bạn có xoá quá trình chức vụ này?')">
                                             Xóa
                                             <i class="bx bx-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
                             }
-                            </tbody>
+                        </tbody>
+                        
                     </table>
                 </div>
                 <div class="tab-pane fade"
                      id="navs-justified-messages"
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
-                        <form>
+                        <div>
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-lg-2 col-form-label">Mã NS</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -281,7 +309,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="">
+                                            id="IDHSL">
                                         <option selected value="">Hệ số lương</option>
                                         @foreach (Dmhsluong hsl in getListDmhsluong())
                                         {
@@ -293,7 +321,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="">
+                                            id="IDMML">
                                         <option selected value="">Mức lương cơ bản</option>
                                         @foreach (Dmluong dml in getListDmluong())
                                         {
@@ -302,13 +330,13 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-4 col-lg-4 d-flex justify-content-end">
-                                    <button class="btn btn-primary">Lưu</button>
+                                    <button id="addQTL" class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                    <table id="example"
-                           class="table table-responsive table-bordered"
+                     <table id=""
+                           class="table table-responsive table-bordered tableQTL tableQTL1"
                            style="width: 100%">
                         <thead>
                             <tr>
@@ -319,25 +347,37 @@
                                 <th class="text-center">Tùy chọn</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach (QuaTrinhLuong item in ViewBag.QTL) {
-                            <tr>
-                                <td class="text-center">@formatDay(item.TgbatDau)</td>
-                                <td class="text-center">@formatDay(item.TgketThuc)</td>
-                                <td class="text-center">@item.MaHslNavigation.HeSoLuong</td>
-                                <td class="text-end">@format(item.MaMlNavigation.TienLuong)</td>
-                                <td class="text-center d-flex justify-content-evenly">
-                                    <a href="">
-                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                    </a>
+                       
+                        <tbody id="tbodytableQTL">
+                            @foreach (QuaTrinhLuong item in ViewBag.QTL)
+                            {
+                                <tr>
+                                    <td class="text-center TGBDL">@formatDay(item.TgbatDau)
+                                     <input type="hidden" value="@item.TgbatDau" />
+                                    </td>
+                                    <td class="text-center TGKTL">@formatDay(item.TgketThuc)
+                                        <input type="hidden" value="@item.TgketThuc" />
+                                    </td>
+                                    <td class="text-center MaHSL">@item.MaHslNavigation.HeSoLuong
+                                    <input type="hidden" value="@item.MaHslNavigation.HeSoLuong" />
+                                        <input type="hidden" id="MAHSL" value="@item.MaHslNavigation.Id" />
+                                        <input type="hidden" id="IDQTL" value="@item.Id" />
+                                    </td>
+                                    <td class="text-end TienLuong">@format(item.MaMlNavigation.TienLuong)
+                                    <input type="hidden" value="@item.MaMlNavigation.TienLuong" />
+                                        <input type="hidden" id="MAML" value="@item.MaMlNavigation.Id" /></td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a class="btneditQTL">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
 
-                                    <a href=""
-                                       onclick="return confirm('Bạn có xoá quá trình lương này?')">
-                                        Xóa
-                                        <i class="bx bx-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                        <a class="btnxoaQTL"
+                                           onclick="return confirm('Bạn có xoá quá trình lương này?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -346,7 +386,7 @@
                      id="navs-justified-phucap"
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
-                        <form>
+                        <div>
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-lg-2 col-form-label">Mã NS</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -372,7 +412,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="">
+                                            id="IDHSPC">
                                         <option selected value="">Hệ số phụ cấp</option>
                                         @foreach (DmheSoPhuCap hspc in getListDmheSoPhuCap())
                                         {
@@ -384,7 +424,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="">
+                                            id="IDMPC">
                                         <option selected value="">Khoản phụ cấp</option>
                                         @foreach (DmmucPhuCap mpc in getListDmmucPhuCap())
                                         {
@@ -393,13 +433,13 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-4 col-lg-4 d-flex justify-content-end">
-                                    <button class="btn btn-primary">Lưu</button>
+                                    <button id="addQTPC" class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                    <table id="example"
-                           class="table table-responsive table-bordered"
+                    <table id=""
+                           class="table table-responsive table-bordered tableQTPC tableQTPC1"
                            style="width: 100%">
                         <thead>
                             <tr>
@@ -410,25 +450,38 @@
                                 <th class="text-center">Tùy chọn</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach (QuaTrinhPhuCap item in ViewBag.QTPC) {
-                            <tr>
-                                <td class="text-right">@formatDay(item.TgbatDau)</td>
-                                <td class="text-right">@formatDay(item.TgketThuc)</td>
-                                <td class="text-center">@item.MaHspcNavigation.HeSoPhuCap</td>
-                                <td class="text-center">@item.MaPcNavigation.KhoanPhuCap</td>
-                                <td class="text-center d-flex justify-content-evenly">
-                                    <a href="">
-                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                    </a>
+                        
+                        <tbody id="tbodytableQTPC">
+                            @foreach (QuaTrinhPhuCap item in ViewBag.QTPC)
+                            {
+                                <tr>
+                                    <td class="text-right TGBDPC">@formatDay(item.TgbatDau)
+                                     <input type="hidden" value="@item.TgbatDau" />
+                                        </td>
+                                    <td class="text-right TGKTPC">@formatDay(item.TgketThuc)
+                                      <input type="hidden" value="@item.TgketThuc" />
+                                    </td>
+                                    <td class="text-center MaHSPC">@item.MaHspcNavigation.HeSoPhuCap
+                                        <input type="hidden" value="@item.MaHspcNavigation.HeSoPhuCap" />
+                                        <input type="hidden" id="MAHSPC" value="@item.MaHspcNavigation.Id" />
+                                        <input type="hidden" id="IDQTPC" value="@item.Id" />
+                                    </td>
+                                    <td class="text-center KhoanPC">@item.MaPcNavigation.KhoanPhuCap
+                                        <input type="hidden" value="@item.MaPcNavigation.KhoanPhuCap" />
+                                        <input type="hidden" id="MAMPC" value="@item.MaPcNavigation.Id" />
+                                    </td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a class="btneditQTPC">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
 
-                                    <a href=""
-                                       onclick="return confirm('Bạn có xoá quá trình phụ cấp này?')">
-                                        Xóa
-                                        <i class="bx bx-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                        <a class="btnxoaQTPC"
+                                           onclick="return confirm('Bạn có xoá quá trình phụ cấp này?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -437,3 +490,349 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $(".tableCV").on("click", ".btneditCV", function () {
+
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='hidden']").val();
+            var chucvu = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            var macv = $(this).closest('tr').find('#MACV').val();
+            var idqt = $(this).closest('tr').find('#IDQT').val();
+            var thiss = $(this);
+            $.ajax({
+                type: "post",
+                url: "/addNewRowQTCV",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&chucvu=" + chucvu + "&macv=" + macv + "&IDQT=" + idqt,
+                success: function (result) {
+                    thiss.parents('tr').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+        $(".tableCV").on("click", ".btnxoaCV", function () {
+            var idqt = $(this).closest('tr').find('#IDQT').val();  
+            $.ajax({
+                type: "post",
+                url: "/XoaQTChucVu",
+                data: "&IDQT=" + idqt,
+                success: function (result) {
+                    $("#tbodytableCV").load(location.href + " #tbodytableCV>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+        $(".tableCV").on("click", ".saveQTCV", function () {
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+            var chucvu = $(this).parents('tr').find("td:eq(2) select").val();
+            var idqt = $(this).closest('tr').find('#IDQT').val();
+            var thiss = $(this);
+            $.ajax({
+                type: "post",   
+                url: "/UpdateQTCV",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&chucvu=" + chucvu + "&IDQT=" + idqt,
+                success: function (result) {
+                    $("#tbodytableCV").load(location.href + " #tbodytableCV>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+
+        $(".tableCT").on("click", ".btneditPB", function () {
+
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='hidden']").val();
+            var phongban = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            var mapb = $(this).closest('tr').find('#MAPB').val();
+            var idqtct = $(this).closest('tr').find('#IDQTCT').val();
+            var thiss = $(this);
+            $.ajax({
+                type: "post",
+                url: "/addNewRowQTCT",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&phongban=" + phongban + "&mapb=" + mapb + "&IDQTCT=" + idqtct,
+                success: function (result) {
+                    thiss.parents('tr').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+        $(".tableCT").on("click", ".btnxoaPB", function () {
+            var idqtct = $(this).closest('tr').find('#IDQTCT').val();
+            $.ajax({
+                type: "post",
+                url: "/XoaQTCongTac",
+                data: "&IDQTCT=" + idqtct,
+                success: function (result) {
+                    $("#tbodytableCT").load(location.href + " #tbodytableCT>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+        $(".tableCT").on("click", ".saveQTCT", function () {
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+            var chucvu = $(this).parents('tr').find("td:eq(2) select").val();
+            var idqt = $(this).closest('tr').find('#IDQTCT').val();
+            var thiss = $(this);
+            $.ajax({
+                type: "post",
+                url: "/UpdateQTCT",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&phongban=" + chucvu + "&IDQTCT=" + idqt,
+                success: function (result) {
+                    $("#tbodytableCT").load(location.href + " #tbodytableCT>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to save");
+                }
+            });
+        });
+
+        $(".tableQTL").on("click", ".btneditQTL", function () {
+
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='hidden']").val();
+            var hesoluong = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            var tienluong = $(this).parents('tr').find("td:eq(3) input[type='hidden']").val();
+            var mahsl = $(this).closest('tr').find('#MAHSL').val();
+            var maml = $(this).closest('tr').find('#MAML').val();
+            var idqtl = $(this).closest('tr').find('#IDQTL').val();
+            var thiss = $(this);
+            $.ajax({
+                type: "post",
+                url: "/addNewRowQTL",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&hesoluong=" + hesoluong + "&mahsl=" + mahsl + "&tienluong=" + tienluong + "&maml=" + maml + "&IDQTL=" + idqtl,
+                success: function (result) {
+                    thiss.parents('tr').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+        $(".tableQTL").on("click", ".btnxoaQTL", function () {
+            var idqtl = $(this).closest('tr').find('#IDQTL').val();
+            $.ajax({
+                type: "post",
+                url: "/XoaQTLuong",
+                data: "&IDQTL=" + idqtl,
+                success: function (result) {
+                    $("#tbodytableQTL").load(location.href + " #tbodytableQTL>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+        $(".tableQTL").on("click", ".saveQTL", function () {
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+            var mahsl = $(this).parents('tr').find("td:eq(2) select").val();
+            var maml = $(this).parents('tr').find("td:eq(3) select").val();
+            var idqtl = $(this).closest('tr').find('#IDQTL').val();
+            
+            $.ajax({
+                type: "post",
+                url: "/UpdateQTL",
+                data: "tungay=" + tungay + "&denngay=" + denngay  + "&mahsl=" + mahsl  + "&maml=" + maml + "&IDQTL=" + idqtl,
+                success: function (result) {
+                    $("#tbodytableQTL").load(location.href + " #tbodytableQTL>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+
+        $(".tableQTPC").on("click", ".btneditQTPC", function () {
+
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='hidden']").val();
+            var hesophucap = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            var khoanphucap = $(this).parents('tr').find("td:eq(3) input[type='hidden']").val();
+            var mahspc = $(this).closest('tr').find('#MAHSPC').val();
+            var mampc = $(this).closest('tr').find('#MAMPC').val();
+            var idqtpc = $(this).closest('tr').find('#IDQTPC').val();
+            var thiss = $(this);
+            $.ajax({
+                type: "post",
+                url: "/addNewRowQTPC",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&hesophucap=" + hesophucap + "&mahspc=" + mahspc + "&khoanphucap=" + khoanphucap + "&mampc=" + mampc + "&IDQTPC=" + idqtpc,
+                success: function (result) {
+                    thiss.parents('tr').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+        $(".tableQTPC").on("click", ".btnxoaQTPC", function () {
+            var idqtpc = $(this).closest('tr').find('#IDQTPC').val();
+            $.ajax({
+                type: "post",
+                url: "/XoaQTPhuCap",
+                data: "&IDQTPC=" + idqtpc,
+                success: function (result) {
+                    $("#tbodytableQTPC").load(location.href + " #tbodytableQTPC>*", function () {
+                    });
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+        $(".tableQTPC").on("click", ".saveQTPC", function () {
+            var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+            var denngay = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+            var mahspc = $(this).parents('tr').find("td:eq(2) select").val();
+            var mampc = $(this).parents('tr').find("td:eq(3) select").val();
+            var idqtpc = $(this).closest('tr').find('#IDQTPC').val();
+
+            $.ajax({
+                type: "post",
+                url: "/UpdateQTPC",
+                data: "tungay=" + tungay + "&denngay=" + denngay + "&mahspc=" + mahspc + "&mampc=" + mampc + "&IDQTPC=" + idqtpc,
+                success: function (result) {
+                    $("#tbodytableQTPC").load(location.href + " #tbodytableQTPC>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+    });
+
+    $(document).on('click', '.btnhuyQTCV', function () {
+        $("#tbodytableCV").load(location.href + " #tbodytableCV>*", function () {
+        });
+    });
+    $(document).on('click', '#addQTCV', function () {
+        var idns = $("#IDNS").val();
+        var idcv = $("#IDCV").val();
+        var tungay = $("#tungay").val();
+        var denngay = $("#denngay").val();
+        $.ajax({
+            type: "post",
+            url: "/insertQTChucVu",
+            data: "IdNS=" + idns + "&ChucVu=" + idcv + "&TuNgayCV=" + tungay + "&DenNgayCV=" + denngay,
+            success: function (result) {
+                $("#tbodytableCV").load(location.href + " #tbodytableCV>*", function () {
+                });
+                $("#IDNS").val('');
+                $("#IDCV").val('');
+                $("#tungay").val('');
+                $("#denngay").val('');
+            },
+            error: function () {
+                alert("Fail to delete");
+            }
+        });
+    });
+    $(document).on('click', '.btnhuyQTCT', function () {
+        $("#tbodytableCT").load(location.href + " #tbodytableCT>*", function () {
+        });
+    });
+    $(document).on('click', '#addQTCT', function () {
+        var idns = $("#IDNS").val();
+        var idpb = $("#IDPB").val();
+        var tungay = $("#tungay1").val();
+        var denngay = $("#denngay1").val();
+        $.ajax({
+            type: "post",
+            url: "/insertQTCongTac",
+            data: "IdNS=" + idns + "&PhongBan=" + idpb + "&TuNgayCV=" + tungay + "&DenNgayCV=" + denngay,
+            success: function (result) {
+                $("#tbodytableCT").load(location.href + " #tbodytableCT>*", function () {
+                });
+                $("#IDNS").val('');
+                $("#IDPB").val('');
+                $("#tungay1").val('');
+                $("#denngay1").val('');
+            },
+            error: function () {
+                alert("Fail to delete");
+            }
+        });
+    });
+    $(document).on('click', '.btnhuyQTL', function () {
+        $("#tbodytableQTL").load(location.href + " #tbodytableQTL>*", function () {
+        });
+    });
+    $(document).on('click', '#addQTL', function () {
+        var idns = $("#IDNS").val();
+        var idhsl = $("#IDHSL").val();
+        var idml = $("#IDMML").val();
+        var tungay = $("#tungay2").val();
+        var denngay = $("#denngay2").val();
+        $.ajax({
+            type: "post",
+            url: "/insertQTLuong",
+            data: "IdNS=" + idns + "&MaHSL=" + idhsl + "&MaMl=" + idml + "&TuNgayQTL=" + tungay + "&DenNgayQTL=" + denngay,
+            success: function (result) {
+                $("#tbodytableQTL").load(location.href + " #tbodytableQTL>*", function () {
+                });
+                $("#IDNS").val('');
+                $("#IDHSL").val('');
+                $("#IDMML").val('');
+                $("#tungay2").val('');
+                $("#denngay2").val('');
+            },
+            error: function () {
+                alert("Fail to delete");
+            }
+        });
+    });
+    $(document).on('click', '.btnhuyQTPC', function () {
+        $("#tbodytableQTPC").load(location.href + " #tbodytableQTPC>*", function () {
+        });
+    });
+    $(document).on('click', '#addQTPC', function () {
+        var idns = $("#IDNS").val();
+        var idhspc = $("#IDHSPC").val();
+        var idmpc = $("#IDMPC").val();
+        var tungay = $("#tungay3").val();
+        var denngay = $("#denngay3").val();
+        $.ajax({
+            type: "post",
+            url: "/insertQTPhuCap",
+            data: "IdNS=" + idns + "&MaHSPC=" + idhspc + "&MaMPC=" + idmpc + "&TuNgayQTPC=" + tungay + "&DenNgayQTPC=" + denngay,
+            success: function (result) {
+                $("#tbodytableQTPC").load(location.href + " #tbodytableQTPC>*", function () {
+                });
+             
+                $("#IDHSPC").val('');
+                $("#IDMPC").val('');
+                $("#tungay3").val('');
+                $("#denngay3").val('');
+            },
+            error: function () {
+                alert("Fail to delete");
+            }
+        });
+    });
+</script>

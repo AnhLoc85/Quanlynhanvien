@@ -25,46 +25,97 @@
 }
 @if (ViewBag.IDPB == 0)
 {
-    <tbody id="tbodyNS">
-        @foreach (NhanSu ns in ViewBag.NNV)
-        {
-        <tr class="text-nowrap">
-            <td class="text-center">@ns.MaNs</td>
-            <td class="text-center">@ns.TenNs</td>
-            <td class="text-center">@formatDay(@ns.NgaySinh)</td>
-            <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
-            <td class="text-center">@ns.Sdt</td>
-            <td class="text-center">@ns.Email</td>
-            <td class="text-center">
-                <a class="btn btn-primary" href="/QuanLyNhanSu/QuaTrinh/@ns.Id">Chọn</a>
-            </td>
-        </tr>
+    <div id="example1">
+        <table id="example"
+               class="display table table-bordered table-responsive"
+               style="width: 100%">
+            <thead>
+                <tr>
+                    <th class="text-center">Mã NS</th>
+                    <th class="text-center">Tên</th>
+                    <th class="text-center">Ngày sinh</th>
+                    <th class="text-center">giới tính</th>
+                    <th class="text-center">SĐT</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Xem</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyNS">
+                @foreach (NhanSu ns in ViewBag.NNV)
+                {
+                    <tr class="text-nowrap">
+                        <td class="text-center">@ns.MaNs</td>
+                        <td class="text-center">@ns.TenNs</td>
+                        <td class="text-center">@formatDay(@ns.NgaySinh)</td>
+                        <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                        <td class="text-center">@ns.Sdt</td>
+                        <td class="text-center">@ns.Email</td>
+                        <td class="text-center">
+                            <a class="btn btn-primary" href="/QuanLyNhanSu/QuaTrinh/@ns.Id">Chọn</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
         }
+        else
+        {
+        <div id="example1">
+            <table id="example"
+                   class="display table table-bordered table-responsive"
+                   style="width: 100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">Mã NS</th>
+                        <th class="text-center">Tên</th>
+                        <th class="text-center">Ngày sinh</th>
+                        <th class="text-center">giới tính</th>
+                        <th class="text-center">SĐT</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Xem</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyNS">
+                    @foreach (QtcongTac ns in ViewBag.NNV)
+                    {
+                        <tr class="text-nowrap">
+
+                            <td class="text-center">@getNS(ns.MaNs).MaNs</td>
+                            <td class="text-center">@getNS(ns.MaNs).TenNs</td>
+                            <td class="text-center">@formatDay(getNS(ns.MaNs).NgaySinh)</td>
+                            <td class="text-center">@(getNS(ns.MaNs).GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                            <td class="text-center">@getNS(ns.MaNs).Sdt</td>
+                            <td class="text-center">@getNS(ns.MaNs).Email</td>
+                            <td class="text-center">
+                                <a class="btn btn-primary" href="/QuanLyNhanSu/QuaTrinh/@getNS(ns.MaNs).Id">Chọn</a>
+                            </td>
+                        </tr>
+                    }
 
 
 
-    </tbody>
-}
-else
-{
-<tbody id="tbodyNS">
-    @foreach (QtcongTac ns in ViewBag.NNV)
-    {
-    <tr class="text-nowrap">
+                </tbody>
+            </table>
+        </div>
 
-        <td class="text-center">@getNS(ns.MaNs).MaNs</td>
-        <td class="text-center">@getNS(ns.MaNs).TenNs</td>
-        <td class="text-center">@formatDay(getNS(ns.MaNs).NgaySinh)</td>
-        <td class="text-center">@(getNS(ns.MaNs).GioiTinh ?? false ? "Nam" : "Nữ")</td>
-        <td class="text-center">@getNS(ns.MaNs).Sdt</td>
-        <td class="text-center">@getNS(ns.MaNs).Email</td>
-        <td class="text-center">
-            <a class="btn btn-primary" href="/QuanLyNhanSu/QuaTrinh/@getNS(ns.MaNs).Id">Chọn</a>
-        </td>
-    </tr>
-    }
-
-
-
-</tbody>
-}
+        }
+<script>
+    $(document).ready(function () {
+        $.fn.DataTable.ext.pager.numbers_length = 3;
+        $("#example").dataTable({
+            scrollCollapse: true,
+            bLengthChange: false,
+            bInfo: false,
+            scrollX: true,
+            fixedHeader: true,
+            language: {
+                paginate: {
+                    previous: "<<",
+                    next: ">>",
+                },
+                search: "Tìm kiếm",
+            },
+        });
+    });
+</script>

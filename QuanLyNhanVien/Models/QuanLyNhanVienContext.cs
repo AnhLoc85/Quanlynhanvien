@@ -25,6 +25,7 @@ namespace QuanLyNhanVien.Models
         public virtual DbSet<Dmhsluong> Dmhsluong { get; set; }
         public virtual DbSet<Dmluong> Dmluong { get; set; }
         public virtual DbSet<DmmucPhuCap> DmmucPhuCap { get; set; }
+        public virtual DbSet<DongBaoHiem> DongBaoHiem { get; set; }
         public virtual DbSet<LuongCoBan> LuongCoBan { get; set; }
         public virtual DbSet<NhanSu> NhanSu { get; set; }
         public virtual DbSet<Phat> Phat { get; set; }
@@ -41,6 +42,7 @@ namespace QuanLyNhanVien.Models
         public virtual DbSet<Quyen> Quyen { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<Thue> Thue { get; set; }
+        public virtual DbSet<ThueNhanSu> ThueNhanSu { get; set; }
         public virtual DbSet<ThuongPckhac> ThuongPckhac { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -150,11 +152,29 @@ namespace QuanLyNhanVien.Models
                     .IsFixedLength();
             });
 
-            modelBuilder.Entity<LuongCoBan>(entity =>
+            modelBuilder.Entity<DongBaoHiem>(entity =>
             {
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .ValueGeneratedNever();
+
+                entity.Property(e => e.MaNs).HasColumnName("MaNS");
+
+                entity.Property(e => e.ThoiGian).HasColumnType("date");
+
+                entity.Property(e => e.TienBh)
+                    .HasColumnName("TienBH")
+                    .HasColumnType("money");
+
+                entity.HasOne(d => d.MaNsNavigation)
+                    .WithMany(p => p.DongBaoHiem)
+                    .HasForeignKey(d => d.MaNs)
+                    .HasConstraintName("FK_DongBaoHiem_NhanSu");
+            });
+
+            modelBuilder.Entity<LuongCoBan>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Hsl).HasColumnName("HSL");
 
@@ -208,7 +228,7 @@ namespace QuanLyNhanVien.Models
 
                 entity.Property(e => e.TenNs)
                     .HasColumnName("TenNS")
-                    .HasMaxLength(50);
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Phat>(entity =>
@@ -240,22 +260,20 @@ namespace QuanLyNhanVien.Models
 
             modelBuilder.Entity<PhuCapNhanSu>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Hspc).HasColumnName("HSPC");
 
-                entity.Property(e => e.Id).HasColumnName("id");
-
                 entity.Property(e => e.MaNs).HasColumnName("MaNS");
 
-                entity.Property(e => e.Maphucap)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                entity.Property(e => e.Maphucap).HasMaxLength(100);
 
                 entity.Property(e => e.ThoiGian).HasColumnType("date");
 
+                entity.Property(e => e.TienPc).HasColumnName("TienPC");
+
                 entity.HasOne(d => d.MaNsNavigation)
-                    .WithMany()
+                    .WithMany(p => p.PhuCapNhanSu)
                     .HasForeignKey(d => d.MaNs)
                     .HasConstraintName("FK_PhuCapNhanSu_NhanSu");
             });
@@ -542,6 +560,22 @@ namespace QuanLyNhanVien.Models
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+            });
+
+            modelBuilder.Entity<ThueNhanSu>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.MaNs).HasColumnName("MaNS");
+
+                entity.Property(e => e.TienThue).HasColumnType("money");
+
+                entity.HasOne(d => d.MaNsNavigation)
+                    .WithMany(p => p.ThueNhanSu)
+                    .HasForeignKey(d => d.MaNs)
+                    .HasConstraintName("FK_ThueNhanSu_NhanSu");
             });
 
             modelBuilder.Entity<ThuongPckhac>(entity =>

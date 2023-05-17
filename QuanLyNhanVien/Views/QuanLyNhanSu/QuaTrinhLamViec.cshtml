@@ -37,6 +37,7 @@
                         </select>
                     </div>
                 </div>
+                <div id="example1">
                     <table id="example"
                            class="display table table-bordered table-responsive"
                            style="width: 100%">
@@ -54,20 +55,21 @@
                         <tbody id="tbodyNS">
                             @foreach (NhanSu ns in getListNhanSu())
                             {
-                            <tr class="text-nowrap">
-                                <td class="text-center">@ns.MaNs</td>
-                                <td class="text-center">@ns.TenNs</td>
-                                <td class="text-center">@formatDay(@ns.NgaySinh)</td>
-                                <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
-                                <td class="text-center">@ns.Sdt</td>
-                                <td class="text-center">@ns.Email</td>
-                                <td class="text-center">
-                                   <a class="btn btn-primary" href="/QuanLyNhanSu/QuaTrinh/@ns.Id">Chọn</a>
-                                </td>
-                            </tr>
+                                <tr class="text-nowrap">
+                                    <td class="text-center">@ns.MaNs</td>
+                                    <td class="text-center">@ns.TenNs</td>
+                                    <td class="text-center">@formatDay(@ns.NgaySinh)</td>
+                                    <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                                    <td class="text-center">@ns.Sdt</td>
+                                    <td class="text-center">@ns.Email</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-primary" href="/QuanLyNhanSu/QuaTrinh/@ns.Id">Chọn</a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
     </div>
@@ -78,11 +80,11 @@
         var idnns = $('#nhomNS').val();
         $.ajax({
             type: "post",
-            url: "/loadNhomNhanVien",
+            url: "/loadNhomNhanVien1",
             data: "&IDPB=" + idnns,
             success: function (result) {
 
-                $('#tbodyNS').replaceWith(result);
+                $('#example1').replaceWith(result);
             },
             error: function () {
                 alert(idnns);
