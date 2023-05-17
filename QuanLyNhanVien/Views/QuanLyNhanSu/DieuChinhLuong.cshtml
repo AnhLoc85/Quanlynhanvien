@@ -1,4 +1,10 @@
-﻿
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    List<Dmluong> getListLuong()
+    {
+        return context.Dmluong.ToList();
+    }
+}
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
         <div class="card">
@@ -9,20 +15,20 @@
                         <form>
                           <div class="row mb-2">
                             <label class="col-sm-1 col-lg-1 col-form-label"
-                              >Từ tháng</label
+                              >Từ </label
                             >
                             <div class="col-sm-2 col-lg-2">
-                                <select class="form-select"
+                                <input class="form-control"
                                         name=""
-                                        id=""></select>
+                                        id="TuNgayDCL"/>
                             </div>
                             <label class="col-sm-1 col-lg-1 col-form-label"
-                              >năm</label
+                              >đến</label
                             >
                             <div class="col-sm-2 col-lg-2">
-                                <select class="form-select"
+                                <input class="form-control"
                                         name=""
-                                        id=""></select>
+                                        id="DenNgayDCL"/>
                             </div>
                             <label class="col-sm-2 col-lg-2 col-form-label"
                               >Mức lương cơ sở</label
@@ -31,13 +37,20 @@
                               <select
                                 class="form-select"
                                 name=""
-                                id=""
-                              ></select>
+                                id="MAML"
+                              >
+                              <option disabled selected> -- Mã mức lương --</option>
+                                    @foreach (var item in getListLuong())
+                                    {
+                                        <option value="@item.Id">@item.MaMl</option>
+                                    }
+                          </select>
+                             
                             </div>
                             <div
                               class="col-sm-2 col-lg-2 d-flex justify-content-end"
                             >
-                              <button class="btn btn-primary">Điều chỉnh</button>
+                              <button class="btn btn-primary" onclick="addQTDCL()">Điều chỉnh</button>
                             </div>
                           </div>
                         </form>
@@ -47,3 +60,21 @@
         </div>
     </div>
 </div>
+<script>
+    function addQTDCL() {
+        var TuNgay = $('#TuNgayDCL').val();
+        var DenNgay = $('#DenNgayDCL').val();
+        var MAML = $('#MAML').val();
+        $.ajax({
+            type: "post",
+            url: "/addQTDCL",
+            data: "&TuNgay=" + TuNgay + "&DenNgay=" + DenNgay + "&MAML=" + MAML,
+            success: function (result) {
+                alert("ok");
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+    }
+</script>

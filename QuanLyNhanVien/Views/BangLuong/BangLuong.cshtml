@@ -30,12 +30,9 @@
                         <div class="row mb-2">
                             <label class="col-sm-1 col-lg-1 col-form-label">Tháng</label>
                             <div class="col-sm-2 col-lg-2">
-                                <select class="form-select" name="" id=""></select>
+                                <input class="form-control" name="" id="NgayBangLuong" onblur="loadQTLuong()"/>
                             </div>
-                            <label class="col-sm-1 col-lg-1 col-form-label">năm</label>
-                            <div class="col-sm-2 col-lg-2">
-                                <select class="form-select" name="" id=""></select>
-                            </div>
+                            
 
                             <div class="col-sm-6 col-lg-6 d-flex justify-content-end">
                                 <button class="btn btn-primary">Chốt lương</button>
@@ -74,7 +71,7 @@
                             <th class="text-center">Thực nhận</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbodyBangLuong">
                         <tr>
                             <td class="text-center"></td>
                             <td class="text-center"></td>
@@ -95,20 +92,20 @@
     </div>
 </div>
 
-@*<script>
-    function loadNhomNhanSu() {
-        var idnns = $('#nhomNS').val();
+<script>
+    function loadQTLuong() {
+        var Ngay = $('#NgayBangLuong').val();
         $.ajax({
             type: "post",
-            url: "/loadNhomNhanVien4",
-            data: "&IDPB=" + idnns,
+            url: "/loadBangLuong",
+            data: "&Ngay=" + Ngay,
             success: function (result) {
 
-                $('#tbodyNS').replaceWith(result);
+                $('#tbodyBangLuong').replaceWith(result);
             },
             error: function () {
                 alert("Fail");
             }
         });
     }
-</script>*@
+</script>

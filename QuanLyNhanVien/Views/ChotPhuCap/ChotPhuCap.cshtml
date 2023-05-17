@@ -30,15 +30,12 @@
                         <div class="row mb-2">
                             <label class="col-sm-1 col-lg-1 col-form-label">Tháng</label>
                             <div class="col-sm-2 col-lg-2">
-                                <select class="form-select" name="" id=""></select>
+                                <input class="form-control" name="" id="NgayPhuCap" onblur="loadQTPC()"/>
                             </div>
-                            <label class="col-sm-1 col-lg-1 col-form-label">năm</label>
-                            <div class="col-sm-2 col-lg-2">
-                                <select class="form-select" name="" id=""></select>
-                            </div>
+                           
 
                             <div class="col-sm-6 col-lg-6 d-flex justify-content-end">
-                                <button class="btn btn-primary">Chốt phụ cấp</button>
+                                <button class="btn btn-primary" onclick="addQTPC()">Chốt phụ cấp</button>
                             </div>
                         </div>
                     </form>
@@ -70,7 +67,7 @@
                             <th class="text-center">Tiền lương</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbodyQTPC">
                         <tr>
                             <td class="text-center"></td>
                             <td class="text-left"></td>
@@ -87,20 +84,34 @@
     </div>
 </div>
 
-@*<script>
-    function loadNhomNhanSu() {
-        var idnns = $('#nhomNS').val();
+<script>
+    function loadQTPC() {
+        var Ngay = $('#NgayPhuCap').val();
         $.ajax({
             type: "post",
-            url: "/loadNhomNhanVien2",
-            data: "&IDPB=" + idnns,
+            url: "/loadQTPC",
+            data: "&Ngay=" + Ngay,
             success: function (result) {
 
-                $('#tbodyNS').replaceWith(result);
+                $('#tbodyQTPC').replaceWith(result);
             },
             error: function () {
                 alert("Fail");
             }
         });
     }
-</script>*@
+    function addQTPC() {
+        var Ngay = $('#NgayPhuCap').val();
+        $.ajax({
+            type: "post",
+            url: "/addQTPC",
+            data: "&Ngay=" + Ngay,
+            success: function (result) {
+                alert("ok");
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+    }
+</script>

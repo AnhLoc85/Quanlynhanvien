@@ -30,15 +30,12 @@
                         <div class="row mb-2">
                             <label class="col-sm-1 col-lg-1 col-form-label">Tháng</label>
                             <div class="col-sm-2 col-lg-2">
-                                <select class="form-select" name="" id=""></select>
+                                <input type="text" id="NgayChotLuong" class="form-control" onblur="loadQTLuong()"/>
                             </div>
-                            <label class="col-sm-1 col-lg-1 col-form-label">năm</label>
-                            <div class="col-sm-2 col-lg-2">
-                                <select class="form-select" name="" id=""></select>
-                            </div>
+                            
 
                             <div class="col-sm-6 col-lg-6 d-flex justify-content-end">
-                                <button class="btn btn-primary">Chốt lương</button>
+                                <button class="btn btn-primary" onclick="addQTLuong()">Chốt lương</button>
                             </div>
                         </div>
                     </form>
@@ -70,7 +67,7 @@
                             <th class="text-center">Tiền lương</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbodyQTLuong">
                         <tr>
                             <td class="text-center"></td>
                             <td class="text-left"></td>
@@ -87,20 +84,35 @@
     </div>
 </div>
 
-@*<script>
-    function loadNhomNhanSu() {
-        var idnns = $('#nhomNS').val();
+<script>
+    function loadQTLuong() {
+        var Ngay = $('#NgayChotLuong').val();
         $.ajax({
             type: "post",
-            url: "/loadNhomNhanVien3",
-            data: "&IDPB=" + idnns,
+            url: "/loadQTLuong",
+            data: "&Ngay=" + Ngay,
             success: function (result) {
 
-                $('#tbodyNS').replaceWith(result);
+                $('#tbodyQTLuong').replaceWith(result);
             },
             error: function () {
                 alert("Fail");
             }
         });
     }
-</script>*@
+    function addQTLuong() {
+        var Ngay = $('#NgayChotLuong').val();
+        $.ajax({
+            type: "post",
+            url: "/addQTLuong",
+            data: "&Ngay=" + Ngay,
+            success: function (result) {
+                   alert("ok");
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+    }
+    
+</script>

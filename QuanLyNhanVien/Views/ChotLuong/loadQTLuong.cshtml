@@ -1,0 +1,27 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    LuongCoBan getQTL(int? id, DateTime? ngay)
+    {
+        LuongCoBan nv = context.LuongCoBan.FirstOrDefault(x => x.MaNs == id && x.ThoiGian == ngay);
+        if (nv != null) return nv;
+        else return new LuongCoBan();
+    }
+}
+<tbody id="tbodyQTLuong">
+    @foreach (QuaTrinhLuong item in ViewBag.QTL)
+   {
+       
+   
+    <tr>
+        <td class="text-center">@item.TgbatDau</td>
+        <td class="text-left">@item.TgketThuc</td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center">@item.MaHslNavigation.HeSoLuong</td>
+        <td class="text-right">@item.MaMlNavigation.TienLuong</td>
+            <td class="text-right">
+                @(item.MaHslNavigation.HeSoLuong * (double)item.MaMlNavigation.TienLuong)
+            </td>
+    </tr>
+   }
+</tbody>
