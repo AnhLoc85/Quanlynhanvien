@@ -11,6 +11,7 @@ namespace QuanLyNhanVien.Controllers
 {
     public class ChotPhuCapController : Controller
     {
+        QuanLyNhanVienContext context = new QuanLyNhanVienContext();
         public IActionResult ChotPhuCap()
         {
             return View();
@@ -20,12 +21,15 @@ namespace QuanLyNhanVien.Controllers
         public IActionResult loadQTPC(string Ngay)
         {
             DateTime date = DateTime.ParseExact("01-" + Ngay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+          
+            var QTL = context.QuaTrinhPhuCap.Include(x => x.MaNsNavigation)
+                                            .Include(x => x.MaHspcNavigation)
+                                            .Include(x => x.MaPcNavigation)
+                                            .Where(x => x.TgbatDau <= date && date <= x.TgketThuc)
+                                            .OrderBy(x => x.MaNs).ToList();
+                ViewBag.QTPC = QTL;
+                ViewBag.Ngay = date;
 
-            QuanLyNhanVienContext context = new QuanLyNhanVienContext();
-
-            var QTL = context.QuaTrinhPhuCap.Include(x => x.MaHspcNavigation).Include(x => x.MaPcNavigation).Where(x => x.TgbatDau <= date && date <= x.TgketThuc).OrderBy(x => x.MaNs).ToList();
-            ViewBag.QTPC = QTL;
-            ViewBag.Ngay = date;
             return PartialView();
 
         }
@@ -34,8 +38,6 @@ namespace QuanLyNhanVien.Controllers
         public IActionResult addQTPC(string Ngay)
         {
             DateTime date = DateTime.ParseExact("01-" + Ngay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-
-            QuanLyNhanVienContext context = new QuanLyNhanVienContext();
             var kt = context.PhuCapNhanSu.Where(x => x.ThoiGian == date).ToList();
 
             // Nếu đã có, xóa tất cả các record đó

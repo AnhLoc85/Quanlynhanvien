@@ -38,6 +38,7 @@
                         </select>
                     </div>
                 </div>
+                <div id="tbodyNS">
                     <table id="example"
                            class="display table table-bordered table-responsive"
                            style="width: 100%">
@@ -52,37 +53,37 @@
                                 <th class="text-center">Xem</th>
                             </tr>
                         </thead>
-                        <tbody id="tbodyNS">
+                        <tbody>
                             @foreach (NhanSu ns in getListNhanSu())
                             {
-                            <tr class="text-nowrap">
-                                <td class="text-center">@ns.MaNs</td>
-                                <td class="text-center">@ns.TenNs</td>
-                                <td class="text-center">@formatDay(@ns.NgaySinh)</td>
-                                <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
-                                <td class="text-center">@ns.Sdt</td>
-                                <td class="text-center">@ns.Email</td>
-                                <td class="text-center">
-                                   <a class="btn btn-primary" href="/CapNhatThuong/QuaTrinhThuong/@ns.Id">Chọn</a>
-                                </td>
-                            </tr>
+                                <tr class="text-nowrap">
+                                    <td class="text-center">@ns.MaNs</td>
+                                    <td class="text-center">@ns.TenNs</td>
+                                    <td class="text-center">@formatDay(@ns.NgaySinh)</td>
+                                    <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                                    <td class="text-center">@ns.Sdt</td>
+                                    <td class="text-center">@ns.Email</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-primary" href="/CapNhatThuong/QuaTrinhThuong/@ns.Id">Chọn</a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
     </div>
 </div>
 
-@*<script>
+<script>
     function loadNhomNhanSu() {
         var idnns = $('#nhomNS').val();
         $.ajax({
             type: "post",
-            url: "/loadNhomNhanVien1",
+            url: "/loadTNhanVien",
             data: "&IDPB=" + idnns,
             success: function (result) {
-
                 $('#tbodyNS').replaceWith(result);
             },
             error: function () {
@@ -90,4 +91,4 @@
             }
         });
     }
-</script>*@
+</script>

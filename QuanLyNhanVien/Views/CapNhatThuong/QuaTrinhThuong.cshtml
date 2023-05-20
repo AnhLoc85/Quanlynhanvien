@@ -59,7 +59,7 @@
                      id="navs-justified-home"
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
-                        <form>
+                        <div>
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Mã NS</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -67,6 +67,7 @@
                                            class="form-control"
                                            value="@ViewBag.NS.MaNs"
                                            readonly />
+                                    <input type="text" class="form-control" readonly id="IDNS" value="@ViewBag.NS.Id" hidden name="IdNS" />
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">Tên NS</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -79,13 +80,13 @@
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Thời gian</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input type="date" class="form-control" />
+                                    <input id="thoigian" type="date" class="form-control" required/>
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">Khoản thưởng phụ cấp</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="">
+                                            id="IDT" required>
                                         <option selected value="">Khoản thưởng, phụ cấp</option>
                                         @foreach (ThuongPckhac tpc in getListThuongPckhacs())
                                         {
@@ -96,16 +97,15 @@
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Số tiền</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input type="text" class="form-control" />
+                                    <input id="TT" type="number" class="form-control" required/>
                                 </div>
                                 <div class="col-sm-2 col-lg-2 d-flex justify-content-end">
-                                    <button class="btn btn-primary">Lưu</button>
+                                    <button id="addQTT" class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                    <table id="example"
-                           class="table table-responsive table-bordered"
+                    <table class="table table-responsive table-bordered tableT tableT1"
                            style="width: 100%">
                         <thead>
                             <tr>
@@ -116,25 +116,37 @@
                                 <th class="text-center" width="30%">Tùy chọn</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach(QuaTrinhThuongPc item in ViewBag.TPCK) {
-                            <tr>
-                                <td class="text-right">@formatDay(item.Tgthuong)</td>
-                                <td class="text-right">@item.MaThuongNavigation?.NoiDung</td>
-                                <td class="text-center">@format(item.TienThuong)</td>
-                                <td class="text-center d-flex justify-content-evenly">
-                                    <a href="">
-                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                    </a>
-
-                                    <a href=""
-                                       onclick="return confirm('Bạn có mức thưởng, phụ cấp này?')">
-                                        Xóa
-                                        <i class="bx bx-trash"></i>
-                                    </a>
+                        <tbody id="tbodytableT">
+                            @foreach (QuaTrinhThuongPc item in ViewBag.TPCK)
+                            {
+                                <tr>
+                                    <td class="text-right TGT">
+                                        @formatDay(item.Tgthuong)
+                                    <input type="hidden" value="@item.Tgthuong" />
                                 </td>
-                            </tr>
-                            }
+                                <td class="text-right KT">
+                                    @item.MaThuongNavigation?.NoiDung
+                                <input type="hidden" value="@item.MaThuongNavigation?.NoiDung" />
+                                <input type="hidden" id="MAT" value="@item.MaThuongNavigation.Id" />
+                                <input type="hidden" id="IDQTT" value="@item.Id" />
+                            </td>
+                            <td class="text-center TienT">
+                                @format(item.TienThuong)
+                            <input type="hidden" value="@item.TienThuong" />
+                        </td>
+                        <td class="text-center d-flex justify-content-evenly">
+                            <a class="btneditT">
+                                Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                            </a>
+
+                            <a class="btnxoaT"
+                               onclick="return confirm('Bạn có mức thưởng, phụ cấp này?')">
+                                Xóa
+                                <i class="bx bx-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
                         </tbody>
                     </table>
                 </div>
@@ -142,7 +154,7 @@
                      id="navs-justified-profile"
                      role="tabpanel">
                     <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
-                        <form>
+                        <div>
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Mã NS</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -162,33 +174,31 @@
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Thời gian</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input type="date" class="form-control" />
+                                    <input id="thoigian1" type="date" class="form-control" required/>
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">Khoản phạt, trừ lương</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="">
+                                            id="IDP" required>
                                         <option selected value="">Khoản phạt, trừ lương</option>
                                         @foreach (Phat p in getListPhat())
                                         {
                                             <option value="@p.Id">@p.NoiDung</option>
                                         }
                                     </select>
-                                    </select>
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Số tiền</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input type="text" class="form-control" />
+                                    <input id="TP" type="number" class="form-control" required/>
                                 </div>
                                 <div class="col-sm-2 col-lg-2 d-flex justify-content-end">
-                                    <button class="btn btn-primary">Thêm</button>
+                                    <button id="addQTP" class="btn btn-primary">Thêm</button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                    <table id="example"
-                           class="table table-responsive table-bordered"
+                    <table class="table table-responsive table-bordered tableP tableP1"
                            style="width: 100%">
                         <thead>
                             <tr>
@@ -198,24 +208,33 @@
                                 <th class="text-center" width="30%">Tùy chọn</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach (QuaTrinhPhat item in ViewBag.P) {
-                            <tr>
-                                <td class="text-right">@formatDay(item.Tgphat)</td>
-                                <td class="text-right">@item.MaPhatNavigation?.NoiDung</td>
-                                <td class="text-center">@format(item.TienPhat)</td>
-                                <td class="text-center d-flex justify-content-evenly">
-                                    <a href="">
-                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                    </a>
+                        <tbody id="tbodytableP">
+                            @foreach (QuaTrinhPhat item in ViewBag.P)
+                            {
+                                <tr>
+                                    <td class="text-right TGP">@formatDay(item.Tgphat)
+                                     <input type="hidden" value="@item.Tgphat" />
+                                    </td>
+                                    <td class="text-right KP">@item.MaPhatNavigation?.NoiDung
+                                        <input type="hidden" value="@item.MaPhatNavigation?.NoiDung" />
+                                        <input type="hidden" id="MAP" value="@item.MaPhatNavigation.Id" />
+                                        <input type="hidden" id="IDQTP" value="@item.Id" />
+                                    </td>
+                                    <td class="text-center TienP">@format(item.TienPhat)
+                                       <input type="hidden" value="@item.TienPhat" />
+                                    </td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a class="btneditP">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
 
-                                    <a href=""
-                                       onclick="return confirm('Bạn có khoản phạt này?')">
-                                        Xóa
-                                        <i class="bx bx-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                        <a class="btnxoaP"
+                                           onclick="return confirm('Bạn có khoản phạt này?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -224,3 +243,181 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).on('click', '.btnhuyQTT', function () {
+        $("#tbodytableT").load(location.href + " #tbodytableT>*", function () {
+        });
+    });
+    $(document).on('click', '#addQTT', function () {
+        var idns = $("#IDNS").val();
+        var idthuong = $("#IDT").val();
+        var thoigian = $("#thoigian").val();
+        var tienthuong = $("#TT").val();
+        $.ajax({
+            type: "post",
+            url: "/insertQTThuong",
+            data: "IdNS=" + idns + "&MaThuong=" + idthuong + "&ThoiGian=" + thoigian + "&TienThuong=" + tienthuong,
+            success: function (result) {
+                $("#tbodytableT").load(location.href + " #tbodytableT>*", function () {
+                });
+                idthuong = $("#IDT").val('');
+                thoigian = $("#thoigian").val('');
+                tienthuong = $("").val('');
+            },
+            error: function () {
+                alert("Không thể thêm");
+            }
+        });
+    });
+    $(document).on('click', '.btnhuyQTP', function () {
+        $("#tbodytableP").load(location.href + " #tbodytableP>*", function () {
+        });
+    });
+    $(document).on('click', '#addQTP', function () {
+        var idns = $("#IDNS").val();
+        var idphat = $("#IDP").val();
+        var thoigian = $("#thoigian1").val();
+        var tienphat = $("#TP").val();
+        $.ajax({
+            type: "post",
+            url: "/insertQTP",
+            data: "IdNS=" + idns + "&MaPhat=" + idphat + "&ThoiGian=" + thoigian + "&TienPhat=" + tienphat,
+            success: function (result) {
+                $("#tbodytableP").load(location.href + " #tbodytableP>*", function () {
+                });
+                idphat = $("#IDP").val('');
+                thoigian = $("#thoigian").val('');
+                tienphat = $("#TP").val('');
+            },
+            error: function () {
+                alert("Không thể thêm");
+            }
+        });
+    });
+
+    $(function () {
+        $(".tableT").on("click", ".btneditT", function () {
+
+            var thoigian = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+            var khoanthuong = $(this).parents('tr').find("td:eq(1) input[type='hidden']").val();
+            var tienthuong = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            var mathuong = $(this).closest('tr').find('#MAT').val();
+            var idqtt = $(this).closest('tr').find('#IDQTT').val();
+            var thiss = $(this);
+            $.ajax({
+                type: "post",
+                url: "/addNewRowQTT",
+                data: "thoigian=" + thoigian + "&mathuong=" + mathuong + "&tienthuong=" + tienthuong + "&khoanthuong=" + khoanthuong + "&IDQTT=" + idqtt,
+                success: function (result) {
+                    thiss.parents('tr').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+        $(".tableT").on("click", ".btnxoaT", function () {
+            var idqtt = $(this).closest('tr').find('#IDQTT').val();
+            $.ajax({
+                type: "post",
+                url: "/XoaQTThuong",
+                data: "&IDQTT=" + idqtt,
+                success: function (result) {
+                    $("#tbodytableT").load(location.href + " #tbodytableT>*", function () {
+                    });
+
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+        $(".tableT").on("click", ".saveQTT", function () {
+            var thoigian = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+            var mathuong = $(this).parents('tr').find("td:eq(1) select").val();
+            var tienthuong = $(this).parents('tr').find("td:eq(2) input[type='number']").val();
+            var idqtt = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            $.ajax({
+                type: "post",
+                url: "/UpdateQTT",
+                data: "thoigian=" + thoigian + "&mathuong=" + mathuong + "&tienthuong=" + tienthuong + "&IDQTT=" + idqtt,
+                success: function (result) {
+                    $("#tbodytableT").load(location.href + " #tbodytableT>*", function () {
+                    });
+                },
+                error: function () {
+                    alert(idqtt);
+                }
+            });
+        });
+
+
+        $(".tableP").on("click", ".btneditP", function () {
+
+            var thoigian = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+            var khoanphat = $(this).parents('tr').find("td:eq(1) input[type='hidden']").val();
+            var tienphat = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            var maphat = $(this).closest('tr').find('#MAP').val();
+            var idqtp = $(this).closest('tr').find('#IDQTP').val();
+            var thiss = $(this);
+            $.ajax({
+                type: "post",
+                url: "/addNewRowQTP",
+                data: "thoigian=" + thoigian + "&maphat=" + maphat + "&tienphat=" + tienphat + "&khoanphat=" + khoanphat + "&IDQTP=" + idqtp,
+                success: function (result) {
+                    thiss.parents('tr').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+        $(".tableP").on("click", ".btnxoaP", function () {
+            var idqtp = $(this).closest('tr').find('#IDQTP').val();
+            $.ajax({
+                type: "post",
+                url: "/XoaQTP",
+                data: "&IDQTP=" + idqtp,
+                success: function (result) {
+                    $("#tbodytableP").load(location.href + " #tbodytableP>*", function () {
+                    });
+                },
+                error: function () {
+                    alert("Fail to delete");
+                }
+            });
+        });
+        $(".tableP").on("click", ".saveQTP", function () {
+            var thoigian = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+            var maphat = $(this).parents('tr').find("td:eq(1) select").val();
+            var tienphat = $(this).parents('tr').find("td:eq(2) input[type='number']").val();
+            var idqtp = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
+            $.ajax({
+                type: "post",
+                url: "/UpdateQTP",
+                data: "thoigian=" + thoigian + "&maphat=" + maphat + "&tienphat=" + tienphat + "&IDQTP=" + idqtp,
+                success: function (result) {
+                    $("#tbodytableP").load(location.href + " #tbodytableP>*", function () {
+                    });
+                },
+                error: function () {
+                    alert(idqtt);
+                }
+            });
+        });
+
+    });
+    $("input[type='number']").focus(function () {
+        // Lấy giá trị hiện tại của input
+        var value = $(this).val();
+        // Chuyển giá trị thành số và định dạng có dấu phân cách hàng nghìn
+        var formattedValue = parseFloat(value).toLocaleString('en-US');
+        // Gán giá trị đã được định dạng vào input
+        $(this).val(formattedValue);
+    });
+</script>
+
+
+  
+
+        

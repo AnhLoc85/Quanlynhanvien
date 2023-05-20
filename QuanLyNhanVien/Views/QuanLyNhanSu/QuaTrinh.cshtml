@@ -112,11 +112,11 @@
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input id="tungay" type="text" placeholder="MM-yyyy" class="form-control" name="TuNgayCV"/>
+                                    <input id="tungay" type="text" placeholder="MM-yyyy" class="form-control" name="TuNgayCV" required/>
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input id="denngay" type="text" placeholder="MM-yyyy" class="form-control" name="DenNgayCV"/>
+                                    <input id="denngay" type="text" placeholder="MM-yyyy" class="form-control" name="DenNgayCV" required/>
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Chức vụ</label>
                                 <div class="col-sm-2 col-lg-2">
@@ -204,17 +204,17 @@
                             <div class="row mb-2">
                                 <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input id="tungay1" type="text" placeholder="MM-yyyy" class="form-control" />
+                                    <input id="tungay1" type="text" placeholder="MM-yyyy" class="form-control" required/>
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input id="denngay1" type="text" placeholder="MM-yyyy" class="form-control" />
+                                    <input id="denngay1" type="text" placeholder="MM-yyyy" class="form-control" required/>
                                 </div>
                                 <label class="col-sm-1 col-lg-1 col-form-label">Phòng ban</label>
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="IDPB">
+                                            id="IDPB" required>
                                         <option selected value="">Phòng ban</option>
                                         @foreach (PhongBan pb in getListPhongBan())
                                         {
@@ -297,11 +297,11 @@
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-lg-2 col-form-label">Từ ngày</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input id="tungay2" type="text" placeholder="MM-yyyy" class="form-control" />
+                                    <input id="tungay2" type="text" placeholder="MM-yyyy" class="form-control" required/>
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">Đến ngày</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input id="denngay2" type="text" placeholder="MM-yyyy" class="form-control" />
+                                    <input id="denngay2" type="text" placeholder="MM-yyyy" class="form-control" required/>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -309,7 +309,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="IDHSL">
+                                            id="IDHSL" required>
                                         <option selected value="">Hệ số lương</option>
                                         @foreach (Dmhsluong hsl in getListDmhsluong())
                                         {
@@ -321,7 +321,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="IDMML">
+                                            id="IDMML" required>
                                         <option selected value="">Mức lương cơ bản</option>
                                         @foreach (Dmluong dml in getListDmluong())
                                         {
@@ -400,11 +400,11 @@
                             <div class="row mb-2">
                                 <label class="col-sm-2 col-lg-2 col-form-label">Từ ngày</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input id="tungay3" type="text" placeholder="MM-yyyy" class="form-control" />
+                                    <input id="tungay3" type="text" placeholder="MM-yyyy" class="form-control" required/>
                                 </div>
                                 <label class="col-sm-2 col-lg-2 col-form-label">Đến ngày</label>
                                 <div class="col-sm-2 col-lg-2">
-                                    <input id="denngay3" type="text" placeholder="MM-yyyy" class="form-control" />
+                                    <input id="denngay3" type="text" placeholder="MM-yyyy" class="form-control" required/>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -412,7 +412,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="IDHSPC">
+                                            id="IDHSPC" required>
                                         <option selected value="">Hệ số phụ cấp</option>
                                         @foreach (DmheSoPhuCap hspc in getListDmheSoPhuCap())
                                         {
@@ -424,7 +424,7 @@
                                 <div class="col-sm-2 col-lg-2">
                                     <select class="form-select"
                                             name=""
-                                            id="IDMPC">
+                                            id="IDMPC" required>
                                         <option selected value="">Khoản phụ cấp</option>
                                         @foreach (DmmucPhuCap mpc in getListDmmucPhuCap())
                                         {

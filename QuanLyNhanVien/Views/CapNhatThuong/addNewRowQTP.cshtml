@@ -1,0 +1,55 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+
+    List<Phat>
+
+    getListPhat()
+    {
+        return context.Phat.ToList();
+    }
+    string format(Decimal? a)
+    {
+        return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+}
+<tr>
+    <td class="text-center TGP">
+        <input data-date-format="DD/MM/yyyy" name="thoigianT" class="form-control" type="text" id="thoigianT" value="@ViewBag.thoigian?.ToString("dd/MM/yyyy")" />
+    </td>
+    <td class="text-center KP">
+        <select class="form-select"
+                name=""
+                id="">
+            <option selected value="@ViewBag.maphat">@ViewBag.khoanphat</option>
+            @foreach (Phat p in getListPhat())
+            {
+                <option value="@p.Id">@p.NoiDung</option>
+            }
+        </select>
+    </td>
+    <td class="text-center TienP">
+        <input class="form-control" type="number" id="TienT" value="@ViewBag.tienphat" />
+        <input type="hidden" id="IDQTT" value="@ViewBag.IDQTP" />
+    </td>
+    <td class="text-center d-flex justify-content-evenly">
+        <button class="btn btn-primary saveQTP">Lưu</button>
+        <button class="btn btn-danger btnhuyQTP">Hủy</button>
+    </td>
+</tr>
+
+<script>
+    $('#thoigianT').datetimepicker({
+        locale: 'vi',
+        useStrict: true,
+        format: "DD/MM/yyyy",
+        icons: {
+            date: "bi bi-calendar2-date",
+            up: "bi bi-chevron-up",
+            down: "bi bi-chevron-down",
+            previous: 'bi bi-chevron-left',
+            next: 'bi bi-chevron-right',
+            time: "bi bi-clock"
+        }
+    });
+</script>

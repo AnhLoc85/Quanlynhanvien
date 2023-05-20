@@ -1,128 +1,158 @@
-﻿<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4">Cài đặt tài khoản</h4>
+﻿@model QuanLyNhanVien.Models.NhanSu
+@{
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
 
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
-                <h5 class="card-header">Thông tin hồ sơ</h5>
+                <h5 class="card-header">Sửa thông tin nhân sự</h5>
                 <!-- Account -->
-                <div class="card-body">
-                    <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <img src="../assets/img/avatars/1.png"
-                             alt="user-avatar"
-                             class="d-block rounded"
-                             height="100"
-                             width="100"
-                             id="uploadedAvatar" />
-                        <div class="button-wrapper">
-                            <label for="upload"
-                                   class="btn btn-primary me-2 mb-4"
-                                   tabindex="0">
-                                <span class="d-none d-sm-block">Tải ảnh mới</span>
-                                <i class="bx bx-upload d-block d-sm-none"></i>
-                                <input type="file"
-                                       id="upload"
-                                       class="account-file-input"
-                                       hidden
-                                       accept="image/png, image/jpeg" />
-                            </label>
-
-                            <p class="text-muted mb-0">Cho phép JPG or PNG.</p>
-                        </div>
-                    </div>
-                </div>
-                <hr class="my-0" />
                 <div class="card-body">
                     <form id="formAccountSettings"
                           method="POST"
-                          onsubmit="return false">
+                          action="/HoSo/updateHoSo"
+                          enctype="multipart/form-data">
+                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                            <img src="@Model.HinhAnh"
+                                 alt="user-avatar"
+                                 class="d-block rounded"
+                                 height="100"
+                                 width="100"
+                                 id="uploadedAvatar" />
+                            <div class="button-wrapper">
+                                <label for="upload"
+                                       class="btn btn-primary me-2 mb-4"
+                                       tabindex="0">
+                                    <span class="d-none d-sm-block">Tải ảnh mới</span>
+                                    <i class="bx bx-upload d-block d-sm-none"></i>
+                                    <input type="file"
+                                           id="upload"
+                                           name="newImage"
+                                           class="account-file-input"
+                                           hidden
+                                           accept="image/png, image/jpeg" />
+                                </label>
+
+                                <p class="text-muted mb-0">Cho phép JPG or PNG.</p>
+                            </div>
+                        </div>
+
+
+
                         <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="lastName" class="form-label">Mã NS</label>
+                                <input class="form-control"
+                                       type="text"
+                                       asp-for="@Model.MaNs"
+                                       readonly />
+                            </div>
                             <div class="mb-3 col-md-6">
                                 <label for="firstName" class="form-label">Họ và tên</label>
                                 <input class="form-control"
                                        type="text"
-                                       id="Name"
-                                       name="Name"
-                                       value=""
-                                       autofocus />
+                                       asp-for="@Model.TenNs"
+                                       autofocus required />
+                                <input class="form-control"
+                                       type="text"
+                                       asp-for="@Model.Id"
+                                       hidden />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="lastName" class="form-label">Ngày sinh</label>
                                 <input class="form-control"
                                        type="date"
-                                       name="dateofbirth"
-                                       id="dateofbirth"
-                                       value="" />
+                                       asp-for="@Model.NgaySinh"
+                                       required />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">E-mail</label>
                                 <input class="form-control"
                                        type="text"
-                                       id="email"
-                                       name="email"
-                                       value=""
-                                       placeholder="ten@gmail.com" />
+                                       asp-for="@Model.Email"
+                                       required />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label" for="phoneNumber">Số điện thoại</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="text"
-                                           id="phoneNumber"
-                                           name="phoneNumber"
-                                           class="form-control"
-                                           placeholder="202 555 0111" />
+                                    <input class="form-control"
+                                           type="text"
+                                           asp-for="@Model.Sdt"
+                                           required />
                                 </div>
                             </div>
 
 
                             <div class="mb-3 col-md-6">
                                 <label for="currency" class="form-label">Tỉnh/TP</label>
-                                <select class="select2 form-select" id="city">
-                                    <option value="" selected>Tỉnh thành</option>
+                                <select class="select2 form-select" id="city" name="city" onchange="getSelectedOptionText()">
+                                    <option value="" selected>@ViewBag.TinhThanh</option>
+
                                 </select>
+                                <input type="hidden" id="selectedCityText" name="selectedCityText" value="@ViewBag.TinhThanh" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="currency" class="form-label">Quận/huyện</label>
-                                <select class="select2 form-select" id="district">
-                                    <option value="" selected>Quận huyện</option>
+                                <select class="select2 form-select" id="district" name="district" onchange="getSelectedOptionText()">
+                                    <option value="" selected>@ViewBag.QuanHuyen</option>
+
                                 </select>
+                                <input type="hidden" id="selectedDistrictText" name="selectedDistrictText" value="@ViewBag.QuanHuyen" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="currency" class="form-label">Phường/xã</label>
-                                <select class="select2 form-select" id="ward">
-                                    <option value="" selected>Phường xã</option>
+                                <select class="select2 form-select" id="ward" name="ward" onchange="getSelectedOptionText()">
+                                    <option value="" selected>@ViewBag.PhuongXa</option>
+
                                 </select>
+                                <input type="hidden" id="selectedWardText" name="selectedWardText" value="@ViewBag.PhuongXa" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="address" class="form-label">Địa chỉ</label>
                                 <input type="text"
                                        class="form-control"
                                        id="address"
-                                       name="address" />
+                                       name="address"
+                                       value="@ViewBag.DiaChi" />
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label for="quequan" class="form-label">Quê quán</label>
-                                <select id="quequan" class="select2 form-select">
-                                    <option value="">Quê quán</option>
+                                <label for="currency" class="form-label">Quê quán</label>
+                                <select id="quequan" class="select2 form-select" name="quequan" onchange="getSelectedOptionText()">
+                                    <option value="" selected>@Model.QueQuan</option>
 
                                 </select>
+                                <input type="hidden" id="selectedQueText" name="selectedQueText" value="@Model.QueQuan" />
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="gioitinh" class="form-label">Giới tính</label>
-                                <select id="gioitinh" class="select2 form-select">
-                                    <option value="1">Nam</option>
-                                    <option value="0">Nữ</option>
+                                <select id="gioitinh" class="select2 form-select" name="gioitinh">
+                                    <option value="@Model.GioiTinh" selected>@(Model.GioiTinh ?? false ? "Nam" : "Nữ")</option>
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="mt-2">
-                            <button type="submit" class="btn btn-primary me-2">
-                                Lưu thay đổi
+                        <div class="mt-2 forms-footer d-flex justify-content-between">
+                            <button class="btn btn-secondary"
+                                    onclick="window.history.go(-1);">
+                                Quay lại
                             </button>
-                            <button type="reset"
-                                    class="btn btn-outline-secondary">
-                                Hủy
-                            </button>
+                            <input type="submit"
+                                   class="btn btn-primary"
+                                   value="Lưu thay đổi" />
                         </div>
                     </form>
                 </div>
@@ -132,7 +162,39 @@
     </div>
 </div>
 
+
 <script>
+    function getSelectedOptionText() {
+        var citySelect = document.getElementById("city");
+        var districtSelect = document.getElementById("district");
+        var wardSelect = document.getElementById("ward");
+        var queSelect = document.getElementById("quequan");
+
+        var selectedCityText = citySelect.options[citySelect.selectedIndex].text;
+        var selectedDistrictText = districtSelect.options[districtSelect.selectedIndex].text;
+        var selectedWardText = wardSelect.options[wardSelect.selectedIndex].text;
+        var selectedQueText = queSelect.options[queSelect.selectedIndex].text;
+
+        if (selectedCityText === "") {
+            selectedCityText = document.getElementById("selectedCityText").value;
+        }
+        if (selectedDistrictText === "") {
+            selectedDistrictText = document.getElementById("selectedDistrictText").value;
+        }
+        if (selectedWardText === "") {
+            selectedWardText = document.getElementById("selectedWardText").value;
+        }
+        if (selectedQueText === "") {
+            selectedQueText = document.getElementById("selectedQueText").value;
+        }
+
+        document.getElementById("selectedCityText").value = selectedCityText;
+        document.getElementById("selectedDistrictText").value = selectedDistrictText;
+        document.getElementById("selectedWardText").value = selectedWardText;
+        document.getElementById("selectedQueText").value = selectedQueText;
+    }
+
+
     document.addEventListener("DOMContentLoaded", () => {
         // Lắng nghe sự kiện "change" của input type "file"
         document.getElementById("upload").addEventListener("change", function () {

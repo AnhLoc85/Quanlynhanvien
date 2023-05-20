@@ -30,55 +30,43 @@
                         <div class="row mb-2">
                             <label class="col-sm-1 col-lg-1 col-form-label">Tháng</label>
                             <div class="col-sm-2 col-lg-2">
-                                <input type="text" id="NgayChotLuong" class="form-control" onblur="loadQTLuong()"/>
+                                <input type="text" id="NgayChotLuong" class="form-control" onblur="loadQTLuong()" required/>
                             </div>
-                            
-
-                            <div class="col-sm-6 col-lg-6 d-flex justify-content-end">
+                            <div class="col-sm-9 col-lg-9 d-flex justify-content-end">
                                 <button class="btn btn-primary" onclick="addQTLuong()">Chốt lương</button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="position-absolute" style="margin-top: -10px">
-                    <div class="col-lg-2 col-sm-2">
-                        <select class="form-select w-auto"
-                                id="nhomNS"
-                                onchange="loadNhomNhanSu()">
-                            <option value="0" selected>Tất cả</option>
-
-                            @foreach (PhongBan pb in getListPhongBan()) {
-                            <option value="@pb.Id">@pb.TenPhongBan</option>
-                            }
-                        </select>
-                    </div>
+               
+                <div id="tbodyQTLuong">
+                    <table id="example"
+                           class="table table-bordered table-responsive"
+                           width="100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Mã NS</th>
+                                <th class="text-center">Tên NS</th>
+                                <th class="text-center">Ngày sinh</th>
+                                <th class="text-center">Giới tính</th>
+                                <th class="text-center">Hệ số lương</th>
+                                <th class="text-center">mức lương cơ bản</th>
+                                <th class="text-center">Tiền lương</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr>
+                                <td class="text-center"></td>
+                                <td class="text-left"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-right"></td>
+                                <td class="text-right"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <table id="example"
-                       class="table table-bordered table-responsive"
-                       width="100%">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Mã NS</th>
-                            <th class="text-center">Tên NS</th>
-                            <th class="text-center">Ngày sinh</th>
-                            <th class="text-center">Giới tính</th>
-                            <th class="text-center">Hệ số lương</th>
-                            <th class="text-center">mức lương cơ bản</th>
-                            <th class="text-center">Tiền lương</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyQTLuong">
-                        <tr>
-                            <td class="text-center"></td>
-                            <td class="text-left"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-right"></td>
-                            <td class="text-right"></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
@@ -90,9 +78,8 @@
         $.ajax({
             type: "post",
             url: "/loadQTLuong",
-            data: "&Ngay=" + Ngay,
+            data: "Ngay=" + Ngay,
             success: function (result) {
-
                 $('#tbodyQTLuong').replaceWith(result);
             },
             error: function () {
@@ -105,14 +92,14 @@
         $.ajax({
             type: "post",
             url: "/addQTLuong",
-            data: "&Ngay=" + Ngay,
+            data: "Ngay=" + Ngay,
             success: function (result) {
-                   alert("ok");
+                   alert("Chốt lương thành công ");
             },
             error: function () {
                 alert("Fail");
             }
         });
     }
-    
+  
 </script>

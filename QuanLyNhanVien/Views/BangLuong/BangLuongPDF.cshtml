@@ -1,0 +1,247 @@
+﻿@{
+    Layout = null;
+
+}
+@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    LuongCoBan getQTL(int? id, DateTime? ngay)
+    {
+        LuongCoBan nv = context.LuongCoBan.FirstOrDefault(x => x.MaNs == id && x.ThoiGian == ngay);
+        if (nv != null) return nv;
+        else return new LuongCoBan();
+    }
+    QuaTrinhThuongPc getQTT(int? id, DateTime? ngay)
+    {
+        QuaTrinhThuongPc t = context.QuaTrinhThuongPc.FirstOrDefault(x => x.MaNs == id && x.Tgthuong == ngay);
+        if (t != null) return t;
+        else return new QuaTrinhThuongPc();
+    }
+    double CalculateTotalThuongNS(int? id, DateTime? ngay)
+    {
+        double totalThuongNS = 0.0;
+
+        if (id.HasValue && ngay.HasValue)
+        {
+            totalThuongNS = (double)context.QuaTrinhThuongPc
+                .Where(x => x.MaNs == id && x.Tgthuong.HasValue && x.Tgthuong.Value.Month == ngay.Value.Month && x.Tgthuong.Value.Year == ngay.Value.Year)
+                .Sum(x => x.TienThuong);
+        }
+
+        return totalThuongNS;
+    }
+
+    double CalculateTotalLuongNS(int? id, DateTime? ngay)
+    {
+
+        double totalLuongNS = (double)context.PhuCapNhanSu
+            .Where(x => x.MaNs == id && x.ThoiGian == ngay)
+            .Sum(x => x.TienPc);
+
+        return totalLuongNS;
+    }
+
+    double CalculateTotalPhatNS(int? id, DateTime? ngay)
+    {
+        double totalPhatNS = 0.0;
+
+        if (id.HasValue && ngay.HasValue)
+        {
+            totalPhatNS = (double)context.QuaTrinhPhat
+                .Where(x => x.MaNs == id && x.Tgphat.HasValue && x.Tgphat.Value.Month == ngay.Value.Month && x.Tgphat.Value.Year == ngay.Value.Year)
+                .Sum(x => x.TienPhat);
+        }
+
+        return totalPhatNS;
+    }
+
+    string format1(decimal? a)
+    {
+        return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+    string format(double? a)
+    {
+        return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+string formatday(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("MM");
+        }
+        else
+        {
+            return null;
+        }
+    }
+string formatyear(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+<!DOCTYPE html>
+
+<html lang="en"
+      class="light-style layout-menu-fixed"
+      dir="ltr"
+      data-theme="theme-default"
+      data-assets-path="../assets/"
+      data-template="vertical-menu-template-free">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>
+        Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro
+    </title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon"
+          type="image/x-icon"
+          href="../assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet"
+          href="../assets/vendor/css/core.css"
+          class="template-customizer-core-css" />
+    <link rel="stylesheet"
+          href="../assets/vendor/css/theme-default.css"
+          class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet"
+          href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <link rel="stylesheet"
+          href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Page CSS -->
+    <link href="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.css"
+          rel="stylesheet" />
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+
+    <script src="../assets/js/config.js"></script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="card">
+            <div id="title">
+                <H1 class="text-center m-3 fw-bold">BẢNG TÍNH - THANH TOÁN TIỀN LƯƠNG</H1>
+                <h5 class="text-center">Tháng @formatday(ViewBag.Ngay) năm @formatyear(ViewBag.Ngay)</h5>
+            </div>
+            <div id="tbodyBangLuong m-4">
+
+                <table id="example"
+                       class="table table-bordered table-responsive"
+                       width="100%">
+                    <thead>
+                        <tr>
+
+                            <th class="text-center">STT</th>
+                            <th class="text-center">Mã NS</th>
+                            <th class="text-center">Tên NS</th>
+                            <th class="text-center">Lương cơ bản</th>
+                            <th class="text-center">Phụ cấp theo % lương</th>
+                            <th class="text-center">Thưởng, phụ cấp khác</th>
+                            <th class="text-center">khoản phạt, trừ lương</th>
+                            <th class="text-center">BHYT</th>
+                            <th class="text-center">Tổng lương</th>
+                            <th class="text-center">BHXH</th>
+                            <th class="text-center">Thực nhận</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tbodyBangLuong">
+                        @{
+                        int Sttw = 0;
+                        }
+                        @foreach (NhanSu item in ViewBag.NS)
+                        {
+                        double totalLuongNS = CalculateTotalLuongNS(item.Id, ViewBag.Ngay);
+                        double totalThuongNS = CalculateTotalThuongNS(item.Id, ViewBag.Ngay);
+                        double totalPhatNS = CalculateTotalPhatNS(item.Id, ViewBag.Ngay);
+
+                        <tr>
+                            @{Sttw++;
+                            }
+                            <td class="text-center">@Sttw</td>
+                            <td class="text-center">@item.MaNs</td>
+                            <td class="text-left">@item.TenNs</td>
+                            <td class="text-right">@format1(getQTL(item.Id, ViewBag.Ngay).LuongNs)</td>
+                            <td class="text-right">@format(totalLuongNS)</td>
+                            <td class="text-right">@format(totalThuongNS)</td>
+                            <td class="text-right">@format(totalPhatNS)</td>
+                            <td class="text-right"></td>
+                            @{
+                            double tongluong = ((double)getQTL(item.Id, ViewBag.Ngay).LuongNs + totalLuongNS + totalThuongNS - totalPhatNS);
+                            }
+                            <td class="text-right">
+                                @format(tongluong)
+                            </td>
+                            <td class="text-right"></td>
+                            <td class="text-right">@format(tongluong)</td>
+                        </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../assets/vendor/js/bootstrap.js"></script>
+<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
+<!-- Vendors JS -->
+<script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+<!-- Main JS -->
+<script src="../assets/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="../assets/js/dashboards-analytics.js"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script>
+    function loadQTLuong() {
+        var Ngay = $('#NgayBangLuong').val();
+        $.ajax({
+            type: "post",
+            url: "/loadBangLuong",
+            data: "&Ngay=" + Ngay,
+            success: function (result) {
+
+                $('#tbodyBangLuong').replaceWith(result);
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+    }
+</script>
+</html>
+

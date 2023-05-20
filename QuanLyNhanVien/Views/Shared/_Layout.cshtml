@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.EntityFrameworkCore;
+@using System.Security.Claims
+@{
+    int idnv = int.Parse(User.FindFirstValue(ClaimTypes.Name));
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    NhanSu ns = context.NhanSu.Find(idnv);
+    ViewBag.CV = context.QtchucVu.Include(x => x.MaCvNavigation).Where(x => x.MaNs == idnv)
+    .OrderByDescending(x => x.TgketThuc)
+    .FirstOrDefault();
+}
+
+<!DOCTYPE html>
 
 <html lang="en"
       class="light-style layout-menu-fixed"
@@ -12,7 +23,7 @@
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>
-        Quản lý nhân sự 
+        Quản lý nhân sự
     </title>
 
     <meta name="description" content="" />
@@ -142,7 +153,7 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
                     <li class="menu-item">
-                        <a href="" class="menu-link text-decoration-none">
+                        <a href="/TrangChu/Home" class="menu-link text-decoration-none">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Tổng quan</div>
                         </a>
@@ -276,7 +287,7 @@
                         <span class="menu-header-text">Cá nhân</span>
                     </li>
                     <li class="menu-item">
-                        <a href="/HoSo/HoSo" class="menu-link text-decoration-none">
+                        <a href="/HoSo/HoSo/@idnv" class="menu-link text-decoration-none">
                             <i class="menu-icon tf-icons bx bx-dock-top"></i>
                             <div data-i18n="Account Settings">Hồ sơ</div>
                         </a>
@@ -306,7 +317,7 @@
                                    href="javascript:void(0);"
                                    data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="~/assets/img/avatars/1.png"
+                                        <img src="@ns.HinhAnh"
                                              alt
                                              class="w-px-40 h-auto rounded-circle" />
                                     </div>
@@ -317,14 +328,14 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="~/assets/img/avatars/1.png"
+                                                        <img src="@ns.HinhAnh"
                                                              alt
                                                              class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <span class="fw-semibold d-block">@ns.TenNs</span>
+                                                    <small class="text-muted">@ViewBag.CV.MaCvNavigation.TenChucVu</small>
                                                 </div>
                                             </div>
                                         </a>
@@ -333,7 +344,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item text-decoration-none" href="/HoSo/HoSo">
+                                        <a class="dropdown-item text-decoration-none" href="/HoSo/HoSo/@idnv">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">Hồ Sơ</span>
                                         </a>
@@ -390,7 +401,7 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
 
-   
+
     <script src="~/assets/vendor/js/bootstrap.js"></script>
     <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 

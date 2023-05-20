@@ -75,11 +75,11 @@ namespace QuanLyNhanVien.Controllers
         }
         private async Task SignInUser(TaiKhoan accounts)
         {
-            TaiKhoan user = context.TaiKhoan.Where(x => x.MaTk == accounts.MaTk).FirstOrDefault();
+            TaiKhoan user = context.TaiKhoan.Include(x => x.MaNsNavigation).Where(x => x.MaTk == accounts.MaTk).FirstOrDefault();
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.MaNs.ToString()),
+                new Claim(ClaimTypes.Name, user.MaNsNavigation.Id.ToString()),
                 new Claim(ClaimTypes.Role, accounts.MaQuyen.ToString()),
             };
 

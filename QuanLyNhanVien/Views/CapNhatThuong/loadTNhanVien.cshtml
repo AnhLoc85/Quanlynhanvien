@@ -1,0 +1,118 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+    List<PhongBan> getListPhongBan()
+    {
+        return context.PhongBan.ToList();
+    }
+
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+    NhanSu getNS(int? id)
+    {
+        NhanSu nv = context.NhanSu.Find(id);
+        if (nv != null) return nv;
+        else return new NhanSu();
+    }
+}
+@if (ViewBag.IDPB == 0)
+{
+    <div id="tbodyNS">
+        <table id="example"
+               class="display table table-bordered table-responsive"
+               style="width: 100%">
+            <thead>
+                <tr>
+                    <th class="text-center">Mã NS</th>
+                    <th class="text-center">Tên</th>
+                    <th class="text-center">Ngày sinh</th>
+                    <th class="text-center">giới tính</th>
+                    <th class="text-center">SĐT</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Xem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (NhanSu ns in ViewBag.NNV)
+                {
+                    <tr class="text-nowrap">
+                        <td class="text-center">@ns.MaNs</td>
+                        <td class="text-center">@ns.TenNs</td>
+                        <td class="text-center">@formatDay(@ns.NgaySinh)</td>
+                        <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                        <td class="text-center">@ns.Sdt</td>
+                        <td class="text-center">@ns.Email</td>
+                        <td class="text-center">
+                            <a class="btn btn-primary"  href="/CapNhatThuong/QuaTrinhThuong/@ns.Id">Chọn</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+else
+{
+    <div id="tbodyNS">
+        <table id="example"
+               class="display table table-bordered table-responsive"
+               style="width: 100%">
+            <thead>
+                <tr>
+                    <th class="text-center">Mã NS</th>
+                    <th class="text-center">Tên</th>
+                    <th class="text-center">Ngày sinh</th>
+                    <th class="text-center">giới tính</th>
+                    <th class="text-center">SĐT</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Xem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (QtcongTac ns in ViewBag.NNV)
+                {
+                    <tr class="text-nowrap">
+
+                        <td class="text-center">@getNS(ns.MaNs).MaNs</td>
+                        <td class="text-center">@getNS(ns.MaNs).TenNs</td>
+                        <td class="text-center">@formatDay(getNS(ns.MaNs).NgaySinh)</td>
+                        <td class="text-center">@(getNS(ns.MaNs).GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                        <td class="text-center">@getNS(ns.MaNs).Sdt</td>
+                        <td class="text-center">@getNS(ns.MaNs).Email</td>
+                        <td class="text-center">
+                            <a class="btn btn-primary"  href="/CapNhatThuong/QuaTrinhThuong/@ns.MaNsNavigation.Id">Chọn</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $.fn.DataTable.ext.pager.numbers_length = 3;
+        $("#example").dataTable({
+            scrollCollapse: true,
+            bLengthChange: false,
+            bInfo: false,
+            scrollX: true,
+            fixedHeader: true,
+            language: {
+                paginate: {
+                    previous: "<<",
+                    next: ">>",
+                },
+                search: "Tìm kiếm",
+            },
+        });
+    });
+</script>

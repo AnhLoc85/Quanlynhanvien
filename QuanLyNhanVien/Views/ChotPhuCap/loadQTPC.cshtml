@@ -6,20 +6,82 @@
         if (nv != null) return nv;
         else return new LuongCoBan();
     }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+    string format(double? a)
+    {
+        return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
 }
-<tbody id="tbodyQTPC">
-    @foreach (QuaTrinhPhuCap item in ViewBag.QTPC)
-   {
-       
-   
-    <tr>
-        <td class="text-center">@item.MaNs</td>
-        <td class="text-left"></td>
-        <td class="text-center"></td>
-        <td class="text-center"></td>
-        <td class="text-center">@item.MaHspcNavigation.HeSoPhuCap</td>
-        <td class="text-right">@item.MaPcNavigation.KhoanPhuCap</td>
-        <td class="text-right">@(item.MaHspcNavigation.HeSoPhuCap * ((double)getQTL(item.MaNs, ViewBag.Ngay).LuongNs)/100)</td>
-    </tr>
-   }
-</tbody>
+
+<div id="tbodyQTPC">
+    <table id="example"
+           class="table table-bordered table-responsive"
+           width="100%">
+        <thead>
+            <tr>
+                <th class="text-center">Mã NS</th>
+                <th class="text-center">Tên NS</th>
+                <th class="text-center">Ngày sinh</th>
+                <th class="text-center">Giới tính</th>
+                <th class="text-center">Hệ số phụ cấp</th>
+                <th class="text-center">Khoản phụ cấp</th>
+                <th class="text-center">Tiền phụ cấp</th>
+            </tr>
+        </thead>
+        <tbody id="body">
+            @foreach (QuaTrinhPhuCap item in ViewBag.QTPC)
+            {
+
+
+            <tr>
+                @{
+
+
+
+                    double tienPC = (double)item.MaHspcNavigation.HeSoPhuCap * ((double)getQTL(item.MaNs, ViewBag.Ngay).LuongNs) / 100;
+                }
+                <td class="text-center">@item.MaNsNavigation.MaNs</td>
+                <td class="text-left">@item.MaNsNavigation.TenNs</td>
+                <td class="text-center">@formatDay(item.MaNsNavigation.NgaySinh)</td>
+                <td class="text-center">@(item.MaNsNavigation.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                <td class="text-center">@item.MaHspcNavigation.HeSoPhuCap</td>
+                <td class="text-right">@item.MaPcNavigation.KhoanPhuCap</td>
+                <td class="text-right">@format(tienPC)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        $.fn.DataTable.ext.pager.numbers_length = 3;
+        $('#example').DataTable().destroy();
+        $("#example").dataTable({
+            scrollCollapse: true,
+            bLengthChange: false,
+            bInfo: false,
+            scrollX: true,
+            fixedHeader: true,
+            language: {
+                paginate: {
+                    previous: "<<",
+                    next: ">>",
+                },
+                search: "Tìm kiếm",
+            },
+        });
+    });
+
+ 
+
+</script>

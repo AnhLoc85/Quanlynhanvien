@@ -1,0 +1,62 @@
+﻿@{
+    QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+
+    List<ThuongPckhac>
+    getListThuongPckhac()
+    {
+        return context.ThuongPckhac.ToList();
+    }
+    string format(Decimal? a)
+    {
+        return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+}
+<tr>
+    <td class="text-center TGT">
+        <input data-date-format="DD/MM/yyyy" name="thoigianT" class="form-control" type="text" id="thoigianT" value="@ViewBag.thoigian?.ToString("dd/MM/yyyy")" />
+    </td>
+    <td class="text-center KT">
+        <select class="form-select"
+                name=""
+                id="">
+            <option selected value="@ViewBag.mathuong">@ViewBag.khoanthuong</option>
+            @foreach (ThuongPckhac t in getListThuongPckhac())
+            {
+                <option value="@t.Id">@t.NoiDung</option>
+            }
+        </select>
+    </td>
+    <td class="text-center TienT">
+        <input class="form-control" type="number" id="TienT" value="@ViewBag.tienthuong" />
+        <input type="hidden" id="IDQTT" value="@ViewBag.IDQTT" />
+    </td>
+    <td class="text-center d-flex justify-content-evenly">
+        <button class="btn btn-primary saveQTT">Lưu</button>
+        <button class="btn btn-danger btnhuyQTT">Hủy</button>
+    </td>
+</tr>
+
+<script>
+    $('#thoigianT').datetimepicker({
+        locale: 'vi',
+        useStrict: true,
+        format: "DD/MM/yyyy",
+        icons: {
+            date: "bi bi-calendar2-date",
+            up: "bi bi-chevron-up",
+            down: "bi bi-chevron-down",
+            previous: 'bi bi-chevron-left',
+            next: 'bi bi-chevron-right',
+            time: "bi bi-clock"
+        }
+    });
+    $("input[type='number']").focus(function () {
+        // Lấy giá trị hiện tại của input
+        var value = $(this).val();
+        // Chuyển giá trị thành số và định dạng có dấu phân cách hàng nghìn
+        var formattedValue = parseFloat(value).toLocaleString('en-US');
+        // Gán giá trị đã được định dạng vào input
+        $(this).val(formattedValue);
+    });
+</script>
