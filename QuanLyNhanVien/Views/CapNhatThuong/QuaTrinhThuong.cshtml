@@ -335,7 +335,7 @@
         $(".tableT").on("click", ".saveQTT", function () {
             var thoigian = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
             var mathuong = $(this).parents('tr').find("td:eq(1) select").val();
-            var tienthuong = $(this).parents('tr').find("td:eq(2) input[type='number']").val();
+            var tienthuong = $(this).parents('tr').find("td:eq(2) input[type='text']").val();
             var idqtt = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
             $.ajax({
                 type: "post",
@@ -390,7 +390,7 @@
         $(".tableP").on("click", ".saveQTP", function () {
             var thoigian = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
             var maphat = $(this).parents('tr').find("td:eq(1) select").val();
-            var tienphat = $(this).parents('tr').find("td:eq(2) input[type='number']").val();
+            var tienphat = $(this).parents('tr').find("td:eq(2) input[type='text']").val();
             var idqtp = $(this).parents('tr').find("td:eq(2) input[type='hidden']").val();
             $.ajax({
                 type: "post",

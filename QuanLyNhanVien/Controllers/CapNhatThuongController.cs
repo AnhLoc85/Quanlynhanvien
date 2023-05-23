@@ -62,13 +62,13 @@ namespace QuanLyNhanVien.Controllers
             return PartialView();
         }
         [HttpPost("/UpdateQTT")]
-        public string UpdateQTT(string thoigian, int mathuong, decimal tienthuong, int IDQTT)
+        public string UpdateQTT(string thoigian, int mathuong, string tienthuong, int IDQTT)
         {
-           
+            
             QuaTrinhThuongPc qtt = context.QuaTrinhThuongPc.Find(IDQTT);
             qtt.Tgthuong = DateTime.ParseExact(thoigian, "dd/MM/yyyy", CultureInfo.InvariantCulture); ;
             qtt.MaThuong = mathuong;
-            qtt.TienThuong = tienthuong;
+            qtt.TienThuong = Decimal.Parse(tienthuong, NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint);
 
             context.QuaTrinhThuongPc.Update(qtt);
             context.SaveChanges();
@@ -109,13 +109,13 @@ namespace QuanLyNhanVien.Controllers
             return PartialView();
         }
         [HttpPost("/UpdateQTP")]
-        public string UpdateQTP(string thoigian, int maphat, decimal tienphat,  int IDQTP)
+        public string UpdateQTP(string thoigian, int maphat, string tienphat,  int IDQTP)
         {
 
             QuaTrinhPhat qtp = context.QuaTrinhPhat.Find(IDQTP);
             qtp.Tgphat = DateTime.ParseExact(thoigian, "dd/MM/yyyy", CultureInfo.InvariantCulture); ;
             qtp.MaPhat = maphat;
-            qtp.TienPhat = tienphat;
+            qtp.TienPhat = Decimal.Parse(tienphat, NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint);
 
             context.QuaTrinhPhat.Update(qtp);
             context.SaveChanges();
