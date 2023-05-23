@@ -736,6 +736,17 @@
         var idcv = $("#IDCV").val();
         var tungay = $("#tungay").val();
         var denngay = $("#denngay").val();
+
+        var tungayParts = tungay.split("-");
+        var denngayParts = denngay.split("-");
+        var tungayDate = new Date(tungayParts[1], tungayParts[0] - 1);
+        var denngayDate = new Date(denngayParts[1], denngayParts[0] - 1);
+
+        // Kiểm tra nếu ngày bắt đầu lớn hơn ngày kết thúc
+        if (tungayDate > denngayDate) {
+            alert("Tháng bắt đầu không được lớn hơn tháng kết thúc!");
+            return; // Dừng việc gửi yêu cầu AJAX nếu có lỗi
+        }
         $.ajax({
             type: "post",
             url: "/insertQTChucVu",
@@ -749,7 +760,7 @@
 
             },
             error: function () {
-                alert("Fail to delete");
+                alert("Thiếu dữ liệu");
             }
         });
     });
@@ -762,6 +773,17 @@
         var idpb = $("#IDPB").val();
         var tungay = $("#tungay1").val();
         var denngay = $("#denngay1").val();
+
+        var tungayParts = tungay.split("-");
+        var denngayParts = denngay.split("-");
+        var tungayDate = new Date(tungayParts[1], tungayParts[0] - 1);
+        var denngayDate = new Date(denngayParts[1], denngayParts[0] - 1);
+
+        // Kiểm tra nếu ngày bắt đầu lớn hơn ngày kết thúc
+        if (tungayDate > denngayDate) {
+            alert("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc!");
+            return; // Dừng việc gửi yêu cầu AJAX nếu có lỗi
+        }
         $.ajax({
             type: "post",
             url: "/insertQTCongTac",
@@ -774,7 +796,7 @@
                 $("#denngay1").val('');
             },
             error: function () {
-                alert("Fail to delete");
+                alert("Thiếu dữ liệu");
             }
         });
     });
@@ -788,6 +810,17 @@
         var idml = $("#IDMML").val();
         var tungay = $("#tungay2").val();
         var denngay = $("#denngay2").val();
+
+        var tungayParts = tungay.split("-");
+        var denngayParts = denngay.split("-");
+        var tungayDate = new Date(tungayParts[1], tungayParts[0] - 1);
+        var denngayDate = new Date(denngayParts[1], denngayParts[0] - 1);
+
+        // Kiểm tra nếu ngày bắt đầu lớn hơn ngày kết thúc
+        if (tungayDate > denngayDate) {
+            alert("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc!");
+            return; // Dừng việc gửi yêu cầu AJAX nếu có lỗi
+        }
         $.ajax({
             type: "post",
             url: "/insertQTLuong",
@@ -801,7 +834,7 @@
                 $("#denngay2").val('');
             },
             error: function () {
-                alert("Fail to delete");
+                alert("Thiếu dữ liệu");
             }
         });
     });
@@ -815,6 +848,17 @@
         var idmpc = $("#IDMPC").val();
         var tungay = $("#tungay3").val();
         var denngay = $("#denngay3").val();
+
+        var tungayParts = tungay.split("-");
+        var denngayParts = denngay.split("-");
+        var tungayDate = new Date(tungayParts[1], tungayParts[0] - 1);
+        var denngayDate = new Date(denngayParts[1], denngayParts[0] - 1);
+
+        // Kiểm tra nếu ngày bắt đầu lớn hơn ngày kết thúc
+        if (tungayDate > denngayDate) {
+            alert("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc!");
+            return; // Dừng việc gửi yêu cầu AJAX nếu có lỗi
+        }
         $.ajax({
             type: "post",
             url: "/insertQTPhuCap",
@@ -828,7 +872,7 @@
                 $("#denngay3").val('');
             },
             error: function () {
-                alert("Fail to delete");
+                alert("Thiếu dữ liệu");
             }
         });
     });
