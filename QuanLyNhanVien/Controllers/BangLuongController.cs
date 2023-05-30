@@ -142,22 +142,23 @@ namespace QuanLyNhanVien.Controllers
                 worksheet.Cell(currentRow, 11).Value = "Thực nhận";
                 foreach (var nv in nhanSuList)
                 {
+
                     currentRow++;
                     decimal tongluong = ((decimal)(nv.LuongCoBan.Where(x => x.ThoiGian == date).Select(x => x.LuongNs).FirstOrDefault()
                         + (decimal)nv.PhuCapNhanSu.Where(x => x.ThoiGian == date).Sum(x => x.TienPc)
-                        + nv.QuaTrinhThuongPc.Where(x => x.Tgthuong == date).Sum(x => x.TienThuong)
-                        - nv.QuaTrinhPhat.Where(x => x.Tgphat == date).Sum(x => x.TienPhat)));
+                        + nv.QuaTrinhThuongPc.Where(x => x.Tgthuong.HasValue && x.Tgthuong.Value.Month == date.Month && x.Tgthuong.Value.Year == date.Year).Sum(x => x.TienThuong)
+                        - nv.QuaTrinhPhat.Where(x => x.Tgphat.HasValue && x.Tgphat.Value.Month == date.Month && x.Tgphat.Value.Year == date.Year).Sum(x => x.TienPhat)));
                     worksheet.Cell(currentRow, 1).Value = stt;
                     worksheet.Cell(currentRow, 2).Value = nv.MaNs;
                     worksheet.Cell(currentRow, 3).Value = nv.TenNs;
                     worksheet.Cell(currentRow, 4).Value = nv.LuongCoBan.Where(x => x.ThoiGian == date).Select(x => x.LuongNs).FirstOrDefault();
                     worksheet.Cell(currentRow, 5).Value = nv.PhuCapNhanSu.Where(x=> x.ThoiGian == date).Sum(x => x.TienPc);
-                    worksheet.Cell(currentRow, 6).Value = nv.QuaTrinhThuongPc.Where(x => x.Tgthuong == date).Sum(x => x.TienThuong);
-                    worksheet.Cell(currentRow, 7).Value = nv.QuaTrinhPhat.Where(x => x.Tgphat == date).Sum(x => x.TienPhat);
-                    worksheet.Cell(currentRow, 8).Value = nv.LuongCoBan.Where(x => x.ThoiGian == date).Select(x => x.LuongNs).FirstOrDefault();
+                    worksheet.Cell(currentRow, 6).Value = nv.QuaTrinhThuongPc.Where(x => x.Tgthuong.HasValue && x.Tgthuong.Value.Month == date.Month && x.Tgthuong.Value.Year == date.Year).Sum(x => x.TienThuong);
+                    worksheet.Cell(currentRow, 7).Value = nv.QuaTrinhPhat.Where(x => x.Tgphat.HasValue && x.Tgphat.Value.Month == date.Month && x.Tgphat.Value.Year == date.Year).Sum(x => x.TienPhat);
+                    worksheet.Cell(currentRow, 8).Value = null;
                     worksheet.Cell(currentRow, 9).Value = tongluong;
-                    worksheet.Cell(currentRow, 10).Value = nv.LuongCoBan.Select(x => x.LuongNs).FirstOrDefault();
-                    worksheet.Cell(currentRow, 11).Value = nv.LuongCoBan.Select(x => x.LuongNs).FirstOrDefault();
+                    worksheet.Cell(currentRow, 10).Value = null;
+                    worksheet.Cell(currentRow, 11).Value = tongluong;
 
                     stt++;
                 }

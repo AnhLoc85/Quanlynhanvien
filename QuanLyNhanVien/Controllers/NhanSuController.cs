@@ -7,6 +7,7 @@ using QuanLyNhanVien.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyNhanVien.Controllers
 {
@@ -27,7 +28,7 @@ namespace QuanLyNhanVien.Controllers
 
         public IActionResult ChiTietNhanSu(int id)
         {
-            ViewBag.QTCV = context.QtchucVu.FirstOrDefault(x => x.MaNs == id);
+          
             NhanSu ns = context.NhanSu.Find(id);
             return View(ns);
         }
@@ -55,7 +56,7 @@ namespace QuanLyNhanVien.Controllers
         {
             return View();
         }
-        public IActionResult insertNhanSu(NhanSu ns, string selectedCityText, string selectedDistrictText, string selectedWardText, string address, IFormFile avt)
+        public IActionResult insertNhanSu(NhanSu ns, string selectedCityText, string selectedDistrictText, string selectedWardText, string address, IFormFile avt, string gioitinh)
         {
             bool isExist = context.NhanSu.Any(x => x.MaNs == ns.MaNs);
             if (isExist)
@@ -66,7 +67,15 @@ namespace QuanLyNhanVien.Controllers
 
             var address1 = address + ", " + selectedWardText + ", " + selectedDistrictText + ", " + selectedCityText;
             ns.DiaChi = address1;
-            ns.HinhAnh = UploadedFile(ns, avt);
+            ns.GioiTinh = bool.Parse(gioitinh);
+            if (avt == null)
+            {
+                ns.HinhAnh = "/assets/img/avatars/ava.jpg";
+            }else
+            {
+                ns.HinhAnh = UploadedFile(ns, avt);
+            }
+            
             context.NhanSu.Add(ns);
             context.SaveChanges();
 

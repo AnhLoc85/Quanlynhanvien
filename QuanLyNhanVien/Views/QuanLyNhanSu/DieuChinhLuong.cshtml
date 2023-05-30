@@ -4,6 +4,10 @@
     {
         return context.Dmluong.ToList();
     }
+    string format1(decimal? a)
+    {
+        return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
 }
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
@@ -39,10 +43,10 @@
                                 name=""
                                 id="MAML"
                               >
-                              <option disabled selected> -- Mã mức lương --</option>
+                              <option disabled selected> -- Mức lương --</option>
                                     @foreach (var item in getListLuong())
                                     {
-                                        <option value="@item.Id">@item.MaMl</option>
+                                        <option value="@item.Id">@format1(item.TienLuong)</option>
                                     }
                           </select>
                              
