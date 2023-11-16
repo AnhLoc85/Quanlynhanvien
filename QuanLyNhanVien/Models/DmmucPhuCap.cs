@@ -16,6 +16,7 @@ namespace QuanLyNhanVien.Models
 
         public int Id { get; set; }
         public string MaPc { get; set; }
+        public bool? Active { get; set; }
         public string KhoanPhuCap { get; set; }
 
         public virtual ICollection<QuaTrinhPhuCap> QuaTrinhPhuCap { get; set; }

@@ -68,9 +68,16 @@ namespace QuanLyNhanVien.Controllers
             Dmluong luong = context.Dmluong.Find(id);
 
 
-            context.Dmluong.Remove(luong);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Xóa thành công!";
+            if (luong != null)
+            {
+                luong.Active = false;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Xóa thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
             return RedirectToAction("Luong");
         }
     }

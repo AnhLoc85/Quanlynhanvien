@@ -1,6 +1,5 @@
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\appsettings.Development.json
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\appsettings.json
-F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\QuanLyNhanVien.exe
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\QuanLyNhanVien.deps.json
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\QuanLyNhanVien.runtimeconfig.json
@@ -51,7 +50,6 @@ F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\win-x8
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.csproj.AssemblyReference.cache
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.AssemblyInfoInputs.cache
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.AssemblyInfo.cs
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.csproj.CoreCompileInputs.cache
@@ -71,7 +69,6 @@ F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.Views.pdb
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.csproj.CopyComplete
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\staticwebassets\QuanLyNhanVien.StaticWebAssets.Manifest.cache
-F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\staticwebassets\QuanLyNhanVien.StaticWebAssets.xml
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.dll
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.pdb
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.genruntimeconfig.cache
@@ -138,3 +135,20 @@ F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\System.IO.Packa
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\CapNhatThuong\loadTNhanVien.cshtml.g.cs
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\CapNhatThuong\addNewRowQTT.cshtml.g.cs
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\CapNhatThuong\addNewRowQTP.cshtml.g.cs
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.csproj.AssemblyReference.cache
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\QuanLyNhanVien.GeneratedMSBuildEditorConfig.editorconfig
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\staticwebassets\QuanLyNhanVien.StaticWebAssets.Pack.cache
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.QuanLyNhanVien.Microsoft.AspNetCore.StaticWebAssets.props
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.build.QuanLyNhanVien.props
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.buildMultiTargeting.QuanLyNhanVien.props
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.buildTransitive.QuanLyNhanVien.props
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\QRCoder.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\QRCode\QRCode.cshtml.g.cs

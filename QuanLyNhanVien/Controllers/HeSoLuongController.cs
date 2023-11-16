@@ -67,11 +67,16 @@ namespace QuanLyNhanVien.Controllers
         {
 
             Dmhsluong hsl = context.Dmhsluong.Find(id);
-
-
-            context.Dmhsluong.Remove(hsl);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Xóa thành công!";
+            if (hsl != null)
+            {
+                hsl.Active = false;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Xóa thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
             return RedirectToAction("HeSoLuong");
         }
     }

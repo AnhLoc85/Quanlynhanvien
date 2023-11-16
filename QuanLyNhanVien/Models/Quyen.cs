@@ -17,6 +17,7 @@ namespace QuanLyNhanVien.Models
         public int Id { get; set; }
         public string MaQuyen { get; set; }
         public string TenQuyen { get; set; }
+        public bool? Active { get; set; }
 
         public virtual ICollection<TaiKhoan> TaiKhoan { get; set; }
     }

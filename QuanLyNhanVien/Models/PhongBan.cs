@@ -17,6 +17,7 @@ namespace QuanLyNhanVien.Models
 
         public int Id { get; set; }
         public string MaPb { get; set; }
+        public bool? Active { get; set; }
         public string TenPhongBan { get; set; }
 
         public virtual ICollection<QtchucVu> QtchucVu { get; set; }

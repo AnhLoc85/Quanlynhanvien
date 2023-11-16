@@ -17,6 +17,7 @@ namespace QuanLyNhanVien.Models
         public int Id { get; set; }
         public string MaThue { get; set; }
         public int ThueSuat { get; set; }
+        public bool? Active { get; set; }
 
         public virtual ICollection<QuaTrinhDongThue> QuaTrinhDongThue { get; set; }
     }

@@ -75,13 +75,19 @@ namespace QuanLyNhanVien.Controllers
         }
         private async Task SignInUser(TaiKhoan accounts)
         {
-            TaiKhoan user = context.TaiKhoan.Include(x => x.MaNsNavigation).Where(x => x.MaTk == accounts.MaTk).FirstOrDefault();
-
+            TaiKhoan user = context.TaiKhoan.Include(x => x.MaNsNavigation).Where(x => x.TaiKhoan1 == accounts.TaiKhoan1).FirstOrDefault();
+            QtchucVu VTvaCV = context.QtchucVu.Include(x => x.MaNsNavigation).Include(x => x.MaCvNavigation).Where(x => x.MaNs == accounts.MaNs).OrderByDescending(x => x.TgketThuc).FirstOrDefault();
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.MaNsNavigation.Id.ToString()),
-                new Claim(ClaimTypes.Role, accounts.MaQuyen.ToString()),
+                new Claim(ClaimTypes.Role, VTvaCV.MaCv.ToString()),
+                new Claim(ClaimTypes.Locality, VTvaCV.MaCvNavigation.CapCv.ToString()),
             };
+
+            if (VTvaCV.MaPb != null)
+            {
+                claims.Add(new Claim(ClaimTypes.Actor, VTvaCV.MaPb.ToString()));
+            }
 
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);

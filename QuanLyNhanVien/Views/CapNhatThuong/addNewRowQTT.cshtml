@@ -52,14 +52,7 @@
             time: "bi bi-clock"
         }
     });
-    $("input[type='number']").focus(function () {
-        // Lấy giá trị hiện tại của input
-        var value = $(this).val();
-        // Chuyển giá trị thành số và định dạng có dấu phân cách hàng nghìn
-        var formattedValue = parseFloat(value).toLocaleString('en-US');
-        // Gán giá trị đã được định dạng vào input
-        $(this).val(formattedValue);
-    });
+   
     $(".formatted-number").inputmask({
         alias: "numeric",
         groupSeparator: ",",

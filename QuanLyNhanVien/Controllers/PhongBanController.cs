@@ -10,6 +10,7 @@ namespace QuanLyNhanVien.Controllers
         QuanLyNhanVienContext context = new QuanLyNhanVienContext();
         public IActionResult PhongBan()
         {
+            ViewBag.PhongBan = context.PhongBan.Where(x => x.Active == true);
             return View();
         }
         public IActionResult SuaPhongBan(int id)
@@ -52,7 +53,7 @@ namespace QuanLyNhanVien.Controllers
                 return RedirectToAction("ThemPhongBan");
             }
 
-
+            pb.Active = true;
             context.PhongBan.Add(pb);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
@@ -65,10 +66,16 @@ namespace QuanLyNhanVien.Controllers
 
             PhongBan pb = context.PhongBan.Find(id);
 
-
-            context.PhongBan.Remove(pb);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Xóa thành công!";
+            if(pb != null)
+            {
+                pb.Active = false;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Xóa thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
             return RedirectToAction("PhongBan");
         }
     }

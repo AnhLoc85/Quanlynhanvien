@@ -62,14 +62,21 @@ namespace QuanLyNhanVien.Controllers
 
         public IActionResult XoaPhuCap(int id)
         {
-
             DmmucPhuCap pc = context.DmmucPhuCap.Find(id);
 
+            if (pc != null)
+            {
+                pc.Active = false;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Xóa thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
 
-            context.DmmucPhuCap.Remove(pc);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Xóa thành công!";
             return RedirectToAction("PhuCap");
         }
+
     }
 }

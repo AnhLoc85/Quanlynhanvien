@@ -18,6 +18,7 @@ namespace QuanLyNhanVien.Models
         public string MaBh { get; set; }
         public DateTime? Tgad { get; set; }
         public double? MucBaoHiem { get; set; }
+        public bool? Active { get; set; }
 
         public virtual ICollection<QuaTrinhDongBh> QuaTrinhDongBh { get; set; }
     }

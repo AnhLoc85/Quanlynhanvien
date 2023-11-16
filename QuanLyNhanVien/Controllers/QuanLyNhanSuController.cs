@@ -212,12 +212,12 @@ namespace QuanLyNhanVien.Controllers
         }
 
         [HttpPost("/addNewRowQTPC")]
-        public IActionResult addNewRowQTPC(DateTime tungay, DateTime denngay, float hesophucap, int mahslpc, string khoanphucap, int mampc, int IDQTPC)
+        public IActionResult addNewRowQTPC(DateTime tungay, DateTime denngay, float hesophucap, int mahspc, string khoanphucap, int mampc, int IDQTPC)
         {
             ViewBag.tungay = tungay;
             ViewBag.denngay = denngay;
             ViewBag.Hesophucap = hesophucap;
-            ViewBag.mahspc = mahslpc;
+            ViewBag.mahspc = mahspc;
             ViewBag.KhoanPC = khoanphucap;
             ViewBag.mampc = mampc;
             ViewBag.IDQTPC = IDQTPC;

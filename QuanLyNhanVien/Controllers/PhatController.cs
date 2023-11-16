@@ -64,11 +64,16 @@ namespace QuanLyNhanVien.Controllers
         {
 
             Phat phat = context.Phat.Find(id);
-
-
-            context.Phat.Remove(phat);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Xóa thành công!";
+            if (phat != null)
+            {
+                phat.Active = false;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Xóa thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
             return RedirectToAction("Phat");
         }
     }

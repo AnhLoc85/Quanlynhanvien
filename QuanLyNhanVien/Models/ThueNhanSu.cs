@@ -11,8 +11,9 @@ namespace QuanLyNhanVien.Models
     {
         public int Id { get; set; }
         public int? MaNs { get; set; }
-        public int? Thúeuat { get; set; }
+        public int? Thuesuat { get; set; }
         public decimal? TienThue { get; set; }
+        public bool? Active { get; set; }
 
         public virtual NhanSu MaNsNavigation { get; set; }
     }

@@ -64,11 +64,16 @@ namespace QuanLyNhanVien.Controllers
         {
 
             ThuongPckhac thuong = context.ThuongPckhac.Find(id);
-
-
-            context.ThuongPckhac.Remove(thuong);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Xóa thành công!";
+            if (thuong != null)
+            {
+                thuong.Active = false;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Xóa thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
             return RedirectToAction("Thuong");
         }
     }

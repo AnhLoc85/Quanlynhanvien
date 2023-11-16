@@ -20,6 +20,7 @@ namespace QuanLyNhanVien.Models
         }
 
         public virtual DbSet<BaoHiem> BaoHiem { get; set; }
+        public virtual DbSet<ChamCong> ChamCong { get; set; }
         public virtual DbSet<ChucVu> ChucVu { get; set; }
         public virtual DbSet<DmheSoPhuCap> DmheSoPhuCap { get; set; }
         public virtual DbSet<Dmhsluong> Dmhsluong { get; set; }
@@ -40,6 +41,7 @@ namespace QuanLyNhanVien.Models
         public virtual DbSet<QuaTrinhPhuCap> QuaTrinhPhuCap { get; set; }
         public virtual DbSet<QuaTrinhThuongPc> QuaTrinhThuongPc { get; set; }
         public virtual DbSet<Quyen> Quyen { get; set; }
+        public virtual DbSet<Table1> Table1 { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<Thue> Thue { get; set; }
         public virtual DbSet<ThueNhanSu> ThueNhanSu { get; set; }
@@ -72,9 +74,22 @@ namespace QuanLyNhanVien.Models
                     .HasColumnType("date");
             });
 
+            modelBuilder.Entity<ChamCong>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.MaNs).HasColumnName("MaNS");
+
+                entity.Property(e => e.Ngay)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+            });
+
             modelBuilder.Entity<ChucVu>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CapCv).HasColumnName("CapCV");
 
                 entity.Property(e => e.MaCv)
                     .IsRequired()
@@ -92,12 +107,16 @@ namespace QuanLyNhanVien.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Bhxh).HasColumnName("BHXH");
+
                 entity.Property(e => e.MaHspc)
                     .IsRequired()
                     .HasColumnName("MaHSPC")
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.Property(e => e.Tncn).HasColumnName("TNCN");
             });
 
             modelBuilder.Entity<Dmhsluong>(entity =>
@@ -154,9 +173,7 @@ namespace QuanLyNhanVien.Models
 
             modelBuilder.Entity<DongBaoHiem>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.MaNs).HasColumnName("MaNS");
 
@@ -477,7 +494,7 @@ namespace QuanLyNhanVien.Models
                 entity.HasOne(d => d.MaPcNavigation)
                     .WithMany(p => p.QuaTrinhPhuCap)
                     .HasForeignKey(d => d.MaPc)
-                    .HasConstraintName("FK_QuaTrinhPhuCap_DMMucPhuCap");
+                    .HasConstraintName("FK_QuaTrinhPhuCap_DMMucPhuCap1");
             });
 
             modelBuilder.Entity<QuaTrinhThuongPc>(entity =>
@@ -516,6 +533,16 @@ namespace QuanLyNhanVien.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.TenQuyen).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Table1>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.Agn)
+                    .HasColumnName("AGN")
+                    .HasMaxLength(10)
+                    .IsFixedLength();
             });
 
             modelBuilder.Entity<TaiKhoan>(entity =>
@@ -564,9 +591,7 @@ namespace QuanLyNhanVien.Models
 
             modelBuilder.Entity<ThueNhanSu>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.MaNs).HasColumnName("MaNS");
 
@@ -584,6 +609,8 @@ namespace QuanLyNhanVien.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Bhxh).HasColumnName("BHXH");
+
                 entity.Property(e => e.MaThuong)
                     .IsRequired()
                     .HasMaxLength(10)
@@ -591,6 +618,8 @@ namespace QuanLyNhanVien.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.NoiDung).HasMaxLength(200);
+
+                entity.Property(e => e.Tncn).HasColumnName("TNCN");
             });
 
             OnModelCreatingPartial(modelBuilder);

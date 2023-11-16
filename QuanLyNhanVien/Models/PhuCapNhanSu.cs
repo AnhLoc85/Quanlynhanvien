@@ -15,6 +15,7 @@ namespace QuanLyNhanVien.Models
         public double? Hspc { get; set; }
         public double? TienPc { get; set; }
         public string Maphucap { get; set; }
+        public bool? Active { get; set; }
 
         public virtual NhanSu MaNsNavigation { get; set; }
     }

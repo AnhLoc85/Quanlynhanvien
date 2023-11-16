@@ -48,21 +48,24 @@
                     <tbody>
                         @foreach (ThuongPckhac thuong in getListThuongPckhac())
                         {
-                            <tr>
-                                <td class="text-center">@thuong.MaThuong</td>
-                                <td class="text-center">@thuong.NoiDung</td>
-                                <td class="text-center d-flex justify-content-evenly">
-                                    <a href="/Thuong/SuaThuong/@thuong.Id">
-                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                    </a>
+                            if(thuong.Active == true)
+                            {
+                                <tr>
+                                    <td class="text-center">@thuong.MaThuong</td>
+                                    <td class="text-center">@thuong.NoiDung</td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a href="/Thuong/SuaThuong/@thuong.Id">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
 
-                                    <a href="/Thuong/XoaThuong/@thuong.Id"
-                                       onclick="return confirm('Bạn có xoá phần thưởng, phụ cấp này?')">
-                                        Xóa
-                                        <i class="bx bx-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                        <a href="/Thuong/XoaThuong/@thuong.Id"
+                                           onclick="return confirm('Bạn có xoá phần thưởng, phụ cấp này?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

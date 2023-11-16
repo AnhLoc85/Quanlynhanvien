@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using QuanLyNhanVien.Models;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace QuanLyNhanVien.Controllers
 {
@@ -66,11 +67,16 @@ namespace QuanLyNhanVien.Controllers
         {
 
             DmheSoPhuCap hspc = context.DmheSoPhuCap.Find(id);
-
-
-            context.DmheSoPhuCap.Remove(hspc);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Xóa thành công!";
+            if (hspc != null)
+            {
+                hspc.Active = false;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Xóa thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
             return RedirectToAction("HeSoPhuCap");
         }
     }

@@ -17,6 +17,7 @@ namespace QuanLyNhanVien.Models
         public int Id { get; set; }
         public string MaMl { get; set; }
         public decimal? TienLuong { get; set; }
+        public bool? Active { get; set; }
         public DateTime? NgayAd { get; set; }
 
         public virtual ICollection<QuaTrinhLuong> QuaTrinhLuong { get; set; }

@@ -35,9 +35,7 @@
                         </a>
                     </div>
                 </div>
-                <table id="example"
-                       class="display table table-bordered"
-                       style="width: 100%">
+                <table id="example" class="display table table-bordered" style="width: 100%">
                     <thead>
                         <tr>
                             <th class="text-center">Mã Phạt</th>
@@ -48,25 +46,28 @@
                     <tbody>
                         @foreach (Phat phat in getListPhat())
                         {
-                            <tr>
-                                <td class="text-center">@phat.MaPhat</td>
-                                <td class="text-center">@phat.NoiDung</td>
-                                <td class="text-center d-flex justify-content-evenly">
-                                    <a href="/Phat/SuaPhat/@phat.Id">
-                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                    </a>
+                            if(phat.Active == true)
+                            {
+                                <tr>
+                                    <td class="text-center">@phat.MaPhat</td>
+                                    <td class="text-center">@phat.NoiDung</td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a href="/Phat/SuaPhat/@phat.Id">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
 
-                                    <a href="/Phat/XoaPhat/@phat.Id"
-                                       onclick="return confirm('Bạn có xoá mức phạt này?')">
-                                        Xóa
-                                        <i class="bx bx-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                        <a href="/Phat/XoaPhat/@phat.Id"
+                                           onclick="return confirm('Bạn có xoá mức phạt này?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
                         }
 
                     </tbody>
-                    </table>
+                </table>
             </div>
         </div>
     </div>

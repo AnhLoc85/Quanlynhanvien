@@ -15,6 +15,7 @@ namespace QuanLyNhanVien.Models
         public double? Hsl { get; set; }
         public decimal? Luong { get; set; }
         public decimal? LuongNs { get; set; }
+        public bool? Active { get; set; }
 
         public virtual NhanSu MaNsNavigation { get; set; }
     }

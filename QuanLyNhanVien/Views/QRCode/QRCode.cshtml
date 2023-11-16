@@ -1,0 +1,44 @@
+﻿
+@{
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <button class="btn btn-primary" onclick="generateQRCode();">Tạo qr</button>
+    <h2>QR Code Generated</h2>
+    <div id="qrCodeContainer" >
+        <img id="qrCodeImage" alt="QR Code" />
+    </div>
+ 
+</div>
+
+ <script>
+ function generateQRCode() {
+        // Lấy dữ liệu từ người dùng hoặc có thể chọn cách khác
+        var qrText = "Mai Anh Lộc";
+
+        // Gửi yêu cầu đến server để tạo QR code
+        $.ajax({
+            type: "POST",
+            url: "/QRCode/GenerateQRCode",
+            data: { qrText: qrText },
+            success: function (base64Image) {
+                console.log(base64Image)
+                // Hiển thị QR code
+                $("#qrCodeContainer").html('<img src="data:image/png;base64,' + base64Image + '" alt="QR Code">');
+            }
+        });
+    }
+
+
+    </script>

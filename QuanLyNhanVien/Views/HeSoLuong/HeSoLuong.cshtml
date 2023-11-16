@@ -50,22 +50,25 @@
                     <tbody>
                         @foreach (Dmhsluong hsl in getListDmhsluong())
                         {
-                        <tr>
-                            <td class="text-center">@hsl.MaHsl</td>
-                            <td class="text-center">@hsl.HeSoLuong</td>
-                           
-                            <td class="text-center d-flex justify-content-evenly">
-                                <a href="/HeSoLuong/SuaHeSoLuong/@hsl.Id">
-                                    Chỉnh sửa <i class="bx bx-edit-alt"></i>
-                                </a>
+                            if(hsl.Active == true)
+                            {
+                                <tr>
+                                    <td class="text-center">@hsl.MaHsl</td>
+                                    <td class="text-center">@hsl.HeSoLuong</td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a href="/HeSoLuong/SuaHeSoLuong/@hsl.Id">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
 
-                                <a href="/HeSoLuong/XoaHeSoLuong/@hsl.Id"
-                                   onclick="return confirm('Bạn có xoá hệ số lương này?')">
-                                    Xóa
-                                    <i class="bx bx-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                                        <a href="/HeSoLuong/XoaHeSoLuong/@hsl.Id"
+                                           onclick="return confirm('Bạn có xoá hệ số lương này?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                           
                         }
                     </tbody>
                 </table>

@@ -13,6 +13,7 @@ namespace QuanLyNhanVien.Models
         public int? MaNs { get; set; }
         public DateTime? ThoiGian { get; set; }
         public decimal? TienBh { get; set; }
+        public bool? Actirve { get; set; }
 
         public virtual NhanSu MaNsNavigation { get; set; }
     }

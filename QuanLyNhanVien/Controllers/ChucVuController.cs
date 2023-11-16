@@ -12,6 +12,7 @@ namespace QuanLyNhanVien.Controllers
         QuanLyNhanVienContext context = new QuanLyNhanVienContext();
         public IActionResult ChucVu()
         {
+            ViewBag.ChucVu = context.ChucVu.Where(x => x.Active == true);
             return View();
         }
 
@@ -65,10 +66,31 @@ namespace QuanLyNhanVien.Controllers
             ChucVu cv = context.ChucVu.Find(id);
 
 
-            context.ChucVu.Remove(cv);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Xóa thành công!";
+            if (cv != null)
+            {
+                cv.Active = false;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Xóa thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
             return RedirectToAction("ChucVu");
         }
+         public IActionResult DoiTrangThai(int trangthai){
+           List<ChucVu> chucVuList;
+
+            if (trangthai == 1)
+            {
+                chucVuList = context.ChucVu.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                chucVuList = context.ChucVu.Where(x => x.Active == false).ToList();
+            }
+
+            return Json(chucVuList);
+         }
     }
 }
