@@ -27,6 +27,7 @@ namespace QuanLyNhanVien.Models
         public virtual DbSet<Dmluong> Dmluong { get; set; }
         public virtual DbSet<DmmucPhuCap> DmmucPhuCap { get; set; }
         public virtual DbSet<DongBaoHiem> DongBaoHiem { get; set; }
+        public virtual DbSet<LichLamViec> LichLamViec { get; set; }
         public virtual DbSet<LuongCoBan> LuongCoBan { get; set; }
         public virtual DbSet<NhanSu> NhanSu { get; set; }
         public virtual DbSet<Phat> Phat { get; set; }
@@ -80,9 +81,16 @@ namespace QuanLyNhanVien.Models
 
                 entity.Property(e => e.MaNs).HasColumnName("MaNS");
 
-                entity.Property(e => e.Ngay)
+                entity.Property(e => e.Ngay).HasColumnType("date");
+
+                entity.Property(e => e.Thu)
                     .HasMaxLength(10)
                     .IsFixedLength();
+
+                entity.HasOne(d => d.MaNsNavigation)
+                    .WithMany(p => p.ChamCong)
+                    .HasForeignKey(d => d.MaNs)
+                    .HasConstraintName("FK_ChamCong_NhanSu");
             });
 
             modelBuilder.Entity<ChucVu>(entity =>
@@ -187,6 +195,23 @@ namespace QuanLyNhanVien.Models
                     .WithMany(p => p.DongBaoHiem)
                     .HasForeignKey(d => d.MaNs)
                     .HasConstraintName("FK_DongBaoHiem_NhanSu");
+            });
+
+            modelBuilder.Entity<LichLamViec>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Rachieu).HasColumnName("rachieu");
+
+                entity.Property(e => e.Rasang).HasColumnName("rasang");
+
+                entity.Property(e => e.Ratoi).HasColumnName("ratoi");
+
+                entity.Property(e => e.Vaochieu).HasColumnName("vaochieu");
+
+                entity.Property(e => e.Vaosang).HasColumnName("vaosang");
+
+                entity.Property(e => e.Vaotoi).HasColumnName("vaotoi");
             });
 
             modelBuilder.Entity<LuongCoBan>(entity =>

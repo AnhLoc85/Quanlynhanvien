@@ -152,3 +152,4 @@ F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\unix\l
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\QRCode\QRCode.cshtml.g.cs
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\ChamCong\ChamCong.cshtml.g.cs

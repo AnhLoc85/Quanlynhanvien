@@ -11,6 +11,15 @@ namespace QuanLyNhanVien.Models
     {
         public int Id { get; set; }
         public int? MaNs { get; set; }
-        public string Ngay { get; set; }
+        public DateTime? Ngay { get; set; }
+        public TimeSpan? GioVaoSang { get; set; }
+        public TimeSpan? GioRaSang { get; set; }
+        public TimeSpan? GioVaoChieu { get; set; }
+        public TimeSpan? GioRaChieu { get; set; }
+        public TimeSpan? GioVaoToi { get; set; }
+        public TimeSpan? GioRaToi { get; set; }
+        public string Thu { get; set; }
+
+        public virtual NhanSu MaNsNavigation { get; set; }
     }
 }

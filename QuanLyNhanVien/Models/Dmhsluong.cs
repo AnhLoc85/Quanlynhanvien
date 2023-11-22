@@ -18,6 +18,7 @@ namespace QuanLyNhanVien.Models
         public string MaHsl { get; set; }
         public bool? Active { get; set; }
         public double? HeSoLuong { get; set; }
+        public double? HeSoTangCa { get; set; }
 
         public virtual ICollection<QuaTrinhLuong> QuaTrinhLuong { get; set; }
     }

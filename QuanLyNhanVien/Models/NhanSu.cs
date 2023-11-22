@@ -11,6 +11,7 @@ namespace QuanLyNhanVien.Models
     {
         public NhanSu()
         {
+            ChamCong = new HashSet<ChamCong>();
             DongBaoHiem = new HashSet<DongBaoHiem>();
             LuongCoBan = new HashSet<LuongCoBan>();
             PhuCapNhanSu = new HashSet<PhuCapNhanSu>();
@@ -37,6 +38,7 @@ namespace QuanLyNhanVien.Models
         public string HinhAnh { get; set; }
         public string QueQuan { get; set; }
 
+        public virtual ICollection<ChamCong> ChamCong { get; set; }
         public virtual ICollection<DongBaoHiem> DongBaoHiem { get; set; }
         public virtual ICollection<LuongCoBan> LuongCoBan { get; set; }
         public virtual ICollection<PhuCapNhanSu> PhuCapNhanSu { get; set; }
