@@ -17,10 +17,10 @@ var idnv = @Html.Raw(Json.Serialize(idnv));
 
 document.addEventListener("DOMContentLoaded", function () {
     generateQRCode();
-     setInterval(function() {
+     @* setInterval(function() {
         generateQRCode();
         console.log(123);
-    }, 60000);
+    }, 60000); *@
 });
     function generateQRCode() {
     var currentDate = new Date(); // Lấy ngày giờ hiện tại
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var year = currentDate.getFullYear(); // Lấy năm
     var hours = String(currentDate.getHours()).padStart(2, '0'); // Lấy giờ (có thêm số 0 nếu cần thiết)
     var minutes = String(currentDate.getMinutes()).padStart(2, '0'); // Lấy phút (có thêm số 0 nếu cần thiết)
-    var qrText = idnv + "_" + day + month + year + hours + minutes;
+    var qrText = idnv;// + "_" + day + month + year + hours + minutes;
         $.ajax({
             type: "POST",
             url: "/QRCode/GenerateQRCode",

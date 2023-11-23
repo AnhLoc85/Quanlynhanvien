@@ -1,4 +1,17 @@
-﻿<div class="container-xxl flex-grow-1 container-p-y">
+﻿@{
+   string formatTime(TimeSpan? timeSpan)
+    {
+        if (timeSpan.HasValue)
+        {
+            return timeSpan.Value.ToString("hh\\:mm");
+        }
+        else
+        {
+            return string.Empty; // hoặc giá trị mặc định khác tùy thuộc vào ý định của bạn
+        }
+    }
+}
+<div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
        <div class="card">
             <div class="card-header">
@@ -25,13 +38,12 @@
                           <input class="form-control" type="text" value="" id="Ngay" placeholder="Ngày">
                         </div>
                       </div>
-                </div><div class="col-auto">
-                  
-                  <button type="button" class="btn btn-outline-primary">
-                              <span class="tf-icons bx bx-search"></span>TÌm kiếm</button>
-                            
-                            
-                </div></div>           
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-outline-primary" id="TimKiem">
+                        <span class="tf-icons bx bx-search"></span>TÌm kiếm</button>
+                </div>
+                </div>           
 
                 </div>
             </div>
@@ -64,7 +76,15 @@
                                         <th class="text-center">Thời gian ra</th>
                                     </thead>
                                     <tbody id="DDSang">
-
+                                        @foreach(var d in ViewBag.ChamCongSang) {
+                                            <tr data-id="@d.Id">
+                                            <td class="text-center" >@d.MaNsNavigation.MaNs</td>
+                                            <td class="text-start">@d.MaNsNavigation.TenNs</td>
+                                            <td class="text-center">@formatTime(d.GioVaoSang)</td>
+                                            <td class="text-center">@formatTime(d.GioRaSang)</td>
+                                            </tr>
+                                        }
+                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -81,8 +101,14 @@
                                         <th class="text-center">Thời gian vào</th>
                                         <th class="text-center">Thời gian ra</th>
                                     </thead>
-                                    <tbody id="DDSang">
-
+                                    <tbody id="DDChieu">
+                                          @foreach(var d in ViewBag.ChamCongChieu) {
+                                            <td class="text-center">@d.MaNsNavigation.MaNs</td>
+                                            <td class="text-start">@d.MaNsNavigation.TenNs</td>
+                                            <td class="text-center">@formatTime(d.GioVaoChieu)</td>
+                                            <td class="text-center">@formatTime(d.GioRaChieu)</td>
+                                        }
+                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -99,8 +125,14 @@
                                         <th class="text-center">Thời gian vào</th>
                                         <th class="text-center">Thời gian ra</th>
                                     </thead>
-                                    <tbody id="DDSang">
-
+                                    <tbody id="DDToi">
+                                          @foreach(var d in ViewBag.ChamCongToi) {
+                                            <td class="text-center">@d.MaNsNavigation.MaNs</td>
+                                            <td class="text-start">@d.MaNsNavigation.TenNs</td>
+                                            <td class="text-center">@formatTime(d.GioVaoToi)</td>
+                                            <td class="text-center">@formatTime(d.GioRaToi)</td>
+                                        }
+                                       
                                     </tbody>
                                 </table>
                             </div>
