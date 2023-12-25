@@ -41,21 +41,21 @@
         <tbody id="body">
             @foreach (QuaTrinhPhuCap item in ViewBag.QTPC)
             {
-
-
             <tr>
-                @{
+                @{var qtlResult = getQTL(item.MaNs, ViewBag.Ngay);
+                    double tienPC = 0;
 
-
-
-                    double tienPC = (double)item.MaHspcNavigation.HeSoPhuCap * ((double)getQTL(item.MaNs, ViewBag.Ngay).LuongNs) / 100;
+                    if (qtlResult != null && qtlResult.LuongNs.HasValue)
+                    {
+                        tienPC = (double)item?.MaHspcNavigation?.HeSoPhuCap * ((double)qtlResult.LuongNs.Value) / 100;
+                    }
                 }
-                <td class="text-center">@item.MaNsNavigation.MaNs</td>
-                <td class="text-left">@item.MaNsNavigation.TenNs</td>
-                <td class="text-center">@formatDay(item.MaNsNavigation.NgaySinh)</td>
-                <td class="text-center">@(item.MaNsNavigation.GioiTinh ?? false ? "Nam" : "Nữ")</td>
-                <td class="text-center">@item.MaHspcNavigation.HeSoPhuCap</td>
-                <td class="text-right">@item.MaPcNavigation.KhoanPhuCap</td>
+                <td class="text-center">@item?.MaNsNavigation?.MaNs</td>
+                <td class="text-left">@item?.MaNsNavigation?.TenNs</td>
+                <td class="text-center">@formatDay(item?.MaNsNavigation?.NgaySinh)</td>
+                <td class="text-center">@(item?.MaNsNavigation?.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                <td class="text-center">@item?.MaHspcNavigation?.HeSoPhuCap</td>
+                <td class="text-right">@item?.MaPcNavigation?.KhoanPhuCap</td>
                 <td class="text-right">@format(tienPC)</td>
             </tr>
             }

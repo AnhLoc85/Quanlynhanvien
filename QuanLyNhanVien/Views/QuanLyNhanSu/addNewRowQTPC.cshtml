@@ -4,12 +4,12 @@
     List<DmheSoPhuCap>
     getListDmheSoPhuCap()
     {
-        return context.DmheSoPhuCap.ToList();
+        return context.DmheSoPhuCap.Where(x => x.Active == true).ToList();
     }
     List<DmmucPhuCap>
    getListDmmucPhuCap()
     {
-        return context.DmmucPhuCap.ToList();
+        return context.DmmucPhuCap.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {

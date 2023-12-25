@@ -29,7 +29,20 @@
                             <label class="m-2">Loại phụ cấp</label>
                             <input asp-for="@Model.KhoanPhuCap" type="text" class="form-control" required>
                         </div>
-
+                         <div class="mb-3 col-md-12">
+                                <label  class="form-label">Tính thu nhập cá nhân</label>
+                                <select class="select2 form-select" name="Tncn"  required>
+                                    <option value="true">có</option>
+                                    <option value="false">không</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-12">
+                                <label  class="form-label">Tính bảo hiểm</label>
+                                <select class="select2 form-select" name="Bhxh"  required>
+                                    <option value="true">có</option>
+                                    <option value="false">không</option>
+                                </select>
+                            </div>
                     </div>
                     <div class="forms-footer d-flex justify-content-between">
                         <a class="btn btn-secondary"

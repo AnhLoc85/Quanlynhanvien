@@ -3,11 +3,11 @@
 
     List<Phat> getListPhat()
     {
-        return context.Phat.ToList();
+        return context.Phat.Where(x => x.Active == true).ToList();
     }
     List<ThuongPckhac> getListThuongPckhacs()
     {
-        return context.ThuongPckhac.ToList();
+        return context.ThuongPckhac.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {

@@ -1,0 +1,108 @@
+﻿
+
+ @{
+   var d = ViewBag.LichLamViec;
+    string formatTime(TimeSpan? timeSpan)
+    {
+        if (timeSpan.HasValue)
+        {
+            return timeSpan.Value.ToString("hh\\:mm");
+        }
+        else
+        {
+            return string.Empty; // hoặc giá trị mặc định khác tùy thuộc vào ý định của bạn
+        }
+    }
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-between mb-2">
+                    <div class="col-sm-auto">
+                        <button id="SuaLich" class="btn btn-primary">
+                            <span>Chỉnh sửa</span>
+                        </button>
+                    </div>
+                </div>
+                <table id=""
+                       class="display table table-bordered"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="text-center">Ca Sáng</th>
+                            <th colspan="2" class="text-center">Ca Chiều</th>
+                            <th colspan="2" class="text-center">Ca Tối</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Giờ vào</th>
+                            <th class="text-center">Giờ ra</th>
+                            <th class="text-center">Giờ vào</th>
+                            <th class="text-center">Giờ ra</th>
+                            <th class="text-center">Giờ vào</th>
+                            <th class="text-center">Giờ ra</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                       
+                           
+                    </tbody>
+                </table>
+                <div class="row py-2 px-1">
+                    <div class="col-2">
+                        <input class="form-control input-time VaoSang" type="text" value="@formatTime(d.Vaosang)" readonly>
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control input-time RaSang" type="text" value="@formatTime(d.Rasang)" readonly>
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control input-time VaoChieu" type="text" value="@formatTime(d.Vaochieu)" readonly>
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control input-time RaChieu" type="text" value="@formatTime(d.Rachieu)" readonly>
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control input-time VaoToi" type="text" value="@formatTime(d.Vaotoi)" readonly>
+                    </div>
+                    <div class="col-2">
+                        <input class="form-control input-time RaToi" type="text" value="@formatTime(d.Ratoi)" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var _luu = false
+    configTime();
+        $('#SuaLich').on('click', function() {
+            if(!_luu){
+                $('.input-time').removeAttr('readonly');
+                $(this).html('Lưu');
+                _luu = true;
+            }else{
+                $('.input-time').attr('readonly', true);
+                $(this).html('Chỉnh sửa');
+                _luu = false;
+                LuuLich();
+            }
+        })
+    function LuuLich() {
+        var model= {
+            Vaosang : $('.VaoSang').val(),
+            Rasang : $('.RaSang').val(),
+            Vaochieu : $('.VaoChieu').val(),
+            Rachieu : $('.RaChieu').val(),
+            Vaotoi : $('.VaoToi').val(),
+            Ratoi : $('.RaToi').val(),
+        }
+        $.ajax({
+        type: "post",
+        url: "/LichLamViec/SuaLichLamViec",
+        data: model,
+        success: function (response) {
+            showToast(response.message, response.statusCode)
+        }
+        });
+    }
+</script>

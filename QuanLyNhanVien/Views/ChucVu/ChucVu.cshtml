@@ -3,7 +3,7 @@
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<ChucVu> getListChucVu()
     {
-        return context.ChucVu.ToList();
+        return context.ChucVu.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -30,11 +30,13 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="position-absolute" style="margin-top: -10px">
-                    <div class="col-sm-auto">
+                <div class="row position-absolute" style="margin-top: -10px">
+                    <div class="col-sm-auto pe-2">
                         <a href="/ChucVu/ThemChucVu" class="btn btn-primary">
                             <span>Thêm Mới</span>
                         </a>
+                    </div>
+                    <div class="col-sm-auto pe-2">
                         <select class="form-select" name="" id="TinhTrang">
                             <option value="1" selected>Hiện tại</option>
                             <option value="2">Đã xóa</option>
@@ -79,15 +81,12 @@
 <script>
     $('#TinhTrang').on('change', function() {
         var TrangThai = $(this).val();
-        console.log(TrangThai)
         $.ajax({
         type: "post",
         url: "/ChucVu/DoiTrangThai",
         data: "trangthai=" + TrangThai,
         success: function (response) {
-            console.log(response)
              var table = $('#example').DataTable();
-
         // Clear existing rows from the DataTable
         table.rows().remove().draw();
       $.each(response, function (index, cv) {
@@ -98,11 +97,11 @@
                         <a href="/ChucVu/SuaChucVu/${cv.id}">
                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
                         </a>
+                        ${cv.active ?
+                                `<a href="/ChucVu/XoaChucVu/${cv.id}" onclick="return confirm('Bạn có xoá dịch vụ vận chuyển này?')">Xóa <i class="bx bx-trash"></i></a>` :
+                                `<a href="/ChucVu/Khoiphuc/${cv.id}" onclick="return confirm('Bạn có khôi phục dịch vụ vận chuyển này?')">Hoàn tác <i class="bx bx-redo"></i></a>`
+                        }
 
-                        <a href="/ChucVu/XoaChucVu/${cv.id}"
-                           onclick="return confirm('Bạn có xoá dịch vụ vận chuyển này?')">
-                            Xóa <i class="bx bx-trash"></i>
-                        </a>
                     </td>
                 </tr>`;
             // Thêm dòng mới vào DataTable và vẽ lại DataTable

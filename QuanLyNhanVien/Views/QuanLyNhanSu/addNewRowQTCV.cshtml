@@ -4,7 +4,7 @@
     List<ChucVu>
     getListChucVu()
     {
-    return context.ChucVu.ToList();
+    return context.ChucVu.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {

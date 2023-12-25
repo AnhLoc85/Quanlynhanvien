@@ -2,11 +2,11 @@
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<PhongBan> getListPhongBan()
     {
-        return context.PhongBan.ToList();
+        return context.PhongBan.Where(x => x.Active == true).ToList();
     }
     List<NhanSu> getListNhanSu()
     {
-        return context.NhanSu.ToList();
+        return context.NhanSu.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -57,11 +57,11 @@
                             {
                                 <tr class="text-nowrap">
                                     <td class="text-center">@ns.MaNs</td>
-                                    <td class="text-center">@ns.TenNs</td>
+                                    <td class="text-start">@ns.TenNs</td>
                                     <td class="text-center">@formatDay(@ns.NgaySinh)</td>
-                                    <td class="text-center">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                                    <td class="text-start">@(ns.GioiTinh ?? false ? "Nam" : "Nữ")</td>
                                     <td class="text-center">@ns.Sdt</td>
-                                    <td class="text-center">@ns.Email</td>
+                                    <td class="text-start">@ns.Email</td>
                                     <td class="text-center">
                                         <a class="btn btn-primary" href="/QuanLyNhanSu/QuaTrinh/@ns.Id">Chọn</a>
                                     </td>

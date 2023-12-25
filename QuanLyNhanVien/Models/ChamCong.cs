@@ -19,6 +19,8 @@ namespace QuanLyNhanVien.Models
         public TimeSpan? GioVaoToi { get; set; }
         public TimeSpan? GioRaToi { get; set; }
         public string Thu { get; set; }
+        public double? SoCong { get; set; }
+        public double? SoGio { get; set; }
 
         public virtual NhanSu MaNsNavigation { get; set; }
     }

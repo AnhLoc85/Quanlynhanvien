@@ -4,7 +4,7 @@
     List<PhongBan>
     getListPhongBan()
     {
-    return context.PhongBan.ToList();
+    return context.PhongBan.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {

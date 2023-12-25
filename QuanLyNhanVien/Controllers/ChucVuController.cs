@@ -53,7 +53,7 @@ namespace QuanLyNhanVien.Controllers
                 TempData["ThongBao"] = "Mã chức vụ đã tồn tại";
                 return RedirectToAction("ThemChucVu");
             }
-
+            cv.Active = true;
             context.ChucVu.Add(cv);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
@@ -79,18 +79,37 @@ namespace QuanLyNhanVien.Controllers
             return RedirectToAction("ChucVu");
         }
          public IActionResult DoiTrangThai(int trangthai){
-           List<ChucVu> chucVuList;
+           List<ChucVu> model;
 
             if (trangthai == 1)
             {
-                chucVuList = context.ChucVu.Where(x => x.Active == true).ToList();
+                model = context.ChucVu.Where(x => x.Active == true).ToList();
             }
             else
             {
-                chucVuList = context.ChucVu.Where(x => x.Active == false).ToList();
+                model = context.ChucVu.Where(x => x.Active == false).ToList();
             }
 
-            return Json(chucVuList);
+            return Json(model);
          }
+        
+         public IActionResult Khoiphuc(int id)
+        {
+
+            ChucVu cv = context.ChucVu.Find(id);
+
+
+            if (cv != null)
+            {
+                cv.Active = true;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Khôi phục thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để khôi phục";
+            }
+            return RedirectToAction("ChucVu");
+        }
     }
 }

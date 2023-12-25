@@ -5,27 +5,27 @@
 
     List<ChucVu> getListChucVu()
     {
-        return context.ChucVu.ToList();
+        return context.ChucVu.Where(x => x.Active == true).ToList();
     }
     List<PhongBan> getListPhongBan()
     {
-        return context.PhongBan.ToList();
+        return context.PhongBan.Where(x => x.Active == true).ToList();
     }
     List<DmheSoPhuCap> getListDmheSoPhuCap()
     {
-        return context.DmheSoPhuCap.ToList();
+        return context.DmheSoPhuCap.Where(x => x.Active == true).ToList();
     }
     List<Dmhsluong> getListDmhsluong()
     {
-        return context.Dmhsluong.ToList();
+        return context.Dmhsluong.Where(x => x.Active == true).ToList();
     }
     List<Dmluong> getListDmluong()
     {
-        return context.Dmluong.ToList();
+        return context.Dmluong.Where(x => x.Active == true).ToList();
     }
     List<DmmucPhuCap> getListDmmucPhuCap()
     {
-        return context.DmmucPhuCap.ToList();
+        return context.DmmucPhuCap.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -163,7 +163,7 @@
                                         <input type="hidden" value="@item.TgketThuc" />
                                     </td>
 
-                                    <td class="text-center TenCV">
+                                    <td class="text-start TenCV">
                                         @item.MaCvNavigation.TenChucVu
                                         <input type="hidden" value="@item.MaCvNavigation.TenChucVu" />
                                         <input type="hidden" id="MACV" value="@item.MaCvNavigation.Id" />
@@ -255,7 +255,7 @@
                                         <input type="hidden" value="@item.TgketThuc" />
                                     </td>
 
-                                    <td class="text-center TenPB">
+                                    <td class="text-start TenPB">
                                         @item.MaPbNavigation.TenPhongBan
                                         <input type="hidden" value="@item.MaPbNavigation.TenPhongBan" />
                                         <input type="hidden" id="MAPB" value="@item.MaPbNavigation.Id" />
@@ -358,7 +358,7 @@
                                     <td class="text-center TGKTL">@formatDay(item.TgketThuc)
                                         <input type="hidden" value="@item.TgketThuc" />
                                     </td>
-                                    <td class="text-center MaHSL">@item.MaHslNavigation.HeSoLuong
+                                    <td class="text-end MaHSL">@item.MaHslNavigation.HeSoLuong
                                     <input type="hidden" value="@item.MaHslNavigation.HeSoLuong" />
                                         <input type="hidden" id="MAHSL" value="@item.MaHslNavigation.Id" />
                                         <input type="hidden" id="IDQTL" value="@item.Id" />
@@ -461,12 +461,12 @@
                                     <td class="text-right TGKTPC">@formatDay(item.TgketThuc)
                                       <input type="hidden" value="@item.TgketThuc" />
                                     </td>
-                                    <td class="text-center MaHSPC">@item.MaHspcNavigation.HeSoPhuCap
+                                    <td class="text-end MaHSPC">@item.MaHspcNavigation.HeSoPhuCap
                                         <input type="hidden" value="@item.MaHspcNavigation.HeSoPhuCap" />
                                         <input type="hidden" id="MAHSPC" value="@item.MaHspcNavigation.Id" />
                                         <input type="hidden" id="IDQTPC" value="@item.Id" />
                                     </td>
-                                    <td class="text-center KhoanPC">@item.MaPcNavigation.KhoanPhuCap
+                                    <td class="text-start KhoanPC">@item.MaPcNavigation.KhoanPhuCap
                                         <input type="hidden" value="@item.MaPcNavigation.KhoanPhuCap" />
                                         <input type="hidden" id="MAMPC" value="@item.MaPcNavigation.Id" />
                                     </td>

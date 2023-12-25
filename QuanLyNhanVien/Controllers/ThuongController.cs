@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using QuanLyNhanVien.Models;
+using System.Collections.Generic;
 
 
 namespace QuanLyNhanVien.Controllers
@@ -31,9 +32,8 @@ namespace QuanLyNhanVien.Controllers
 
             thuong1.MaThuong = thuong.MaThuong;
             thuong1.NoiDung = thuong.NoiDung;
-
-
-
+            thuong1.Tncn = thuong.Tncn;
+            thuong1.Bhxh = thuong.Bhxh;
             context.ThuongPckhac.Update(thuong1);
             context.SaveChanges();
             TempData["ThongBao"] = "Sửa thành công!";
@@ -52,7 +52,7 @@ namespace QuanLyNhanVien.Controllers
                 return RedirectToAction("ThemThuong");
             }
 
-
+            thuong.Active = true;
             context.ThuongPckhac.Add(thuong);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
@@ -73,6 +73,35 @@ namespace QuanLyNhanVien.Controllers
             else
             {
                 TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
+            return RedirectToAction("Thuong");
+        }
+          public IActionResult DoiTrangThai(int trangthai){
+           List<ThuongPckhac> model;
+
+            if (trangthai == 1)
+            {
+                model = context.ThuongPckhac.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                model = context.ThuongPckhac.Where(x => x.Active == false).ToList();
+            }
+
+            return Json(model);
+         }
+          public IActionResult KhoiPhuc(int id)
+        {
+            ThuongPckhac thuong = context.ThuongPckhac.Find(id);
+            if (thuong != null)
+            {
+                thuong.Active = true;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Khôi phục thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để khôi phục.";
             }
             return RedirectToAction("Thuong");
         }

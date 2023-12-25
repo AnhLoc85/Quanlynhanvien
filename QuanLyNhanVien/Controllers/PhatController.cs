@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using QuanLyNhanVien.Models;
+using System.Collections.Generic;
 
 
 namespace QuanLyNhanVien.Controllers
@@ -32,8 +33,6 @@ namespace QuanLyNhanVien.Controllers
             phat1.MaPhat = phat.MaPhat;
             phat1.NoiDung = phat.NoiDung;
 
-
-
             context.Phat.Update(phat1);
             context.SaveChanges();
             TempData["ThongBao"] = "Sửa thành công!";
@@ -52,7 +51,7 @@ namespace QuanLyNhanVien.Controllers
                 return RedirectToAction("ThemPhat");
             }
 
-     
+            phat.Active = true;
             context.Phat.Add(phat);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
@@ -73,6 +72,36 @@ namespace QuanLyNhanVien.Controllers
             else
             {
                 TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
+            return RedirectToAction("Phat");
+        }
+         public IActionResult DoiTrangThai(int trangthai){
+           List<Phat> model;
+
+            if (trangthai == 1)
+            {
+                model = context.Phat.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                model = context.Phat.Where(x => x.Active == false).ToList();
+            }
+
+            return Json(model);
+         }
+        public IActionResult KhoiPhuc(int id)
+        {
+
+            Phat phat = context.Phat.Find(id);
+            if (phat != null)
+            {
+                phat.Active = true;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Khôi phục thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để khôi phục.";
             }
             return RedirectToAction("Phat");
         }

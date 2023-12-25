@@ -156,18 +156,17 @@ string formatyear(DateTime? date)
                        class="table table-bordered table-responsive"
                        width="100%">
                     <thead>
-                        <tr>
-
+                         <tr>
                             <th class="text-center">STT</th>
                             <th class="text-center">Mã NS</th>
                             <th class="text-center">Tên NS</th>
                             <th class="text-center">Lương cơ bản</th>
                             <th class="text-center">Phụ cấp theo % lương</th>
                             <th class="text-center">Thưởng, phụ cấp khác</th>
-                            <th class="text-center">khoản phạt, trừ lương</th>
-                            <th class="text-center">BHYT</th>
                             <th class="text-center">Tổng lương</th>
-                            <th class="text-center">BHXH</th>
+                            <th class="text-center">Thuế</th>
+                            <th class="text-center">Bảo hiểm</th>
+                            <th class="text-center">khoản phạt, trừ lương</th>
                             <th class="text-center">Thực nhận</th>
                         </tr>
                     </thead>
@@ -181,26 +180,22 @@ string formatyear(DateTime? date)
                         double totalLuongNS = CalculateTotalLuongNS(item.Id, ViewBag.Ngay);
                         double totalThuongNS = CalculateTotalThuongNS(item.Id, ViewBag.Ngay);
                         double totalPhatNS = CalculateTotalPhatNS(item.Id, ViewBag.Ngay);
-
+                        double tongluong = ((double)getQTL(item.Id, ViewBag.Ngay).LuongNs + totalLuongNS + totalThuongNS );
                         <tr>
                             @{Sttw++;
                             }
                             <td class="text-center">@Sttw</td>
                             <td class="text-center">@item.MaNs</td>
-                            <td class="text-left">@item.TenNs</td>
-                            <td class="text-right">@format1(getQTL(item.Id, ViewBag.Ngay).LuongNs)</td>
-                            <td class="text-right">@format(totalLuongNS)</td>
-                            <td class="text-right">@format(totalThuongNS)</td>
-                            <td class="text-right">@format(totalPhatNS)</td>
-                            <td class="text-right"></td>
-                            @{
-                            double tongluong = ((double)getQTL(item.Id, ViewBag.Ngay).LuongNs + totalLuongNS + totalThuongNS - totalPhatNS);
-                            }
-                            <td class="text-right">
-                                @format(tongluong)
+                            <td class="text-start">@item.TenNs</td>
+                            <td class="text-end">@format1(getQTL(item.Id, ViewBag.Ngay).LuongNs)</td>
+                            <td class="text-end">@format(totalLuongNS)</td>
+                            <td class="text-end">@format(totalThuongNS)</td>
+                            <td class="text-end">@format(tongluong)</td>
+                            <td class="text-end"></td>
+                            <td class="text-end">
                             </td>
-                            <td class="text-right"></td>
-                            <td class="text-right">@format(tongluong)</td>
+                            <td class="text-end">@format(totalPhatNS)</td>
+                            <td class="text-end">@format(tongluong- totalPhatNS)</td>
                         </tr>
 
                         }

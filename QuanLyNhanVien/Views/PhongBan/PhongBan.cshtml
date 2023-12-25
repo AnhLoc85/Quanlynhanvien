@@ -28,11 +28,17 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="position-absolute" style="margin-top: -10px">
-                    <div class="col-lg-2 col-sm-2" style="width: auto">
+                <div class="row position-absolute" style="margin-top: -10px">
+                    <div class="col-sm-auto pe-2">
                         <a href="/PhongBan/ThemPhongBan" class="btn btn-primary">
                             <span>Thêm Mới</span>
                         </a>
+                    </div>
+                    <div class="col-sm-auto pe-2">
+                        <select class="form-select" name="" id="TinhTrang">
+                            <option value="1" selected>Hiện tại</option>
+                            <option value="2">Đã xóa</option>
+                        </select>
                     </div>
                 </div>
                 <table id="example"
@@ -69,3 +75,46 @@
         </div>
     </div>
 </div>
+<script>
+    $('#TinhTrang').on('change', function() {
+        var TrangThai = $(this).val();
+        $.ajax({
+        type: "post",
+        url: "/PhongBan/DoiTrangThai",
+        data: "trangthai=" + TrangThai,
+        success: function (response) {
+             var table = $('#example').DataTable();
+        // Clear existing rows from the DataTable
+        table.rows().remove().draw();
+      $.each(response, function (index, pb) {
+    var row = ` <tr>
+                                <td class="text-center">${pb.maPb}</td>
+                                <td class="text-start">${pb.tenPhongBan}</td>
+                                <td class="text-center d-flex justify-content-evenly">
+                                    <a href="/PhongBan/SuaPhongBan/${pb.id}">
+                                        Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                    </a>
+                                ${pb.active ?
+                                     `<a href="/PhongBan/XoaPhongBan/${pb.id}"
+                                    onclick="return confirm('Bạn có xoá phòng ban này?')">
+                                        Xóa
+                                        <i class="bx bx-trash"></i>
+                                    </a>  `:
+                                     `<a href="/PhongBan/KhoiPhuc/${pb.id}"
+                                    onclick="return confirm('Bạn có khôi phục phòng ban này?')">
+                                        Hoàn tác
+                                        <i class="bx bx-redo"></i>
+                                    </a>  `
+                                }
+                                </td>
+                            </tr>`;
+            // Thêm dòng mới vào DataTable và vẽ lại DataTable
+            $('#example').DataTable().row.add($(row)[0]).draw(false);
+        });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    })
+</script>

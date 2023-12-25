@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Microsoft.EntityFrameworkCore
+@{
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     LuongCoBan getQTL(int? id, DateTime? ngay)
     {
@@ -15,25 +16,22 @@
     double CalculateTotalThuongNS(int? id, DateTime? ngay)
     {
         double totalThuongNS = 0.0;
-
         if (id.HasValue && ngay.HasValue)
         {
             totalThuongNS = (double)context.QuaTrinhThuongPc
-                .Where(x => x.MaNs == id && x.Tgthuong.HasValue && x.Tgthuong.Value.Month == ngay.Value.Month && x.Tgthuong.Value.Year == ngay.Value.Year)
-                .Sum(x => x.TienThuong);
+            .Where(x => x.MaNs == id && x.Tgthuong.HasValue && x.Tgthuong.Value.Month == ngay.Value.Month && x.Tgthuong.Value.Year
+            == ngay.Value.Year)
+            .Sum(x => x.TienThuong);
         }
-
         return totalThuongNS;
     }
 
-    double CalculateTotalLuongNS(int? id, DateTime? ngay)
+    double CalculateTotalPhuCapNS(int? id, DateTime? ngay)
     {
-
-        double totalLuongNS = (double)context.PhuCapNhanSu
-            .Where(x => x.MaNs == id && x.ThoiGian == ngay)
-            .Sum(x => x.TienPc);
-
-        return totalLuongNS;
+        double totalPhuCapNS = (double)context.PhuCapNhanSu
+        .Where(x => x.MaNs == id && x.ThoiGian == ngay)
+        .Sum(x => x.TienPc);
+        return totalPhuCapNS;
     }
 
     double CalculateTotalPhatNS(int? id, DateTime? ngay)
@@ -43,12 +41,72 @@
         if (id.HasValue && ngay.HasValue)
         {
             totalPhatNS = (double)context.QuaTrinhPhat
-                .Where(x => x.MaNs == id && x.Tgphat.HasValue && x.Tgphat.Value.Month == ngay.Value.Month && x.Tgphat.Value.Year == ngay.Value.Year)
-                .Sum(x => x.TienPhat);
+            .Where(x => x.MaNs == id && x.Tgphat.HasValue && x.Tgphat.Value.Month == ngay.Value.Month && x.Tgphat.Value.Year ==
+            ngay.Value.Year)
+            .Sum(x => x.TienPhat);
         }
 
         return totalPhatNS;
     }
+    double CalculateThuongTinhBH(int? id, DateTime? ngay)
+    {
+        double totalThuongTinhBH = 0.0;
+
+        if (id.HasValue && ngay.HasValue)
+        {
+            totalThuongTinhBH = (double)context.QuaTrinhThuongPc.Include(x => x.MaThuongNavigation)
+            .Where(x => x.MaNs == id && x.Tgthuong.HasValue && x.Tgthuong.Value.Month == ngay.Value.Month
+            && x.Tgthuong.Value.Year == ngay.Value.Year && x.MaThuongNavigation.Bhxh == true)
+            .Sum(x => x.TienThuong);
+        }
+
+        return totalThuongTinhBH;
+    }
+    double CalculateTotalPhuCapTinhBH(int? id, DateTime? ngay, double luongNS)
+    {
+        double phuCapBH = 0;
+        var PhuCapTinhBH = context.QuaTrinhPhuCap
+        .Include(x => x.MaHspcNavigation)
+        .Include(x => x.MaPcNavigation)
+        .Where(x => x.MaNs == id &&
+        x.TgbatDau <= ngay && ngay <= x.TgketThuc &&
+        x.MaPcNavigation.Bhxh == true).ToList();
+        foreach (QuaTrinhPhuCap quaTrinh in PhuCapTinhBH)
+        {
+            phuCapBH += (double)((quaTrinh.MaHspcNavigation.HeSoPhuCap * luongNS) / 100);
+        }
+        return Math.Round(phuCapBH, 3);
+    }
+    double CalculateThuongTinhThue(int? id, DateTime? ngay)
+    {
+        double totalThuongTinhThue = 0.0;
+
+        if (id.HasValue && ngay.HasValue)
+        {
+            totalThuongTinhThue = (double)context.QuaTrinhThuongPc.Include(x => x.MaThuongNavigation)
+            .Where(x => x.MaNs == id && x.Tgthuong.HasValue && x.Tgthuong.Value.Month == ngay.Value.Month
+            && x.Tgthuong.Value.Year == ngay.Value.Year && x.MaThuongNavigation.Tncn == true)
+            .Sum(x => x.TienThuong);
+        }
+
+        return totalThuongTinhThue;
+    }
+    double CalculateTotalPhuCapTinhThue(int? id, DateTime? ngay, double luongNS)
+    {
+        double phuCapThue = 0;
+        var PhuCapTinhThue = context.QuaTrinhPhuCap
+        .Include(x => x.MaHspcNavigation)
+        .Include(x => x.MaPcNavigation)
+        .Where(x => x.MaNs == id &&
+        x.TgbatDau <= ngay && ngay <= x.TgketThuc &&
+        x.MaPcNavigation.Tncn == true).ToList();
+        foreach (QuaTrinhPhuCap quaTrinh in PhuCapTinhThue)
+        {
+            phuCapThue += (double)((quaTrinh.MaHspcNavigation.HeSoPhuCap * luongNS) / 100);
+        }
+        return Math.Round(phuCapThue, 3);
+    }
+    var cachtinhthue = context.QuyDinhThue.ToList();
 
     string format1(decimal? a)
     {
@@ -61,10 +119,8 @@
 }
 
 <div id="tbodyBangLuong">
-  
-    <table id="example"
-           class="table table-bordered table-responsive"
-           width="100%">
+
+    <table id="example" class="table table-bordered table-responsive" width="100%">
         <thead>
             <tr>
 
@@ -74,46 +130,57 @@
                 <th class="text-center">Lương cơ bản</th>
                 <th class="text-center">Phụ cấp theo % lương</th>
                 <th class="text-center">Thưởng, phụ cấp khác</th>
-                <th class="text-center">khoản phạt, trừ lương</th>
-                <th class="text-center">BHYT</th>
                 <th class="text-center">Tổng lương</th>
-                <th class="text-center">BHXH</th>
+                <th class="text-center">Thuế</th>
+                <th class="text-center">Bảo hiểm</th>
+                <th class="text-center">khoản phạt, trừ lương</th>
                 <th class="text-center">Thực nhận</th>
             </tr>
         </thead>
-       
+
         <tbody id="tbodyBangLuong">
             @{
                 int Sttw = 0;
             }
             @foreach (NhanSu item in ViewBag.NS)
             {
-                double totalLuongNS = CalculateTotalLuongNS(item.Id, ViewBag.Ngay);
+                double totalPhuCapNS = CalculateTotalPhuCapNS(item.Id, ViewBag.Ngay);
                 double totalThuongNS = CalculateTotalThuongNS(item.Id, ViewBag.Ngay);
                 double totalPhatNS = CalculateTotalPhatNS(item.Id, ViewBag.Ngay);
-                
-            <tr>
-                @{Sttw++;
+                double tongluong = ((double)getQTL(item.Id, ViewBag.Ngay).LuongNs + totalPhuCapNS + totalThuongNS);
+                double pctinhbh = CalculateTotalPhuCapTinhBH(item.Id, ViewBag.Ngay, (double)getQTL(item.Id,
+                ViewBag.Ngay).LuongNs);
+                double thuongtinhbh = CalculateThuongTinhBH(item.Id, ViewBag.Ngay);
+                double baohiem = ((double)getQTL(item.Id, ViewBag.Ngay).LuongNs + pctinhbh + thuongtinhbh) * 10.5 / 100;
+                double pctinhthue = CalculateTotalPhuCapTinhThue(item.Id, ViewBag.Ngay, (double)getQTL(item.Id,
+                ViewBag.Ngay).LuongNs);
+                double thuongtinhthue = CalculateThuongTinhThue(item.Id, ViewBag.Ngay);
+                double thunhaptinhthue = ((double)getQTL(item.Id, ViewBag.Ngay).LuongNs + pctinhthue + thuongtinhthue -
+                baohiem - 11.000);
+                double thue = 0;
+                if (cachtinhthue.Count > 0 && thunhaptinhthue > cachtinhthue[0].Thunhapthue)
+                {
+                    thue = (double)(thunhaptinhthue * cachtinhthue[0].Thuesuat * 100);
                 }
-                <td class="text-center">@Sttw</td>
-                <td class="text-center">@item.MaNs</td>
-                <td class="text-left">@item.TenNs</td>
-                <td class="text-right">@format1(getQTL(item.Id, ViewBag.Ngay).LuongNs)</td>
-                <td class="text-right">@format(totalLuongNS)</td>
-                <td class="text-right">@format(totalThuongNS)</td>
-                <td class="text-right">@format(totalPhatNS)</td>
-                <td class="text-right"></td>
-                @{
-                    double tongluong = ((double)getQTL(item.Id, ViewBag.Ngay).LuongNs + totalLuongNS + totalThuongNS - totalPhatNS);
-                }
-                <td class="text-right">
-                    @format(tongluong)
-                </td>
-                <td class="text-right"></td>
-                <td class="text-right">@format(tongluong)</td>
-            </tr>
+                <tr>
+                    @{
+                        Sttw++;
+                    }
+                    <td class="text-center px-1 py-3">@Sttw</td>
+                    <td class="text-center px-1 py-3">@item.MaNs</td>
+                    <td class="text-start px-1 py-3">@item.TenNs</td>
+                    <td class="text-end px-1 py-3">@format1(getQTL(item.Id, ViewBag.Ngay).LuongNs)</td>
+                    <td class="text-end px-1 py-3">@format(totalPhuCapNS)</td>
+                    <td class="text-end px-1 py-3">@format(totalThuongNS)</td>
+                    <td class="text-end px-1 py-3"> @format(tongluong)</td>
+                    <td class="text-end px-1 py-3">@format(thue)</td>
+                    <td class="text-end px-1 py-3">
+                    </td>
+                    <td class="text-end px-1 py-3">@format(totalPhatNS)</td>
+                    <td class="text-end px-1 py-3">@format(tongluong - totalPhatNS)</td>
+                </tr>
 
-        }
+            }
         </tbody>
     </table>
 </div>

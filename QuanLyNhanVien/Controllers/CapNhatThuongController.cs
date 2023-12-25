@@ -27,7 +27,7 @@ namespace QuanLyNhanVien.Controllers
         {
             if (IDPB == 0)
             {
-                ViewBag.NNV = context.NhanSu.ToList();
+                ViewBag.NNV = context.NhanSu.Where(x => x.Active == true).ToList();
             }
             else
             {

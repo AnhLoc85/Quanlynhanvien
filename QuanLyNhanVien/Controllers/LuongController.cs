@@ -34,8 +34,6 @@ namespace QuanLyNhanVien.Controllers
             luong1.MaMl = luong.MaMl;
             luong1.TienLuong = luong.TienLuong;
 
-
-
             context.Dmluong.Update(luong1);
             context.SaveChanges();
             TempData["ThongBao"] = "Sửa thành công!";
@@ -53,7 +51,7 @@ namespace QuanLyNhanVien.Controllers
                 TempData["ThongBao"] = "Mã mức lương đã tồn tại";
                 return RedirectToAction("ThemLuong");
             }
-
+            luong.Active = true;
             luong.NgayAd = DateTime.Now; 
             context.Dmluong.Add(luong);
             context.SaveChanges();
@@ -64,10 +62,7 @@ namespace QuanLyNhanVien.Controllers
 
         public IActionResult XoaLuong(int id)
         {
-
             Dmluong luong = context.Dmluong.Find(id);
-
-
             if (luong != null)
             {
                 luong.Active = false;
@@ -77,6 +72,35 @@ namespace QuanLyNhanVien.Controllers
             else
             {
                 TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
+            return RedirectToAction("Luong");
+        }
+         public IActionResult DoiTrangThai(int trangthai){
+           List<Dmluong> luongCoBanList;
+
+            if (trangthai == 1)
+            {
+                luongCoBanList = context.Dmluong.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                luongCoBanList = context.Dmluong.Where(x => x.Active == false).ToList();
+            }
+
+            return Json(luongCoBanList);
+         }
+        public IActionResult KhoiPhuc(int id)
+        {
+            Dmluong luong = context.Dmluong.Find(id);
+            if (luong != null)
+            {
+                luong.Active = true;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Khôi phục thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để khôi phục.";
             }
             return RedirectToAction("Luong");
         }

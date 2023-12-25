@@ -2,7 +2,7 @@
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<Dmluong> getListDmluong()
     {
-        return context.Dmluong.ToList();
+        return context.Dmluong.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -32,11 +32,17 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="position-absolute" style="margin-top: -10px">
-                    <div class="col-lg-2 col-sm-2" style="width: auto">
-                        <a href="/Luong/ThemLuong" class="btn btn-primary">
+                <div class="row position-absolute" style="margin-top: -10px">
+                    <div class="col-sm-auto pe-2">
+                         <a href="/Luong/ThemLuong" class="btn btn-primary">
                             <span>Thêm Mới</span>
                         </a>
+                    </div>
+                    <div class="col-sm-auto pe-2">
+                        <select class="form-select" name="" id="TinhTrang">
+                            <option value="1" selected>Hiện tại</option>
+                            <option value="2">Đã xóa</option>
+                        </select>
                     </div>
                 </div>
                 <table id="example"
@@ -80,3 +86,75 @@
         </div>
     </div>
 </div>
+<script>
+      function formatDay(inputString) {
+  if (inputString) {
+      var inputDate = new Date(inputString);
+      var day = inputDate.getDate();
+      if (day < 10) {
+          day = '0' + day;
+      }
+      var month = inputDate.getMonth() + 1;
+      if (month < 10) {
+          month = '0' + month;
+      }
+      var year = inputDate.getFullYear();
+      return day + '-' + month + '-' + year;
+  } else {
+      return ""
+  }
+}
+    function format(number) {
+    if (number) {
+        if (Number.isInteger(number)) {
+            return number.toLocaleString('en-US');
+        } else {
+            return number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+    } else {
+        return "";
+    }
+}
+    $('#TinhTrang').on('change', function() {
+        var TrangThai = $(this).val();
+        $.ajax({
+        type: "post",
+        url: "/Luong/DoiTrangThai",
+        data: "trangthai=" + TrangThai,
+        success: function (response) {
+             var table = $('#example').DataTable();
+        // Clear existing rows from the DataTable
+        table.rows().remove().draw();
+      $.each(response, function (index, luong) {
+    var row = `<tr>
+                                    <td class="text-center">${luong.maMl}</td>
+                                    <td class="text-center">${format(luong.tienLuong)}</td>
+                                    <td class="text-center">${formatDay(luong.ngayAd)}</td>
+                                    <td class="text-center d-flex justify-content-evenly">
+                                        <a href="/Luong/SuaLuong/${luong.id}">
+                                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                                        </a>
+                                    ${luong.active ? 
+                                        `<a href="/Luong/XoaLuong/${luong.id}"
+                                           onclick="return confirm('Bạn có xoá múc lương này ?')">
+                                            Xóa
+                                            <i class="bx bx-trash"></i>
+                                        </a>`:
+                                        `<a href="/Luong/KhoiPhuc/${luong.id}"
+                                           onclick="return confirm('Bạn có khôi phục múc lương này ?')">
+                                            Khôi phục
+                                            <i class="bx bx-redo"></i>
+                                        </a>`
+                                    }
+                                    </td>
+                                </tr>`;
+            // Thêm dòng mới vào DataTable và vẽ lại DataTable
+            $('#example').DataTable().row.add($(row)[0]).draw(false);
+        });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    })
+</script>

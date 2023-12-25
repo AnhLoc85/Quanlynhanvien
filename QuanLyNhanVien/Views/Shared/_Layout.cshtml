@@ -48,6 +48,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet" />
 
+    <script src="~/js/common.js"></script>
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="~/assets/vendor/fonts/boxicons.css" />
@@ -154,30 +155,37 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                  @if(idcv == 1) {
-                        <li class="menu-item">
+                     <li class="menu-item">
                         <a href="/TrangChu/Home" class="menu-link text-decoration-none">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Tổng quan</div>
                         </a>
                     </li>
+                  @if(idcv == 1) {
+                   
                     <li class="menu-item">
                         <a href="/QRCode/QRCode" class="menu-link text-decoration-none">
-                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <i class="menu-icon tf-icons bx bx-qr"></i>
                             <div data-i18n="Analytics">Quét QR điểm danh</div>
                         </a>
                     </li>
-                  }
-                     <li class="menu-item">
+                  }else{
+                    <li class="menu-item">
                         <a href="/ChamCong/ChamCong" class="menu-link text-decoration-none">
-                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <i class="menu-icon tf-icons bx bx-group"></i>
                             <div data-i18n="Analytics">Chấm công nhân viên</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/LichLamViec/LichLamViec" class="menu-link text-decoration-none">
+                            <i class="menu-icon tf-icons bx bx-calendar"></i>
+                            <div data-i18n="Analytics">Lịch làm việc</div>
                         </a>
                     </li>
                     <!-- Layouts -->
                     <li class="menu-item">
                         <a href="" class="menu-link menu-toggle text-decoration-none">
-                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <i class="menu-icon tf-icons bx bx-list-ol"></i>
                             <div data-i18n="Layouts">Danh mục</div>
                         </a>
 
@@ -243,7 +251,7 @@
 
                     <li class="menu-item">
                         <a href="" class="menu-link menu-toggle text-decoration-none">
-                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <i class="menu-icon tf-icons bx bx-male"></i>
                             <div data-i18n="Layouts">Quản lý nhân sự</div>
                         </a>
 
@@ -255,7 +263,7 @@
                             </li>
                             <li class="menu-item">
                                 <a href="/QuanLyNhanSu/DieuChinhLuong" class="menu-link text-decoration-none">
-                                    <div data-i18n="Without menu">Điều chỉnh hệ số lương</div>
+                                    <div data-i18n="Without menu">Điều chỉnh mức lương</div>
                                 </a>
                             </li>
                         </ul>
@@ -263,7 +271,7 @@
 
                     <li class="menu-item">
                         <a href="" class="menu-link menu-toggle text-decoration-none">
-                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <i class="menu-icon tf-icons bx bx-money"></i>
                             <div data-i18n="Layouts">Quản lý lương</div>
                         </a>
 
@@ -292,6 +300,8 @@
 
                         </ul>
                     </li>
+                  }
+                     
 
 
                     <li class="menu-header small text-uppercase">
@@ -299,7 +309,7 @@
                     </li>
                     <li class="menu-item">
                         <a href="/HoSo/HoSo/@idnv" class="menu-link text-decoration-none">
-                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
                             <div data-i18n="Account Settings">Hồ sơ</div>
                         </a>
                     </li>
@@ -404,7 +414,7 @@
             </div>
             <!-- / Layout page -->
         </div>
-        <div class="bs-toast toast fade" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="height:90px; position: absolute; top: 5%; right: 1%">
+        <div class="bs-toast toast fade" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style=" position: absolute; top: 5%; right: 1%">
             <div class="toast-header">
                 <i class="bx bx-bell me-2"></i>
                 <div class="me-auto fw-medium">Thông báo</div>
@@ -420,7 +430,6 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
 
-    <script src="~/js/common.js"></script>
     <script src="~/assets/vendor/js/bootstrap.js"></script>
     <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 

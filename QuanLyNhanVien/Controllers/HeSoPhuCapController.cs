@@ -35,8 +35,6 @@ namespace QuanLyNhanVien.Controllers
             hspc1.MaHspc = hspc.MaHspc;
             hspc1.HeSoPhuCap = hspc.HeSoPhuCap;
 
-
-
             context.DmheSoPhuCap.Update(hspc1);
             context.SaveChanges();
             TempData["ThongBao"] = "Sửa thành công!";
@@ -55,7 +53,7 @@ namespace QuanLyNhanVien.Controllers
                 return RedirectToAction("ThemHeSoPhuCap");
             }
   
-
+            hspc.Active = true;
             context.DmheSoPhuCap.Add(hspc);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
@@ -76,6 +74,36 @@ namespace QuanLyNhanVien.Controllers
             else
             {
                 TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
+            return RedirectToAction("HeSoPhuCap");
+        }
+         public IActionResult DoiTrangThai(int trangthai){
+           List<DmheSoPhuCap> model;
+
+            if (trangthai == 1)
+            {
+                model = context.DmheSoPhuCap.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                model = context.DmheSoPhuCap.Where(x => x.Active == false).ToList();
+            }
+
+            return Json(model);
+         }
+        public IActionResult KhoiPhuc(int id)
+        {
+
+            DmheSoPhuCap hspc = context.DmheSoPhuCap.Find(id);
+            if (hspc != null)
+            {
+                hspc.Active = true;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Khôi phục thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để khôi phục.";
             }
             return RedirectToAction("HeSoPhuCap");
         }

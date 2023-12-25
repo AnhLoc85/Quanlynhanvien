@@ -41,6 +41,7 @@ namespace QuanLyNhanVien.Models
         public virtual DbSet<QuaTrinhPhat> QuaTrinhPhat { get; set; }
         public virtual DbSet<QuaTrinhPhuCap> QuaTrinhPhuCap { get; set; }
         public virtual DbSet<QuaTrinhThuongPc> QuaTrinhThuongPc { get; set; }
+        public virtual DbSet<QuyDinhThue> QuyDinhThue { get; set; }
         public virtual DbSet<Quyen> Quyen { get; set; }
         public virtual DbSet<Table1> Table1 { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
@@ -115,16 +116,12 @@ namespace QuanLyNhanVien.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Bhxh).HasColumnName("BHXH");
-
                 entity.Property(e => e.MaHspc)
                     .IsRequired()
                     .HasColumnName("MaHSPC")
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
-
-                entity.Property(e => e.Tncn).HasColumnName("TNCN");
             });
 
             modelBuilder.Entity<Dmhsluong>(entity =>
@@ -167,6 +164,8 @@ namespace QuanLyNhanVien.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Bhxh).HasColumnName("BHXH");
+
                 entity.Property(e => e.KhoanPhuCap)
                     .HasMaxLength(50)
                     .IsFixedLength();
@@ -177,6 +176,8 @@ namespace QuanLyNhanVien.Models
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.Property(e => e.Tncn).HasColumnName("TNCN");
             });
 
             modelBuilder.Entity<DongBaoHiem>(entity =>
@@ -545,6 +546,17 @@ namespace QuanLyNhanVien.Models
                     .WithMany(p => p.QuaTrinhThuongPc)
                     .HasForeignKey(d => d.MaThuong)
                     .HasConstraintName("FK_QuaTrinhThuongPC_ThuongPCKhac");
+            });
+
+            modelBuilder.Entity<QuyDinhThue>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Thuesuat).HasColumnName("thuesuat");
+
+                entity.Property(e => e.Thunhapthue).HasColumnName("thunhapthue");
             });
 
             modelBuilder.Entity<Quyen>(entity =>

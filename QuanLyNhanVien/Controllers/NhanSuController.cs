@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace QuanLyNhanVien.Controllers
 {
@@ -23,6 +24,10 @@ namespace QuanLyNhanVien.Controllers
 
         public IActionResult NhanSu()
         {
+            int idcv = int.Parse(User.FindFirstValue(ClaimTypes.Locality));
+           var listNhanSu = context.NhanSu.Where(x => x.Active == true);
+
+        ViewBag.NhanSu = listNhanSu;
             return View();
         }
 
@@ -64,7 +69,7 @@ namespace QuanLyNhanVien.Controllers
                 TempData["ThongBao"] = "Mã nhân sự đã tồn tại";
                 return RedirectToAction("ThemNhanSu");
             }
-
+           
             var address1 = address + ", " + selectedWardText + ", " + selectedDistrictText + ", " + selectedCityText;
             ns.DiaChi = address1;
             ns.GioiTinh = bool.Parse(gioitinh);
@@ -75,7 +80,7 @@ namespace QuanLyNhanVien.Controllers
             {
                 ns.HinhAnh = UploadedFile(ns, avt);
             }
-            
+             ns.Active = true;
             context.NhanSu.Add(ns);
             context.SaveChanges();
 
@@ -121,27 +126,38 @@ namespace QuanLyNhanVien.Controllers
         public IActionResult XoaNhanSu(int id)
         {
                 NhanSu ns = context.NhanSu.Find(id);
-                List<QtchucVu> qtcvList = context.QtchucVu.Where(x => x.MaNs == id).ToList();
-            List<QtcongTac> qtctList = context.QtcongTac.Where(x => x.MaNs == id).ToList();
-            List<QuaTrinhLuong> qtlList = context.QuaTrinhLuong.Where(x => x.MaNs == id).ToList();
-            List<QuaTrinhThuongPc> qttList = context.QuaTrinhThuongPc.Where(x => x.MaNs == id).ToList();
-            List<QuaTrinhPhat> qtpList = context.QuaTrinhPhat.Where(x => x.MaNs == id).ToList();
-            List<QuaTrinhPhuCap> qtpcList = context.QuaTrinhPhuCap.Where(x => x.MaNs == id).ToList();
-            List<QuaTrinhDongThue> qtdtList = context.QuaTrinhDongThue.Where(x => x.MaNs == id).ToList();
-            List<QuaTrinhDongBh> qtbhList = context.QuaTrinhDongBh.Where(x => x.MaNs == id).ToList();
-
-            context.QtchucVu.RemoveRange(qtcvList);
-            context.QtcongTac.RemoveRange(qtctList);
-            context.QuaTrinhLuong.RemoveRange(qtlList);
-            context.QuaTrinhThuongPc.RemoveRange(qttList);
-            context.QuaTrinhPhat.RemoveRange(qtpList);
-            context.QuaTrinhPhuCap.RemoveRange(qtpcList);
-            context.QuaTrinhDongThue.RemoveRange(qtdtList);
-            context.QuaTrinhDongBh.RemoveRange(qtbhList);
-            context.NhanSu.Remove(ns);
-                context.SaveChanges();
-                TempData["ThongBao"] = "Xóa thành công!";
+                 if (ns != null)
+                {
+                    ns.Active = false;
+                    context.SaveChanges();
+                    TempData["ThongBao"] = "Xóa thành công!";
+                }
+                else
+                {
+                    TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+                }
                 return RedirectToAction("NhanSu");
+            //     List<QtchucVu> qtcvList = context.QtchucVu.Where(x => x.MaNs == id).ToList();
+            // List<QtcongTac> qtctList = context.QtcongTac.Where(x => x.MaNs == id).ToList();
+            // List<QuaTrinhLuong> qtlList = context.QuaTrinhLuong.Where(x => x.MaNs == id).ToList();
+            // List<QuaTrinhThuongPc> qttList = context.QuaTrinhThuongPc.Where(x => x.MaNs == id).ToList();
+            // List<QuaTrinhPhat> qtpList = context.QuaTrinhPhat.Where(x => x.MaNs == id).ToList();
+            // List<QuaTrinhPhuCap> qtpcList = context.QuaTrinhPhuCap.Where(x => x.MaNs == id).ToList();
+            // List<QuaTrinhDongThue> qtdtList = context.QuaTrinhDongThue.Where(x => x.MaNs == id).ToList();
+            // List<QuaTrinhDongBh> qtbhList = context.QuaTrinhDongBh.Where(x => x.MaNs == id).ToList();
+
+            // context.QtchucVu.RemoveRange(qtcvList);
+            // context.QtcongTac.RemoveRange(qtctList);
+            // context.QuaTrinhLuong.RemoveRange(qtlList);
+            // context.QuaTrinhThuongPc.RemoveRange(qttList);
+            // context.QuaTrinhPhat.RemoveRange(qtpList);
+            // context.QuaTrinhPhuCap.RemoveRange(qtpcList);
+            // context.QuaTrinhDongThue.RemoveRange(qtdtList);
+            // context.QuaTrinhDongBh.RemoveRange(qtbhList);
+            // context.NhanSu.Remove(ns);
+            //     context.SaveChanges();
+            //     TempData["ThongBao"] = "Xóa thành công!";
+            //     return RedirectToAction("NhanSu");
         }
         private string UploadedFile(NhanSu model, IFormFile avt)
         {
@@ -161,6 +177,33 @@ namespace QuanLyNhanVien.Controllers
             }
 
             return uniqueFileName;
+        }
+        public IActionResult DoiTrangThai(int trangthai){
+           List<NhanSu> nhanSuList;
+            if (trangthai == 1)
+            {
+                nhanSuList = context.NhanSu.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                nhanSuList = context.NhanSu.Where(x => x.Active == false).ToList();
+            }
+            return Json(nhanSuList);
+         }
+          public IActionResult Khoiphuc(int id)
+        {
+                NhanSu ns = context.NhanSu.Find(id);
+                 if (ns != null)
+                {
+                    ns.Active = true;
+                    context.SaveChanges();
+                    TempData["ThongBao"] = "Khôi phục thành công!";
+                }
+                else
+                {
+                    TempData["ThongBao"] = "Không tìm thấy dòng để khôi phục.";
+                }
+                return RedirectToAction("NhanSu");
         }
     }
 }

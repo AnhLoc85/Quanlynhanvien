@@ -47,7 +47,7 @@ namespace QuanLyNhanVien.Controllers
                 context.SaveChanges();
             }
 
-            var QTL = context.QuaTrinhPhuCap.Include(x => x.MaHspcNavigation).Include(x => x.MaPcNavigation).Where(x => x.TgbatDau <= date && date <= x.TgketThuc).ToList();
+            var QTL = context.QuaTrinhPhuCap.Include(x => x.MaHspcNavigation).Include(x => x.MaPcNavigation).Where(x => x.TgbatDau.Value.Date <= date && date <= x.TgketThuc.Value.Date).ToList();
             foreach (var qtpc in QTL)
             {
                 var tienluong = context.LuongCoBan.FirstOrDefault(x => x.ThoiGian == date && x.MaNs == qtpc.MaNs).LuongNs;

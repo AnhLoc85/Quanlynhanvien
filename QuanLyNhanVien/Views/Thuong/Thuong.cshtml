@@ -28,11 +28,17 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="position-absolute" style="margin-top: -10px">
-                    <div class="col-lg-2 col-sm-2" style="width: auto">
-                        <a href="/Thuong/ThemThuong" class="btn btn-primary">
+                <div class="row position-absolute" style="margin-top: -10px">
+                    <div class="col-sm-auto pe-2">
+                         <a href="/Thuong/ThemThuong" class="btn btn-primary">
                             <span>Thêm Mới</span>
                         </a>
+                    </div>
+                    <div class="col-sm-auto pe-2">
+                        <select class="form-select" name="" id="TinhTrang">
+                            <option value="1" selected>Hiện tại</option>
+                            <option value="2">Đã xóa</option>
+                        </select>
                     </div>
                 </div>
                 <table id="example"
@@ -42,6 +48,8 @@
                         <tr>
                             <th class="text-center">Mã Thưởng</th>
                             <th class="text-center">Nội dung</th>
+                            <th class="text-center">Tính thu nhập cá nhân</th>
+                            <th class="text-center">Tính bảo hiểm</th>
                             <th class="text-center" width="30%">Tùy chọn</th>
                         </tr>
                     </thead>
@@ -53,6 +61,8 @@
                                 <tr>
                                     <td class="text-center">@thuong.MaThuong</td>
                                     <td class="text-center">@thuong.NoiDung</td>
+                                    <td class="text-center">@(thuong.Tncn == true ? "có" : "không")</td>
+                                    <td class="text-center">@(thuong.Bhxh == true ? "có" : "không")</td>
                                     <td class="text-center d-flex justify-content-evenly">
                                         <a href="/Thuong/SuaThuong/@thuong.Id">
                                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -73,3 +83,47 @@
         </div>
     </div>
 </div>
+<script>
+    $('#TinhTrang').on('change', function() {
+        var TrangThai = $(this).val();
+        $.ajax({
+        type: "post",
+        url: "/Thuong/DoiTrangThai",
+        data: "trangthai=" + TrangThai,
+        success: function (response) {
+             var table = $('#example').DataTable();
+        // Clear existing rows from the DataTable
+        table.rows().remove().draw();
+      $.each(response, function (index, thuong) {
+    var row = `<tr>
+                    <td class="text-center">${thuong.maThuong}</td>
+                    <td class="text-center">${thuong.noiDung}</td>
+                    <td class="text-center d-flex justify-content-evenly">
+                        <a href="/Thuong/SuaThuong/${thuong.id}">
+                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                        </a>
+                    ${thuong.active ?
+                        `<a href="/Thuong/XoaThuong/${thuong.id}"
+                            onclick="return confirm('Bạn có xoá phần thưởng, phụ cấp này?')">
+                            Xóa
+                            <i class="bx bx-trash"></i>
+                        </a>`:
+                        `<a href="/Thuong/KhoiPhuc/${thuong.id}"
+                            onclick="return confirm('Bạn có khôi phục phần thưởng, phụ cấp này?')">
+                            Khôi phục
+                            <i class="bx bx-redo"></i>
+                        </a>`
+                    }
+                        
+                    </td>
+                </tr>`;
+            // Thêm dòng mới vào DataTable và vẽ lại DataTable
+            $('#example').DataTable().row.add($(row)[0]).draw(false);
+        });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    })
+</script>

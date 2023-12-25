@@ -2,7 +2,7 @@
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<DmmucPhuCap> getListDmmucPhuCap()
     {
-        return context.DmmucPhuCap.ToList();
+        return context.DmmucPhuCap.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -28,11 +28,17 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="position-absolute" style="margin-top: -10px">
-                    <div class="col-lg-2 col-sm-2" style="width: auto">
+                 <div class="row position-absolute" style="margin-top: -10px">
+                    <div class="col-sm-auto pe-2">
                         <a href="/PhuCap/ThemPhuCap" class="btn btn-primary">
                             <span>Thêm Mới</span>
                         </a>
+                    </div>
+                    <div class="col-sm-auto pe-2">
+                        <select class="form-select" name="" id="TinhTrang">
+                            <option value="1" selected>Hiện tại</option>
+                            <option value="2">Đã xóa</option>
+                        </select>
                     </div>
                 </div>
                 <table id="example"
@@ -42,6 +48,8 @@
                         <tr>
                             <th class="text-center">Mã phụ cấp</th>
                             <th class="text-center">Khoản phụ cấp</th>
+                            <th class="text-center">Tính thu nhập cá nhân</th>
+                            <th class="text-center">Tính bảo hiểm</th>
                             <th class="text-center" width="30%">Tùy chọn</th>
                         </tr>
                     </thead>
@@ -53,6 +61,8 @@
                                 <tr>
                                     <td class="text-center">@pc.MaPc</td>
                                     <td class="text-center">@pc.KhoanPhuCap</td>
+                                    <td class="text-center">@(pc.Tncn == true ? "có" : "không")</td>
+                                    <td class="text-center">@(pc.Bhxh == true ? "có" : "không")</td>
                                     <td class="text-center d-flex justify-content-evenly">
                                         <a href="/PhuCap/SuaPhuCap/@pc.Id">
                                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -73,3 +83,47 @@
         </div>
     </div>
 </div>
+<script>
+    $('#TinhTrang').on('change', function() {
+        var TrangThai = $(this).val();
+        $.ajax({
+        type: "post",
+        url: "/PhuCap/DoiTrangThai",
+        data: "trangthai=" + TrangThai,
+        success: function (response) {
+             var table = $('#example').DataTable();
+        // Clear existing rows from the DataTable
+        table.rows().remove().draw();
+      $.each(response, function (index, pc) {
+    var row = ` <tr>
+                    <td class="text-center">${pc.maPc}</td>
+                    <td class="text-center">${pc.khoanPhuCap}</td>
+                    <td class="text-center d-flex justify-content-evenly">
+                        <a href="/PhuCap/SuaPhuCap/${pc.id}">
+                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                        </a>
+                    ${pc.active ?
+                        `<a href="/PhuCap/XoaPhuCap/${pc.id}"
+                            onclick="return confirm('Bạn có xoá khoản phụ cấp này?')">
+                            Xóa
+                            <i class="bx bx-trash"></i>
+                        </a>`:
+                        `<a href="/PhuCap/KhoiPhuc/${pc.id}"
+                            onclick="return confirm('Bạn có khôi phục khoản phụ cấp này?')">
+                            Khôi phục
+                            <i class="bx bx-redo"></i>
+                        </a>`
+                    }
+                        
+                    </td>
+                </tr>`;
+            // Thêm dòng mới vào DataTable và vẽ lại DataTable
+            $('#example').DataTable().row.add($(row)[0]).draw(false);
+        });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    })
+</script>

@@ -2,7 +2,7 @@
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<Dmluong> getListLuong()
     {
-        return context.Dmluong.ToList();
+        return context.Dmluong.Where(x => x.Active == true).ToList();
     }
     string format1(decimal? a)
     {
@@ -74,7 +74,7 @@
             url: "/addQTDCL",
             data: "&TuNgay=" + TuNgay + "&DenNgay=" + DenNgay + "&MAML=" + MAML,
             success: function (result) {
-                alert("ok");
+               showToast(result.mesage, result.statusCode);
             },
             error: function () {
                 alert("Fail");

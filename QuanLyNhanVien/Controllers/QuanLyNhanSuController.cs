@@ -37,7 +37,7 @@ namespace QuanLyNhanVien.Controllers
         {
             if(IDPB == 0)
             {
-                ViewBag.NNV = context.NhanSu.ToList();
+                ViewBag.NNV = context.NhanSu.Where(x => x.Active == true).ToList();
             }
             else
             {
@@ -248,13 +248,13 @@ namespace QuanLyNhanVien.Controllers
             return "Xóa thành công";
         }
         [HttpPost("/addQTDCL")]
-        public string addQTDCL(string TuNgay, string DenNgay, int MAML)
+        public IActionResult  addQTDCL(string TuNgay, string DenNgay, int MAML)
         {
             QuanLyNhanVienContext context = new QuanLyNhanVienContext();
 
             DateTime tungay = DateTime.ParseExact("01-" + TuNgay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             DateTime denngay = DateTime.ParseExact("01-" + DenNgay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-            List<NhanSu> ns = context.NhanSu.ToList();
+            List<NhanSu> ns = context.NhanSu.Where(x => x.Active == true).ToList();
             foreach (var n in ns)
             {
                 QuaTrinhLuong qtl = new QuaTrinhLuong();
@@ -275,7 +275,11 @@ namespace QuanLyNhanVien.Controllers
                 context.SaveChanges();
 
             }
-            return "thêm thành công";
+             return Json(new
+            {
+                statusCode = 200,
+                message = "Thành công"
+            });
         }
     }
 }

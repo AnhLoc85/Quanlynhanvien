@@ -2,11 +2,11 @@
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<PhongBan> getListPhongBan()
     {
-        return context.PhongBan.ToList();
+        return context.PhongBan.Where(x => x.Active == true).ToList();
     }
     List<NhanSu> getListNhanSu()
     {
-        return context.NhanSu.ToList();
+        return context.NhanSu.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -33,10 +33,14 @@
                                 <input class="form-control" name="ngayluong" id="NgayBangLuong" onblur="loadQTLuong()" required/>
                             </div>
                             <div class="col-sm-7 col-lg-7 d-flex justify-content-end">
-                                <button formaction="/BangLuongPDF" type="submit" class="btn btn-danger">Xuất PDF</button>   
+                                <button formaction="/BangLuongPDF" type="submit"  class="btn btn-danger">
+                                    <i class='bx bxs-file-pdf'></i> Xuất PDF
+                                </button>
                             </div>
                             <div class="col-sm-2 col-lg-2 d-flex justify-content-end">
-                                <button formaction="/BangLuong/ExportToExcel" type="submit" class="btn btn-success">Xuất Excel</button>
+                                <button formaction="/BangLuong/ExportToExcel" type="submit"  class="btn btn-success">
+                                   <i class='bx bxs-file-blank'></i> Xuất Excel
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -60,19 +64,19 @@
                            class="table table-bordered table-responsive"
                            width="100%">
                         <thead>
-                            <tr>
-                                <th class="text-center">STT</th>
-                                <th class="text-center">Mã NS</th>
-                                <th class="text-center">Tên NS</th>
-                                <th class="text-center">Lương cơ bản</th>
-                                <th class="text-center">Phụ cấp theo % lương</th>
-                                <th class="text-center">Thưởng, phụ cấp khác</th>
-                                <th class="text-center">khoản phạt, trừ lương</th>
-                                <th class="text-center">BHYT</th>
-                                <th class="text-center">Tổng lương</th>
-                                <th class="text-center">BHXH</th>
-                                <th class="text-center">Thực nhận</th>
-                            </tr>
+                           <tr>
+                            <th class="text-center">STT</th>
+                            <th class="text-center">Mã NS</th>
+                            <th class="text-center">Tên NS</th>
+                            <th class="text-center">Lương cơ bản</th>
+                            <th class="text-center">Phụ cấp theo % lương</th>
+                            <th class="text-center">Thưởng, phụ cấp khác</th>
+                            <th class="text-center">Tổng lương</th>
+                            <th class="text-center">Thuế</th>
+                            <th class="text-center">Bảo hiểm</th>
+                            <th class="text-center">khoản phạt, trừ lương</th>
+                            <th class="text-center">Thực nhận</th>
+                        </tr>
                         </thead>
                         <tbody>
                             <tr>
@@ -106,6 +110,7 @@
             success: function (result) {
 
                 $('#tbodyBangLuong').replaceWith(result);
+                showToast('Thành công', 200)
             },
             error: function () {
                 alert("Fail");

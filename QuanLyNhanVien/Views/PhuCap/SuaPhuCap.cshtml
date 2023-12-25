@@ -22,7 +22,22 @@
                             <label class="m-2">Loại phụ cấp</label>
                             <input asp-for="@Model.KhoanPhuCap" type="text" class="form-control" required>
                         </div>
-
+                        <div class="mb-3 col-md-12">
+                                <label for="gioitinh" class="form-label">Tính thu nhập cá nhân</label>
+                                <select id="gioitinh" class="select2 form-select" name="Tncn">
+                                    <option value="@Model.Tncn" selected>@(Model.Tncn ?? false ? "có" : "không")</option>
+                                    <option value="true">Có</option>
+                                    <option value="false">Không</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-12">
+                                <label for="gioitinh" class="form-label">Tính bảo hiểm</label>
+                                <select id="gioitinh" class="select2 form-select" name="Tncn">
+                                    <option value="@Model.Bhxh" selected>@(Model.Bhxh ?? false ? "có" : "không")</option>
+                                    <option value="true">Có</option>
+                                    <option value="false">Không</option>
+                                </select>
+                            </div>
                     </div>
                     <div class="forms-footer d-flex justify-content-end">
                        

@@ -37,6 +37,7 @@ namespace QuanLyNhanVien.Models
         public DateTime? NgaySinh { get; set; }
         public string HinhAnh { get; set; }
         public string QueQuan { get; set; }
+        public bool? Active { get; set; }
 
         public virtual ICollection<ChamCong> ChamCong { get; set; }
         public virtual ICollection<DongBaoHiem> DongBaoHiem { get; set; }

@@ -156,3 +156,4 @@ F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\Cha
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 F:\Project\QuanLyNhanVien\QuanLyNhanVien\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+F:\Project\QuanLyNhanVien\QuanLyNhanVien\obj\Debug\netcoreapp3.1\Razor\Views\LichLamViec\LichLamViec.cshtml.g.cs

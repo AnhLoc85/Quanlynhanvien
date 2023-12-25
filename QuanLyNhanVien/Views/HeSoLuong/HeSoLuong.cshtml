@@ -2,7 +2,7 @@
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<Dmhsluong> getListDmhsluong()
     {
-        return context.Dmhsluong.ToList();
+        return context.Dmhsluong.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -29,11 +29,17 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="position-absolute" style="margin-top: -10px">
-                    <div class="col-lg-2 col-sm-2" style="width: auto">
-                        <a href="/HeSoLuong/ThemHeSoLuong" class="btn btn-primary">
+                <div class="row position-absolute" style="margin-top: -10px">
+                    <div class="col-sm-auto pe-2">
+                         <a href="/HeSoLuong/ThemHeSoLuong" class="btn btn-primary">
                             <span>Thêm Mới</span>
                         </a>
+                    </div>
+                    <div class="col-sm-auto pe-2">
+                        <select class="form-select" name="" id="TinhTrang">
+                            <option value="1" selected>Hiện tại</option>
+                            <option value="2">Đã xóa</option>
+                        </select>
                     </div>
                 </div>
                 <table id="example"
@@ -43,7 +49,7 @@
                         <tr>
                             <th class="text-center">Mã HSL</th>
                             <th class="text-center">Hệ số lương</th>
-
+                            <th class="text-center">Hệ số tăng ca</th>
                             <th class="text-center" width="30%">Tùy chọn</th>
                         </tr>
                     </thead>
@@ -55,6 +61,7 @@
                                 <tr>
                                     <td class="text-center">@hsl.MaHsl</td>
                                     <td class="text-center">@hsl.HeSoLuong</td>
+                                    <td class="text-center">@hsl.HeSoTangCa</td>
                                     <td class="text-center d-flex justify-content-evenly">
                                         <a href="/HeSoLuong/SuaHeSoLuong/@hsl.Id">
                                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
@@ -76,3 +83,48 @@
         </div>
     </div>
 </div>
+<script>
+    $('#TinhTrang').on('change', function() {
+        var TrangThai = $(this).val();
+        $.ajax({
+        type: "post",
+        url: "/HeSoLuong/DoiTrangThai",
+        data: "trangthai=" + TrangThai,
+        success: function (response) {
+             var table = $('#example').DataTable();
+        // Clear existing rows from the DataTable
+        table.rows().remove().draw();
+      $.each(response, function (index, hsl) {
+    var row = `<tr>
+                    <td class="text-center">${hsl.maHsl}</td>
+                    <td class="text-center">${hsl.heSoLuong}</td>
+                    <td class="text-center">${hsl.heSoTangCa}</td>
+                    <td class="text-center d-flex justify-content-evenly">
+                        <a href="/HeSoLuong/SuaHeSoLuong/${hsl.id}">
+                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                        </a>
+                    ${hsl.active ?
+                       ` <a href="/HeSoLuong/XoaHeSoLuong/${hsl.id}"
+                            onclick="return confirm('Bạn có xoá hệ số lương này?')">
+                            Xóa
+                            <i class="bx bx-trash"></i>
+                        </a>`:
+                        ` <a href="/HeSoLuong/KhoiPhuc/${hsl.id}"
+                            onclick="return confirm('Bạn có khôi phục hệ số lương này?')">
+                            Khôi phục
+                            <i class="bx bx-redo"></i>
+                        </a>`
+                    }
+                        
+                    </td>
+                </tr>`;
+            // Thêm dòng mới vào DataTable và vẽ lại DataTable
+            $('#example').DataTable().row.add($(row)[0]).draw(false);
+        });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    })
+</script>

@@ -11,9 +11,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuanLyNhanVien.Controllers
-{
+{   
+    
     public class BangLuongController : Controller
     {
+            QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+
         public IActionResult BangLuong()
         {
             return View();
@@ -27,8 +30,7 @@ namespace QuanLyNhanVien.Controllers
         public IActionResult loadBangLuong(string Ngay)
         {
             DateTime date = DateTime.ParseExact("01-" + Ngay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-
-            QuanLyNhanVienContext context = new QuanLyNhanVienContext();
+       
             List<NhanSu> nhanSuList = context.NhanSu
                 .Include(x => x.LuongCoBan)
                 .Include(x => x.PhuCapNhanSu)
@@ -42,8 +44,6 @@ namespace QuanLyNhanVien.Controllers
         }
         public double CalculateTotalLuongNS(int? id, DateTime? ngay)
         {
-            QuanLyNhanVienContext context = new QuanLyNhanVienContext();
-
             double totalLuongNS = (double)context.PhuCapNhanSu
                 .Where(x => x.MaNs == id && x.ThoiGian == ngay)
                 .Sum(x => x.TienPc);
@@ -94,7 +94,6 @@ namespace QuanLyNhanVien.Controllers
 
             DateTime date = DateTime.ParseExact("01-" + ngayluong, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-            QuanLyNhanVienContext context = new QuanLyNhanVienContext();
             List<NhanSu> nhanSuList = context.NhanSu
                 .Include(x => x.LuongCoBan)
                 .Include(x => x.PhuCapNhanSu)

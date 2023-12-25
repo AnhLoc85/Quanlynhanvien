@@ -2,7 +2,7 @@
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<DmheSoPhuCap> getListDmheSoPhuCap()
     {
-        return context.DmheSoPhuCap.ToList();
+        return context.DmheSoPhuCap.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -29,11 +29,17 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="position-absolute" style="margin-top: -10px">
-                    <div class="col-lg-2 col-sm-2" style="width: auto">
-                        <a href="/HeSoPhuCap/ThemHeSoPhuCap" class="btn btn-primary">
+                 <div class="row position-absolute" style="margin-top: -10px">
+                    <div class="col-sm-auto pe-2">
+                         <a href="/HeSoPhuCap/ThemHeSoPhuCap" class="btn btn-primary">
                             <span>Thêm Mới</span>
                         </a>
+                    </div>
+                    <div class="col-sm-auto pe-2">
+                        <select class="form-select" name="" id="TinhTrang">
+                            <option value="1" selected>Hiện tại</option>
+                            <option value="2">Đã xóa</option>
+                        </select>
                     </div>
                 </div>
                 <table id="example"
@@ -74,3 +80,47 @@
         </div>
     </div>
 </div>
+<script>
+    $('#TinhTrang').on('change', function() {
+        var TrangThai = $(this).val();
+        $.ajax({
+        type: "post",
+        url: "/HeSoPhuCap/DoiTrangThai",
+        data: "trangthai=" + TrangThai,
+        success: function (response) {
+             var table = $('#example').DataTable();
+        // Clear existing rows from the DataTable
+        table.rows().remove().draw();
+      $.each(response, function (index, hspc) {
+    var row = `<tr>
+                    <td class="text-center">${hspc.maHspc}</td>
+                    <td class="text-center">${hspc.heSoPhuCap}</td>
+                    <td class="text-center d-flex justify-content-evenly">
+                        <a href="/HeSoPhuCap/SuaHeSoPhuCap/${hspc.id}">
+                            Chỉnh sửa <i class="bx bx-edit-alt"></i>
+                        </a>
+                    ${hspc.active ?
+                        `<a href="/HeSoPhuCap/XoaHeSoPhuCap/${hspc.id}"
+                            onclick="return confirm('Bạn có xoá hệ số phụ cấp này?')">
+                            Xóa
+                            <i class="bx bx-trash"></i>
+                        </a>`:
+                        `<a href="/HeSoPhuCap/KhoiPhuc/${hspc.id}"
+                            onclick="return confirm('Bạn có khôi phục hệ số phụ cấp này?')">
+                            Khôi phục
+                            <i class="bx bx-redo"></i>
+                        </a>`
+                    }
+                        
+                    </td>
+                </tr>`;
+            // Thêm dòng mới vào DataTable và vẽ lại DataTable
+            $('#example').DataTable().row.add($(row)[0]).draw(false);
+        });
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    })
+</script>

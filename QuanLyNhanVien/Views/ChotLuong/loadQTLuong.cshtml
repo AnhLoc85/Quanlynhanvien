@@ -17,6 +17,53 @@
             return null;
         }
     }
+    double CalculateTotalCongNS(int? id, DateTime? ngay)
+    {
+       double totalCongNS = 0;
+        if (id.HasValue && ngay.HasValue)
+        {
+            totalCongNS = context.ChamCong
+                .Where(x => x.MaNs == id && 
+                            x.Ngay.HasValue && 
+                            x.Ngay.Value.Month == ngay.Value.Month && 
+                            x.Ngay.Value.Year == ngay.Value.Year && 
+                            x.Thu != "0" && 
+                            x.SoCong.HasValue) // Kiểm tra SoCong có giá trị hay không
+                .Sum(x => x.SoCong.Value); // Tính tổng giá trị SoCong
+        }
+        return totalCongNS;
+    }
+        double CalculateTotalCongNG(int? id, DateTime? ngay)
+    {
+       double totalCongNG = 0;
+        if (id.HasValue && ngay.HasValue)
+        {
+            totalCongNG = context.ChamCong
+                .Where(x => x.MaNs == id && 
+                            x.Ngay.HasValue && 
+                            x.Ngay.Value.Month == ngay.Value.Month && 
+                            x.Ngay.Value.Year == ngay.Value.Year && 
+                            x.Thu == "0" && 
+                            x.SoCong.HasValue) // Kiểm tra SoCong có giá trị hay không
+                .Sum(x => x.SoCong.Value); // Tính tổng giá trị SoCong
+        }
+        return totalCongNG;
+    }
+            double CalculateTotalGioTC(int? id, DateTime? ngay)
+    {
+       double totalGioTC = 0;
+        if (id.HasValue && ngay.HasValue)
+        {
+            totalGioTC = context.ChamCong
+                .Where(x => x.MaNs == id && 
+                            x.Ngay.HasValue && 
+                            x.Ngay.Value.Month == ngay.Value.Month && 
+                            x.Ngay.Value.Year == ngay.Value.Year && 
+                            x.SoGio.HasValue) // Kiểm tra SoCong có giá trị hay không
+                .Sum(x => x.SoGio.Value); // Tính tổng giá trị SoCong
+        }
+        return totalGioTC;
+    }
     string format(Decimal? a)
     {
         return a?.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
@@ -37,13 +84,23 @@
                 <th class="text-center">Ngày sinh</th>
                 <th class="text-center">Giới tính</th>
                 <th class="text-center">Hệ số lương</th>
-                <th class="text-center">mức lương cơ bản</th>
-                <th class="text-center">Tiền lương</th>
+                <th class="text-center">Mức lương cơ bản</th>
+                <th class="text-center">Tổng công</th>
+                <th class="text-center">Tổng ngày tăng ca</th>
+                <th class="text-center">Tổng giờ tăng ca</th>
+                <th class="text-center">Thực nhận</th>
             </tr>
         </thead>
         <tbody>
             @foreach (QuaTrinhLuong item in ViewBag.QTL)
             {
+                double tongcong = CalculateTotalCongNS(item.MaNs, ViewBag.Ngay);
+                double tongluong = ((double)item.MaHslNavigation.HeSoLuong * (double)item.MaMlNavigation.TienLuong);
+                double congngoaigio = CalculateTotalCongNG(item.MaNs, ViewBag.Ngay);
+                double giotangca = CalculateTotalGioTC(item.MaNs, ViewBag.Ngay);
+                double luongngay = (tongluong / 26);
+                double luonggio = (luongngay / 8);
+                double thucnhan = (luongngay * congngoaigio * (double)item.MaHslNavigation.HeSoTangCa) + (luongngay * tongcong) + (luonggio * giotangca * (double)item.MaHslNavigation.HeSoTangCa);
                 <tr>
                     <td class="text-center">@item.MaNsNavigation.MaNs</td>
                     <td class="text-left">@item.MaNsNavigation.TenNs</td>
@@ -51,8 +108,11 @@
                     <td class="text-center">@(item.MaNsNavigation.GioiTinh ?? false ? "Nam" : "Nữ")</td>
                     <td class="text-center">@item.MaHslNavigation.HeSoLuong</td>
                     <td class="text-right">@format(item.MaMlNavigation.TienLuong)</td>
+                    <td class="text-right">@tongcong</td>
+                    <td class="text-right">@congngoaigio</td>
+                    <td class="text-right">@giotangca</td>
                     <td class="text-right">
-                       @format1(item.MaHslNavigation.HeSoLuong * (double)item.MaMlNavigation.TienLuong)
+                       @format1(thucnhan)
                     </td>
                 </tr>
             }

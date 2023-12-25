@@ -33,8 +33,6 @@ namespace QuanLyNhanVien.Controllers
 
             hsl1.MaHsl = hsl.MaHsl;
             hsl1.HeSoLuong = hsl.HeSoLuong;
-       
-
 
             context.Dmhsluong.Update(hsl1);
             context.SaveChanges();
@@ -54,8 +52,7 @@ namespace QuanLyNhanVien.Controllers
                 return RedirectToAction("ThemHeSoLuong");
             }
 
-
-       
+            hsl.Active = true;
             context.Dmhsluong.Add(hsl);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
@@ -76,6 +73,36 @@ namespace QuanLyNhanVien.Controllers
             else
             {
                 TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
+            return RedirectToAction("HeSoLuong");
+        }
+         public IActionResult DoiTrangThai(int trangthai){
+           List<Dmhsluong> heSoLuongList;
+
+            if (trangthai == 1)
+            {
+                heSoLuongList = context.Dmhsluong.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                heSoLuongList = context.Dmhsluong.Where(x => x.Active == false).ToList();
+            }
+
+            return Json(heSoLuongList);
+         }
+         public IActionResult KhoiPhuc(int id)
+        {
+
+            Dmhsluong hsl = context.Dmhsluong.Find(id);
+            if (hsl != null)
+            {
+                hsl.Active = true;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Khôi phục thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để khôi phục.";
             }
             return RedirectToAction("HeSoLuong");
         }

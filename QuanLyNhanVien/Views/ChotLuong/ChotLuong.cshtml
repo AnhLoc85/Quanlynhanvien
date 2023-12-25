@@ -1,12 +1,13 @@
-﻿@{
+﻿
+@{
     QuanLyNhanVienContext context = new QuanLyNhanVienContext();
     List<PhongBan> getListPhongBan()
     {
-        return context.PhongBan.ToList();
+        return context.PhongBan.Where(x => x.Active == true).ToList();
     }
     List<NhanSu> getListNhanSu()
     {
-        return context.NhanSu.ToList();
+        return context.NhanSu.Where(x => x.Active == true).ToList();
     }
     string formatDay(DateTime? date)
     {
@@ -27,13 +28,13 @@
             <div class="card-body">
                 <div class="border border-dark border-2 p-2 rounded mb-3 bg-light">
                     <form>
-                        <div class="row mb-2">
+                         <div class="row mb-2">
                             <label class="col-sm-1 col-lg-1 col-form-label">Tháng</label>
                             <div class="col-sm-2 col-lg-2">
-                                <input type="text" id="NgayChotLuong" class="form-control" onblur="loadQTLuong()" required/>
+                                <input type="text" id="NgayChotLuong" class="form-control" placeholder="chọn tháng chốt lương" onblur="loadQTLuong()" required/>
                             </div>
                             <div class="col-sm-9 col-lg-9 d-flex justify-content-end">
-                                <button class="btn btn-primary" onclick="addQTLuong()">Chốt lương</button>
+                                <button class="btn btn-primary" onclick="addQTLuong() ">Chốt lương</button>
                             </div>
                         </div>
                     </form>
@@ -50,8 +51,11 @@
                                 <th class="text-center">Ngày sinh</th>
                                 <th class="text-center">Giới tính</th>
                                 <th class="text-center">Hệ số lương</th>
-                                <th class="text-center">mức lương cơ bản</th>
-                                <th class="text-center">Tiền lương</th>
+                                <th class="text-center">Mức lương cơ bản</th>
+                                <th class="text-center">Tổng công</th>
+                                <th class="text-center">Tổng ngày tăng ca</th>
+                                <th class="text-center">Tổng giờ tăng ca</th>
+                                <th class="text-center">Thực nhận</th>
                             </tr>
                         </thead>
                         <tbody >
@@ -63,6 +67,9 @@
                                 <td class="text-center"></td>
                                 <td class="text-right"></td>
                                 <td class="text-right"></td>
+                                <td class="text-right"></td>
+                                <td class="text-right"></td>
+                                <td class="text-right"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -71,7 +78,6 @@
         </div>
     </div>
 </div>
-
 <script>
     function loadQTLuong() {
         var Ngay = $('#NgayChotLuong').val();
@@ -89,6 +95,15 @@
     }
     function addQTLuong() {
         var Ngay = $('#NgayChotLuong').val();
+        var table = document.getElementById('example');
+        var tbody = table.getElementsByTagName('tbody')[0];
+        var rows = tbody.getElementsByTagName('tr');
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName('td');
+            var maNS = cells[0].innerText;
+            var thucNhan = cells[9].innerText;
+            console.log("Mã NS:", maNS, "Thực nhận:", thucNhan);
+        }
         $.ajax({
             type: "post",
             url: "/addQTLuong",

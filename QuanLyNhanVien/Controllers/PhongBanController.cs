@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using QuanLyNhanVien.Models;
+using System.Collections.Generic;
 
 
 namespace QuanLyNhanVien.Controllers
@@ -32,8 +33,6 @@ namespace QuanLyNhanVien.Controllers
 
             PhongBan1.MaPb = pb.MaPb;
             PhongBan1.TenPhongBan = pb.TenPhongBan;
-
-
 
             context.PhongBan.Update(PhongBan1);
             context.SaveChanges();
@@ -75,6 +74,37 @@ namespace QuanLyNhanVien.Controllers
             else
             {
                 TempData["ThongBao"] = "Không tìm thấy dòng để xóa.";
+            }
+            return RedirectToAction("PhongBan");
+        }
+         public IActionResult DoiTrangThai(int trangthai){
+           List<PhongBan> phongBanList;
+
+            if (trangthai == 1)
+            {
+                phongBanList = context.PhongBan.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                phongBanList = context.PhongBan.Where(x => x.Active == false).ToList();
+            }
+
+            return Json(phongBanList);
+         }
+         public IActionResult KhoiPhuc(int id)
+        {
+
+            PhongBan pb = context.PhongBan.Find(id);
+
+            if(pb != null)
+            {
+                pb.Active = true;
+                context.SaveChanges();
+                TempData["ThongBao"] = "Khôi phục thành công!";
+            }
+            else
+            {
+                TempData["ThongBao"] = "Không tìm thấy dòng để khôi phục.";
             }
             return RedirectToAction("PhongBan");
         }
