@@ -30,7 +30,7 @@ namespace QuanLyNhanVien.Controllers
         public dynamic ThongTinNhanVien(){
             int idnv = int.Parse(User.FindFirstValue(ClaimTypes.Name));
             List<ChamCong> chamCongs = context.ChamCong.Where(x => x.MaNs == idnv &&
-                                    x.Ngay.Value.Month == DateTime.Now.Month).ToList();
+                                    x.Ngay.Value.Month == DateTime.Now.Month &&  x.Ngay.Value.Year == DateTime.Now.Year).ToList();
             // ngày công
             double ngayCong = (double)chamCongs.Where(x => x.Thu != "0").Sum(x => x.SoCong);
             // ngày tăng ca

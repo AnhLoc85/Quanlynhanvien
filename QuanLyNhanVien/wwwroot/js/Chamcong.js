@@ -11,12 +11,13 @@ $('#MaDinhDanh').on('focus', function (event) {
   $('#MaDinhDanh').on('keypress', function (event) {
     if (event.keyCode === 13) {
       var maDinhDanh = $(this).val();
-    }
+
     $.ajax({
       type: "post",
       url: "/ChamCong/QuetQRChamCong",
       data: "maDD=" + maDinhDanh,
       success: function (response) {
+        $('#MaDinhDanh').val('');
        if(response != ''){
         showToast(response.message, response.statusCode);
        }
@@ -46,6 +47,7 @@ $('#MaDinhDanh').on('focus', function (event) {
        }
       }
     });
+  }
   })
 
 function TimKiem() {

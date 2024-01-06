@@ -102,16 +102,16 @@
                 double luonggio = (luongngay / 8);
                 double thucnhan = (luongngay * congngoaigio * (double)item.MaHslNavigation.HeSoTangCa) + (luongngay * tongcong) + (luonggio * giotangca * (double)item.MaHslNavigation.HeSoTangCa);
                 <tr>
-                    <td class="text-center">@item.MaNsNavigation.MaNs</td>
-                    <td class="text-left">@item.MaNsNavigation.TenNs</td>
-                    <td class="text-center">@formatDay(item.MaNsNavigation.NgaySinh)</td>
-                    <td class="text-center">@(item.MaNsNavigation.GioiTinh ?? false ? "Nam" : "Nữ")</td>
-                    <td class="text-center">@item.MaHslNavigation.HeSoLuong</td>
-                    <td class="text-right">@format(item.MaMlNavigation.TienLuong)</td>
-                    <td class="text-right">@tongcong</td>
-                    <td class="text-right">@congngoaigio</td>
-                    <td class="text-right">@giotangca</td>
-                    <td class="text-right">
+                    <td class="text-center p-1 py-2">@item.MaNsNavigation.MaNs</td>
+                    <td class="text-start p-1 py-2">@item.MaNsNavigation.TenNs</td>
+                    <td class="text-center p-1 py-2">@formatDay(item.MaNsNavigation.NgaySinh)</td>
+                    <td class="text-center p-1 py-2">@(item.MaNsNavigation.GioiTinh ?? false ? "Nam" : "Nữ")</td>
+                    <td class="text-center p-1 py-2">@item.MaHslNavigation.HeSoLuong</td>
+                    <td class="text-end p-1 py-2">@format(item.MaMlNavigation.TienLuong)</td>
+                    <td class="text-end p-1 py-2">@tongcong</td>
+                    <td class="text-end p-1 py-2">@congngoaigio</td>
+                    <td class="text-end p-1 py-2">@giotangca</td>
+                    <td class="text-end p-1 py-2">
                        @format1(thucnhan)
                     </td>
                 </tr>

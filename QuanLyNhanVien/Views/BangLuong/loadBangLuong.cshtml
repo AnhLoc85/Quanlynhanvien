@@ -156,28 +156,39 @@
                 ViewBag.Ngay).LuongNs);
                 double thuongtinhthue = CalculateThuongTinhThue(item.Id, ViewBag.Ngay);
                 double thunhaptinhthue = ((double)getQTL(item.Id, ViewBag.Ngay).LuongNs + pctinhthue + thuongtinhthue -
-                baohiem - 11.000);
+                baohiem - 11000000);
                 double thue = 0;
-                if (cachtinhthue.Count > 0 && thunhaptinhthue > cachtinhthue[0].Thunhapthue)
+                if (thunhaptinhthue >0)
                 {
-                    thue = (double)(thunhaptinhthue * cachtinhthue[0].Thuesuat * 100);
+                    foreach (QuyDinhThue thuNhapThue in cachtinhthue)
+                    {
+                        if (thunhaptinhthue <= thuNhapThue.Thunhapthue)
+                        {
+                            thue = thunhaptinhthue * ((double)thuNhapThue.Thuesuat / 100);
+                            break;
+                        }
+                        else
+                        {
+                            thue = thunhaptinhthue * ((double)cachtinhthue.Max(x => x.Thuesuat) / 100);
+                        }
+                    }
                 }
                 <tr>
                     @{
                         Sttw++;
                     }
-                    <td class="text-center px-1 py-3">@Sttw</td>
-                    <td class="text-center px-1 py-3">@item.MaNs</td>
-                    <td class="text-start px-1 py-3">@item.TenNs</td>
-                    <td class="text-end px-1 py-3">@format1(getQTL(item.Id, ViewBag.Ngay).LuongNs)</td>
-                    <td class="text-end px-1 py-3">@format(totalPhuCapNS)</td>
-                    <td class="text-end px-1 py-3">@format(totalThuongNS)</td>
-                    <td class="text-end px-1 py-3"> @format(tongluong)</td>
-                    <td class="text-end px-1 py-3">@format(thue)</td>
-                    <td class="text-end px-1 py-3">
+                    <td class="text-center px-1 py-2">@Sttw</td>
+                    <td class="text-center px-1 py-2">@item.MaNs</td>
+                    <td class="text-start px-1 py-2">@item.TenNs</td>
+                    <td class="text-end px-1 py-2">@format1(getQTL(item.Id, ViewBag.Ngay).LuongNs)</td>
+                    <td class="text-end px-1 py-2">@format(totalPhuCapNS)</td>
+                    <td class="text-end px-1 py-2">@format(totalThuongNS)</td>
+                    <td class="text-end px-1 py-2"> @format(tongluong)</td>
+                    <td class="text-end px-1 py-2">@format(thue)</td>
+                    <td class="text-end px-1 py-2">@format(baohiem)
                     </td>
-                    <td class="text-end px-1 py-3">@format(totalPhatNS)</td>
-                    <td class="text-end px-1 py-3">@format(tongluong - totalPhatNS)</td>
+                    <td class="text-end px-1 py-2">@format(totalPhatNS)</td>
+                    <td class="text-end px-1 py-2">@format(tongluong - thue - baohiem - totalPhatNS)</td>
                 </tr>
 
             }

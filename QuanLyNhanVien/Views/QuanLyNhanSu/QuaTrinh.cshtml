@@ -175,8 +175,7 @@
                                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
                                         </a>
 
-                                        <a class="btnxoaCV"
-                                           onclick="return confirm('Bạn có xoá quá trình chức vụ này?')">
+                                        <a class="btnxoaCV">
                                             Xóa
                                             <i class="bx bx-trash"></i>
                                         </a>
@@ -267,8 +266,7 @@
                                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
                                         </a>
 
-                                        <a class="btnxoaPB"
-                                           onclick="return confirm('Bạn có xoá quá trình chức vụ này?')">
+                                        <a class="btnxoaPB">
                                             Xóa
                                             <i class="bx bx-trash"></i>
                                         </a>
@@ -371,8 +369,7 @@
                                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
                                         </a>
 
-                                        <a class="btnxoaQTL"
-                                           onclick="return confirm('Bạn có xoá quá trình lương này?')">
+                                        <a class="btnxoaQTL">
                                             Xóa
                                             <i class="bx bx-trash"></i>
                                         </a>
@@ -475,8 +472,7 @@
                                             Chỉnh sửa <i class="bx bx-edit-alt"></i>
                                         </a>
 
-                                        <a class="btnxoaQTPC"
-                                           onclick="return confirm('Bạn có xoá quá trình phụ cấp này?')">
+                                        <a class="btnxoaQTPC">
                                             Xóa
                                             <i class="bx bx-trash"></i>
                                         </a>
@@ -514,6 +510,7 @@
             });
         });
         $(".tableCV").on("click", ".btnxoaCV", function () {
+            confirmDelete(function() {
             var idqt = $(this).closest('tr').find('#IDQT').val();  
             $.ajax({
                 type: "post",
@@ -528,6 +525,7 @@
                     alert("Fail to delete");
                 }
             });
+            }.bind(this));
         });
         $(".tableCV").on("click", ".saveQTCV", function () {
             var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
@@ -571,7 +569,8 @@
             });
         });
         $(".tableCT").on("click", ".btnxoaPB", function () {
-            var idqtct = $(this).closest('tr').find('#IDQTCT').val();
+            confirmDelete(function() {
+                var idqtct = $(this).closest('tr').find('#IDQTCT').val();
             $.ajax({
                 type: "post",
                 url: "/XoaQTCongTac",
@@ -585,6 +584,7 @@
                     alert("Fail to delete");
                 }
             });
+            }.bind(this));
         });
         $(".tableCT").on("click", ".saveQTCT", function () {
             var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
@@ -629,8 +629,21 @@
                 }
             });
         });
+        var confirmed = false; // Biến để kiểm tra xác nhận
+
+            function confirmDelete(callback) {
+                    if (!confirm('Bạn có chắc muốn xóa mục này?')) {
+                        return false;
+                    } else {
+                        confirmed = true;
+                        callback();
+                    }
+            }
+
         $(".tableQTL").on("click", ".btnxoaQTL", function () {
-            var idqtl = $(this).closest('tr').find('#IDQTL').val();
+            confirmDelete(function() {
+              var idqtl = $(this).closest('tr').find('#IDQTL').val();
+        
             $.ajax({
                 type: "post",
                 url: "/XoaQTLuong",
@@ -644,6 +657,8 @@
                     alert("Fail to delete");
                 }
             });
+            }.bind(this));
+          
         });
         $(".tableQTL").on("click", ".saveQTL", function () {
             var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
@@ -690,6 +705,7 @@
             });
         });
         $(".tableQTPC").on("click", ".btnxoaQTPC", function () {
+            confirmDelete(function() {
             var idqtpc = $(this).closest('tr').find('#IDQTPC').val();
             $.ajax({
                 type: "post",
@@ -703,6 +719,7 @@
                     alert("Fail to delete");
                 }
             });
+            }.bind(this));
         });
         $(".tableQTPC").on("click", ".saveQTPC", function () {
             var tungay = $(this).parents('tr').find("td:eq(0) input[type='text']").val();

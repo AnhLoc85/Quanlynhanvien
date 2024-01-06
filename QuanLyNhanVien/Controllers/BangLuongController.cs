@@ -32,11 +32,10 @@ namespace QuanLyNhanVien.Controllers
             DateTime date = DateTime.ParseExact("01-" + Ngay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
        
             List<NhanSu> nhanSuList = context.NhanSu
-                .Include(x => x.LuongCoBan)
-                .Include(x => x.PhuCapNhanSu)
-                .Where(x => x.PhuCapNhanSu.Any(lcb => lcb.ThoiGian == date))
-                .Where(x => x.LuongCoBan.Any(lcb => lcb.ThoiGian == date))
-                .ToList();
+            .Include(x => x.LuongCoBan)
+            .Where(x => x.LuongCoBan.Any(lcb => lcb.ThoiGian == date))
+            .Where(x => x.Active == true).ToList();
+
 
             ViewBag.NS = nhanSuList;
             ViewBag.Ngay = date;
@@ -134,10 +133,10 @@ namespace QuanLyNhanVien.Controllers
                 worksheet.Cell(currentRow, 4).Value = "Lương cơ bản";
                 worksheet.Cell(currentRow, 5).Value = "Phụ cấp theo % lương";
                 worksheet.Cell(currentRow, 6).Value = "Thưởng, phụ cấp khác";
-                worksheet.Cell(currentRow, 7).Value = "Phạt, trừ lương";
-                worksheet.Cell(currentRow, 8).Value = "BHYT";
-                worksheet.Cell(currentRow, 9).Value = "Tổng lương";
-                worksheet.Cell(currentRow, 10).Value = "BHXH";
+                worksheet.Cell(currentRow, 7).Value = "Tổng lương";
+                worksheet.Cell(currentRow, 8).Value = "Thuế";
+                worksheet.Cell(currentRow, 9).Value = "Bảo hiểm";
+                worksheet.Cell(currentRow, 10).Value = "Khoan";
                 worksheet.Cell(currentRow, 11).Value = "Thực nhận";
                 foreach (var nv in nhanSuList)
                 {
